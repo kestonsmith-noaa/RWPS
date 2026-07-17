@@ -43,7 +43,7 @@ done
 # 2. Build WW3 model code 
 # Determine which switch to use 
 
-ww3switch=model/bin/switch_NCEP_glwu
+ww3switch=model/bin/switch_NCEP_rwps
 
 
 # Check final exec folder exists
@@ -62,7 +62,7 @@ finalexecdir=$( pwd -P )/../exec
  set -x
 
 #Set WW3 directory, switch, prep and post exes 
-cd WW3
+cd ww3.fd
 export WW3_DIR=$( pwd -P )
 export SWITCHFILE="${WW3_DIR}/${ww3switch}"
 
