@@ -1,12 +1,12 @@
-#
-# Template for WAVEWATCH III Grid preprocessor input file
-# for example to create ww3_grid.inp run for mesh oc_500m_10km, 
-# date 20260727/, and cycle 06:
-sed 's/XXX_GRIDID_XXX/oc_500m_10km/g' ww3_prnc_wind.inp.tmpl > ww3_prnc_wind.inp
-sed -i 's/XXX_TIME_XXX/20260727/g' ww3_prnc_wind.inp
-sed -i 's/XXX_CYCL_XXX/06/g' ww3_prnc_wind.inp
-sed -i '1,9d'  ww3_prnc_wind.inp # strip out these header lines
-#
+$
+$ Template for WAVEWATCH III Grid preprocessor input file
+$ for example to create ww3_grid.inp run for mesh oc_500m_10km, 
+$ date 20260727/, and cycle 06:
+$ sed 's/XXX_GRIDID_XXX/oc_500m_10km/g' ww3_prnc_wind.inp.tmpl > ww3_prnc_wind.inp
+$ sed -i 's/XXX_TIME_XXX/20260727/g' ww3_prnc_wind.inp
+$ sed -i 's/XXX_CYCL_XXX/06/g' ww3_prnc_wind.inp
+$ sed -i '1,9d'  ww3_prnc_wind.inp # strip out these header lines
+$
 $ -------------------------------------------------------------------- $
 $ WAVEWATCH III Field preprocessor input file                          $
 $ -------------------------------------------------------------------- $
@@ -52,7 +52,7 @@ $
 $ Define data files -------------------------------------------------- $
 $ The input line identifies the filename using for the forcing field.
 $
-   'fix/wind/rwps.XXX_GRIDID_XXX.XXX_TIME_XXX.XXX_CYCL_XXX.wind10m.oc.ti.nc'
+   'fix/wind/rwps.XXX_GRIDID_XXX.XXX_TIME_XXX.XXX_CYCL_XXX.wind.nc'
 $
 $ -------------------------------------------------------------------- $
 $ End of input file                                                    $
