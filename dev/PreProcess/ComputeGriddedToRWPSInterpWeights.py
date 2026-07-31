@@ -34,12 +34,13 @@ nargin = len(sys.argv) - 1
 
 flin=sys.argv[1]
 mshfl=sys.argv[2]
-
+weights_file=sys.argv[3]
+dist2bnd_file=sys.argv[4]
 # Don't use nearest neighbor interpolation unless 6th positive integer argument present.
 # This may be needed on boundary of RWPS mesh if node alignment is outside NBM OC domain
 Extrapolate=False
-if nargin > 2:
-    if int(sys.argv[3])>0:
+if nargin > 4:
+    if int(sys.argv[5])>0:
         print("using nearest neighbor to extrapolate wind field beyond geometric coverage")
         Extrapolate=True
 
@@ -98,7 +99,7 @@ else:
 meshslash=mshfl.rfind('/')+1
 dom=flin.split(".")
 dom=dom[len(dom)-2]
-weights_file = "InterpolationWeights."+mshfl[meshslash:len(mshfl)-3]+dom+".nc"
+
 print("interpolation weights will be written to file = "+ weights_file)
 
 nx=x1.shape[0]
@@ -191,12 +192,10 @@ with nc.Dataset(weights_file, 'r+', format='NETCDF4') as ncadd:
     ncadd.setncattr("InputFile", flin)
     ncadd.setncattr("MeshFile", mshfl)
 
+
 ##################################################################################
 # START: Compute distance to boundary for each node in mesh:
 ##################################################################################
-#dist2bnd_file = "DistToBndy."+mshfl[meshslash:len(mshfl)-3]+dom+".txt"
-dist2bnd_file = "DistToBndy."+mshfl[meshslash:len(mshfl)-3]+dom+".nc"
-
 if Extrapolate:
     dist2bnd=np.full(len(xi), np.inf) #all points are inside boundary- No boundary with this type of extrapolation
 else:
