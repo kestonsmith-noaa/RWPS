@@ -46,7 +46,7 @@ module load build_ww3.${MACHINE_ID}
 module list 
 set -x 
 
-ww3switch=model/bin/switch_NCEP_rwps
+ww3switch=model/bin/switch_NWS_rwps
 
 # Check final exec folder exists
 finalexecdir=${HOMErwps}/exec
