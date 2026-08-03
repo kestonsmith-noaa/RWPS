@@ -14,9 +14,13 @@ meshslash=mshfl.rfind('/')+1
 #AddExtrapolationSupport=False
 AddExtrapolationSupport=True
 
-#TextWeightFl="STOFS.wght."+mshfl[meshslash:len(mshfl)-4]+".txt"
-TextWeightFl="InterpWeights."+mshfl[meshslash:len(mshfl)-4]+".stofs.txt"
-flout = "InterpolationWeights."+mshfl[meshslash:len(mshfl)-3]+".stofs.nc"
+#TextWeightFl="InterpWeights."+mshfl[meshslash:len(mshfl)-4]+".stofs.txt"
+
+TextWeightFl=sys.argv[3]
+
+##flout = "InterpolationWeights."+mshfl[meshslash:len(mshfl)-4]+".stofs.nc"
+
+flout=TextWeightFl[0:len(TextWeightFl)-4]+".nc"
 
 xi, yi, ei, zi = iutil.loadWW3Mesh(mshfl)
 nn_dst=len(xi)
@@ -105,7 +109,7 @@ with nc.Dataset(flout, 'w', format='NETCDF4') as ncout:
         zdst_var[:]=zi[:]
 
 #Extrapolate=False
-Extrapolate=sys.argv[3]
+Extrapolate=sys.argv[4]
 
 if Extrapolate:
     dist2bnd=np.full(len(xi), np.inf) #all points are inside boundary- No boundary with this type of extrapolation

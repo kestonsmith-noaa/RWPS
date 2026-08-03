@@ -5,7 +5,8 @@
 #PBS -q dev
 #PBS -A NWPS-DEV
 #PBS -l walltime=04:00:00
-#PBS -l select=1:ncpus=8:mem=128GB
+##PBS -l select=1:ncpus=8:mem=128GB
+#PBS -l select=1:ncpus=16:mem=256GB
 ###PBS -l select=1:ncpus=1:mem=8G
 #PBS -l place=excl
 #PBS -l debug=true
@@ -29,6 +30,8 @@ source SetMeshName
 SID="/lfs/h2/emc/couple/noscrub/keston.smith/SampleInput"
 date="20260730"
 cycl="00"
+Nprocs=16
+
 
 meshname="${mesh##*/}"
 meshname="${meshname: 0: -4}"
@@ -70,4 +73,26 @@ python ./ComputeGriddedToRWPSInterpWeights.py $rtofs_ice $mesh $rtofsIntrp.ice.n
 
 rtofs_cur=$SID/rtofs.$date/currents.$date.rtofs.nc
 #do not extrapolate rtofs .glo. currents 
-python ./ComputeGriddedToRWPSInterpWeights.py $rtofs_cur $mesh $rtofsIntrp.corrents.nc $rtofsDst.currents.nc -1 > GenWhts.rtofs.currents.out
+python ./ComputeGriddedToRWPSInterpWeights.py $rtofs_cur $mesh $rtofsIntrp.currents.nc $rtofsDst.currents.nc -1 > GenWhts.rtofs.currents.out
+
+
+cd /lfs/h2/emc/couple/noscrub/keston.smith/TestRWPS/RWPS/dev/PreProcess
+
+stofs_glo=$SID/stofs.20260730.00/stofs_2d_glo.t00z.fields.cwl.nc"
+
+## First construct parallel jobscript to compute weights using Nprocs division of destination domain(meshfile)
+python ComputeUnstrToRWPSInterpWeights.py $stofs_glo $mesh $Nprocs
+
+## Now run parallel job script
+
+qsub -W block=true jobcardComputeUnstrToRWPSInterpWeightsPBS
+
+wait
+
+#combine text file output of parallel jobs
+cat STOFSInterpWeights.$meshname/Part.IntrpWghts.*.txt > InterpWeights.$meshname.stofs.txt
+
+# convert output weights to netcdf file 
+python ConvertWeights2Netcdf.py $stofs_glo $mesh InterpWeights.$meshname.stofs.txt 1
+cp InterpWeights.$meshname.stofs.txt $out/
+cp DistToBndy.$meshname.stofs.txt $out/

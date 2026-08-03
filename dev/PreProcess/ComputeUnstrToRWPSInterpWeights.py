@@ -84,9 +84,9 @@ if nargin <  5:
 data = nc.Dataset(flin,"r")
 #read spaital dimensions and determine if input mesh is curvilinear or regular
 x=np.asarray(data["x"][:])
-j=np.where(xi>90.) #elements broken here should not effect RWPS interpolation
-xi[j]=xi[j]-360.
-	
+j=np.where(x>90.) #elements broken here should not effect RWPS interpolation
+x[j]=x[j]-360.
+
 y=np.asarray(data["y"][:])
 e=np.asarray(data["element"][:,:])
 
@@ -119,9 +119,6 @@ jxD=np.where( xc > np.min(xwin)-SearchWidth )[0].tolist()
 jyU=np.where( yc < np.max(ywin)+SearchWidth )[0].tolist()
 jyD=np.where( yc > np.min(ywin)-SearchWidth )[0].tolist()
 je=list( set(jxU) & set(jxD)  & set(jyU)   & set(jyD)  )
-
-print("number of target nodes for this region = "+str(len(ji)))
-print("number of source elements in this region = "+str(len(je)))
 
 weights, nodes, elenum, Dist2EleCenter=iutil.compute_mesh_to_mesh_interp_weights(x, y, e[je,:], xi[ji], yi[ji])
 

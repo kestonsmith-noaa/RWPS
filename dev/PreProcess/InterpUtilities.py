@@ -579,14 +579,20 @@ def compute_mesh_to_mesh_interp_weights(x, y, e, xi, yi):
     elenum = np.zeros(n_points, dtype=int)
     Dist2EleCenter = np.zeros(n_points)
     
-    t0 = time.time()
-
+#    t0 = time.time()
+#    UseNearestEle=True
     for k in range(n_points):
         x0=xi[k]
         y0=yi[k]
         deg2kmX=np.cos( np.pi * y0 / 180.)*deg2kmY
         #distances = np.abs((x0 + 1j*y0) - (xc + 1j*yc))
         distances = np.abs( deg2kmX*(x0 - xc) + 1j*deg2kmY*(y0 - yc))
+#        print(x0)
+#        print(y0)
+#        print(e0)
+#        print(xc)
+#        print(yc)
+#        print(distances)
         if UseNearestEle:
             jg=np.argmin(distances)
         else:
@@ -600,7 +606,10 @@ def compute_mesh_to_mesh_interp_weights(x, y, e, xi, yi):
             if j < 0:
                 print("couldn't find element for point : "+ str(k))
                 print(str(x0)+" : "+str(y0))
-                j = jg[0]
+                if len(jg)>0:
+                   j = jg[0]
+                else:
+                   j=0
                 print("using closest element at distance : "+ str(distances[j]))
             else:
                 j=jg[j]
@@ -631,11 +640,11 @@ def compute_mesh_to_mesh_interp_weights(x, y, e, xi, yi):
         nodes[k, :] = e[j, :] #<- indexed 1 .. nn
         # Progress reporting every 100 iterations
         if (k + 1) % 10 == 0:
-            t1 = time.time()
-            time_per_iter = (t1 - t0) / (k + 1)
-            time_remaining = (n_points - k - 1) * time_per_iter / 60
+#            t1 = time.time()
+#            time_per_iter = (t1 - t0) / (k + 1)
+#            time_remaining = (n_points - k - 1) * time_per_iter / 60
             print(f"Progress: {k+1}/{n_points}")
-            print(f"Time remaining: {time_remaining:.2f} minutes")
+#            print(f"Time remaining: {time_remaining:.2f} minutes")
     return weights, nodes, elenum, Dist2EleCenter
 
 
@@ -667,15 +676,20 @@ def InterpolateField2Nodes(nodes,weights, f):
 #-->echo "Running on node: $(hostname)"
 #--> python my_script.py --task $PBS_ARRAY_INDEX
 
+import os
 def WriteInterpJobscriptPBS(fl,flin,mshfl,Njobs, ComputeNodes):
     
     meshslash=mshfl.rfind('/')+1
     TmpOutDir="STOFSInterpWeights."+mshfl[meshslash:len(mshfl)-4]
     WghtFl="STOFS.wght."+mshfl[meshslash:len(mshfl)-4]+".txt"
-    WghtFlNetCDF="STOFS.wght."+mshfl[meshslash:len(mshfl)-4]+".nc"
+    WghtFl="InterpWeights."+mshfl[meshslash:len(mshfl)-4]+".stofs.txt"
+    WghtFlNetCDF="InterpWeights."+mshfl[meshslash:len(mshfl)-4]+".stofs.nc"
+#    WghtFlNetCDF="STOFS.wght."+mshfl[meshslash:len(mshfl)-4]+".nc"
 
     Njobs=64 #OVERWRITE FOR NOW
     with open(fl, 'w') as f:
+
+#cat STOFSInterpWeights.$meshname/Part.IntrpWghts.*.txt > InterpWeights.$meshname.stofs.txt
 
 
 # From rwps.cron
@@ -700,6 +714,7 @@ def WriteInterpJobscriptPBS(fl,flin,mshfl,Njobs, ComputeNodes):
 #        f.write("#PBS -l select=1:ncpus=1:mem=8G\n")
         f.write("#PBS -l place=excl\n")
         f.write("#PBS -l debug=true\n")
+        f.write("#PBS -r y\n")
 
         f.write("module reset\n")
         f.write("module load PrgEnv-intel/8.5.0\n")
@@ -713,14 +728,19 @@ def WriteInterpJobscriptPBS(fl,flin,mshfl,Njobs, ComputeNodes):
 
         f.write("pip list -v\n")
 
+        current_dir = os.getcwd()
+        f.write("cd "+current_dir+"\n")
+
         f.write("# calculate interpolation weights in parallel geographically \n")
-        f.write("srun python GeoSubsetInterpolateSTOFS.py "+flin+" "+mshfl+" $PBS_ARRAY_INDEX " + str(Njobs)+" > InterpJob.$PBS_ARRAY_INDEX.out \n")
-        f.write("wait\n")
-        f.write("# concatonate different parts of the mesh to common text file \n")
-        f.write("cat "+TmpOutDir+"/Part.IntrpWghts.*.txt > "+WghtFl+" \n")
-        f.write("# convert output weights to netcdf file \n")
-        f.write("python ConvertWeights2Netcdf.py "+flin+" "+mshfl+" \n")
-        print("to run $qsub -r y "+fl)
+##        f.write("srun python GeoSubsetInterpolateSTOFS.py "+flin+" "+mshfl+" $PBS_ARRAY_INDEX " + str(Njobs)+" > InterpJob.$PBS_ARRAY_INDEX.out \n")
+##        f.write("srun python ComputeUnstrToRWPSInterpWeights.py "+flin+" "+mshfl+" $PBS_ARRAY_INDEX " + str(Njobs)+" > InterpJob.$PBS_ARRAY_INDEX.out \n")
+        f.write("python ComputeUnstrToRWPSInterpWeights.py "+flin+" "+mshfl+" $PBS_ARRAY_INDEX " + str(Njobs)+" > InterpJob.$PBS_ARRAY_INDEX.out \n")
+#        f.write("wait\n")
+#        f.write("# concatonate different parts of the mesh to common text file \n")
+#        f.write("cat "+TmpOutDir+"/Part.IntrpWghts.*.txt > "+WghtFl+" \n")
+#        f.write("# convert output weights to netcdf file \n")
+#        f.write("python ConvertWeights2Netcdf.py "+flin+" "+mshfl+" \n")
+#        print("to run $qsub -r y "+fl)
 
 
 def WriteInterpJobscriptSLURM(fl,flin,mshfl,Njobs, ComputeNodes):
