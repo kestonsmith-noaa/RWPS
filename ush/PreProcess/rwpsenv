@@ -1,0 +1,11 @@
+date=20260803
+cycl=00
+rootdir=$(pwd)
+mesh="$rootdir/../../fix/rwps.oc_1500m_30km.msh"
+fix="$rootdir/../../fix"
+prep="$rootdir/../../PrepInputs"
+tmp="$prep/tmpfiles"
+frc="$prep/forcing"
+mkdir -p $prep
+mkdir -p $tmp
+mkdir -p $frc
