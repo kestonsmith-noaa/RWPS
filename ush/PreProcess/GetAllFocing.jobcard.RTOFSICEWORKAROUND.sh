@@ -1,8 +1,8 @@
 #!/bin/sh
 
-date=$1
-cycl=$2
-mesh=$3
+#date=$1
+#cycl=$2
+#mesh=$3
 
 meshname="${mesh##*/}"
 meshname="${meshname: 0: -4}"
@@ -37,9 +37,9 @@ echo "module load prod_util/2.0.8" >> $jobcard
 echo "module load prod_envir/2.0.5" >> $jobcard
 echo " " >> $jobcard
 
-echo "date=$1" >> $jobcard
-echo "cycl=$2" >> $jobcard
-echo "mesh=$3" >> $jobcard
+echo "#date=$1" >> $jobcard
+echo "#cycl=$2" >> $jobcard
+echo "#mesh=$3" >> $jobcard
 echo " " >> $jobcard
 
 echo "meshname=$meshname"  >> $jobcard
@@ -51,8 +51,8 @@ echo " " >> $jobcard
 
 # At present RTOFS ice files are missing time information (MT==0) so ProcessIce.sh will fail at the time interpolation step
 #echo "(" >> $jobcard
-#echo "    sh GetIce.sh $date $cycl > FetchIce.out" >> $jobcard
-#echo "    sh ProcessIce.sh $date $cycl $mesh  > ProcIce.out" >> $jobcard
+#echo "    sh GetIce.sh $PDY $cyc > FetchIce.out" >> $jobcard
+#echo "    sh ProcessIce.sh $PDY $cyc $mesh  > ProcIce.out" >> $jobcard
 #echo ")&" >> $jobcard
 #echo " " >> $jobcard
 
@@ -60,38 +60,38 @@ echo " " >> $jobcard
 
 
 echo "(" >> $jobcard
-echo "    sh GetWaterLevel.sh $date $cycl > FetchWaterLevel.out" >> $jobcard
-echo "    sh ProcessWaterLevel.sh $date $cycl $mesh  > ProcWaterLevel.out" >> $jobcard
+echo "    sh GetWaterLevel.sh $PDY $cyc > FetchWaterLevel.out" >> $jobcard
+echo "    sh ProcessWaterLevel.sh $PDY $cyc $mesh  > ProcWaterLevel.out" >> $jobcard
 echo ")&" >> $jobcard
 echo " " >> $jobcard
 
 echo "(" >> $jobcard
-echo "    sh GetWinds.sh $date $cycl  > FetchWinds.out" >> $jobcard
-echo "    sh ProcessWinds.sh $date $cycl $mesh > ProcWinds.out" >> $jobcard
+echo "    sh GetWinds.sh $PDY $cyc  > FetchWinds.out" >> $jobcard
+echo "    sh ProcessWinds.sh $PDY $cyc $mesh > ProcWinds.out" >> $jobcard
 echo ")&" >> $jobcard
 echo " " >> $jobcard
 
 echo "(" >> $jobcard
-echo "    sh GetCurrents.sh $date $cycl > FetchCurrents.out" >> $jobcard
-echo "    sh ProcessCurrents.sh $date $cycl $mesh  > ProcCurrents.out" >> $jobcard
+echo "    sh GetCurrents.sh $PDY $cyc > FetchCurrents.out" >> $jobcard
+echo "    sh ProcessCurrents.sh $PDY $cyc $mesh  > ProcCurrents.out" >> $jobcard
 
 #ProcessIce Needs Time Variables from rtofs currents files
-echo "    sh GetIce.sh $date $cycl > FetchIce.out" >> $jobcard
-echo "    sh ProcessIce.sh $date $cycl $mesh  > ProcIce.out" >> $jobcard
+echo "    sh GetIce.sh $PDY $cyc > FetchIce.out" >> $jobcard
+echo "    sh ProcessIce.sh $PDY $cyc $mesh  > ProcIce.out" >> $jobcard
 echo ")&" >> $jobcard
 echo " " >> $jobcard
 echo " " >> $jobcard
 
 echo "wait" >> $jobcard
 echo " " >> $jobcard
-echo "cp $meshname.$date.$cycl.cwl.stofs.nc $meshname.$date.$cycl.waterlevel.nc" >> $jobcard
-echo "cp $meshname.$date.$cycl.vel.stofsxrtofs.nc $meshname.$date.$cycl.current.nc" >> $jobcard
-echo "cp rwps_winds.$meshname.$date.$cycl/rwps.est.$meshname.$date.$cycl.wind10m.nc $meshname.$date.$cycl.wind.nc" >> $jobcard
-echo "cp $meshname.$date.$cycl.ice.rtofsxnbm.nc $meshname.$date.$cycl.ice.nc" >> $jobcard
+echo "cp $meshname.$PDY.$cyc.cwl.stofs.nc $meshname.$PDY.$cyc.waterlevel.nc" >> $jobcard
+echo "cp $meshname.$PDY.$cyc.vel.stofsxrtofs.nc $meshname.$PDY.$cyc.current.nc" >> $jobcard
+echo "cp rwps_winds.$meshname.$PDY.$cyc/rwps.est.$meshname.$PDY.$cyc.wind10m.nc $meshname.$PDY.$cyc.wind.nc" >> $jobcard
+echo "cp $meshname.$PDY.$cyc.ice.rtofsxnbm.nc $meshname.$PDY.$cyc.ice.nc" >> $jobcard
 echo " " >> $jobcard
 
 ##Below is only needed because of missing rtofs ice time
 ## remove and move this to GetRTOFS.sh and GetRTOFSIce.sh
-## echo "rm -rf tmp.rtofs*.$date" >> $jobcard
+## echo "rm -rf tmp.rtofs*.$PDY" >> $jobcard
 
 qsub $jobcard > $outputfile

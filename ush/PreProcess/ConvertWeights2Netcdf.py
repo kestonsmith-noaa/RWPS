@@ -1,7 +1,6 @@
 import numpy as np
 import netCDF4 as nc
 import sys
-#import GeoComputeMeshToMeshInterpWeights as mshint
 import InterpUtilities as  iutil
 import scipy.sparse as sp
 
@@ -11,14 +10,9 @@ flin=sys.argv[1]
 mshfl=sys.argv[2]
 meshslash=mshfl.rfind('/')+1
 
-#AddExtrapolationSupport=False
 AddExtrapolationSupport=True
 
-#TextWeightFl="InterpWeights."+mshfl[meshslash:len(mshfl)-4]+".stofs.txt"
-
 TextWeightFl=sys.argv[3]
-
-##flout = "InterpolationWeights."+mshfl[meshslash:len(mshfl)-4]+".stofs.nc"
 
 flout=TextWeightFl[0:len(TextWeightFl)-4]+".nc"
 
@@ -28,8 +22,9 @@ data = nc.Dataset(flin,"r")
 #read spaital dimensions and determine if input mesh is curvilinear or regular
 x=np.asarray(data["x"][:])
 #convert to RWPS coordinates
+
 jEast=np.where(x>90)
-x[jEast]=x[jEast]=360.
+x[jEast]=x[jEast]-360.
 
 nn_src=len(x)
 
@@ -108,7 +103,6 @@ with nc.Dataset(flout, 'w', format='NETCDF4') as ncout:
         zdst_var.long_name     = 'interpolation destination node latitude'
         zdst_var[:]=zi[:]
 
-#Extrapolate=False
 Extrapolate=sys.argv[4]
 
 if Extrapolate:

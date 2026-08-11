@@ -86,9 +86,6 @@ for jv in range(nvar):
     u[jb]=nan
 
 #set up interpolator for u
-#    fi = interp1d(t, u, axis=0, kind='linear')
-#    fi = interp1d(t, u, axis=0, kind='linear',fill_value=np.nan)
-#    fi = interp1d(tu, u[indx,:], axis=0, kind='linear',fill_value=np.nan)
     if IsExtrap:
         fi = interp1d(tu, u[indx,:], axis=0, kind='linear',fill_value="extrapolate") #extrapolated values will be overwritten
     else:

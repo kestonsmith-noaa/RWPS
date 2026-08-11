@@ -1,13 +1,4 @@
 #!/bin/bash
-#PBS -N ESMPy
-#PBS -j oe
-#PBS -S /bin/bash
-#PBS -q dev
-#PBS -A NWPS-DEV
-#PBS -l walltime=00:05:00
-#PBS -l select=1:ncpus=1:mem=8G
-#PBS -l place=excl
-#PBS -l debug=true
 
 module reset
 module load PrgEnv-intel/8.5.0
@@ -21,19 +12,9 @@ module load ve/hafs/2.1
 
 pip list -v
 
-##date="20260527"
-#date=20260602
-#cycl="00"
-#mesh=meshes/RWPS.V0a.small.msh
-
-#date=$1
-#cycl=$2
-#mesh=$3
-
 source ./rwpsenv
 
-#winddir="forecasts/wind.$date.$cycl"
-winddir="wind.$date.$cycl"
+winddir="wind.$PDY.$cyc"
 windvars="UGRD_10maboveground:VGRD_10maboveground"
 
 # extract mesh name from file path
@@ -44,35 +25,31 @@ meshname="${meshname: 0: -4}"
 # incorporate meshname date and cycle into output directory name to avoid
 # applying winds to wrong mesh
 
-#outdir="rwps_winds.$meshname.$date.$cycl"
-outdir="$tmp/rwps_winds.$meshname.$date.$cycl"
+outdir="$tmp/rwps_winds.$meshname.$PDY.$cyc"
 
-rwps_est="$frc/rwps.est.$meshname.$date.$cycl.wind10m.nc"
+rwps_est="$frc/rwps.est.$meshname.$PDY.$cyc.wind10m.nc"
 
 echo "outputing files to: $outdir"
 
-nbm_oc="$winddir/nbm.$date.$cycl.wind10m.oc.nc"
-nbm_oc_uv="$winddir/nbm.$date.$cycl.wind10m.oc.uv.nc"
+nbm_oc="$winddir/nbm.$PDY.$cyc.wind10m.oc.nc"
+nbm_oc_uv="$winddir/nbm.$PDY.$cyc.wind10m.oc.uv.nc"
 
-rrfs_pr="$winddir/rrfs.$date.$cycl.wind10m.pr.nc"
-rrfs_hi="$winddir/rrfs.$date.$cycl.wind10m.hi.nc"
-rrfs_na="$winddir/rrfs.$date.$cycl.wind10m.na.nc"
-rrfs_ak="$winddir/rrfs.$date.$cycl.wind10m.ak.nc"
-rrfs_conus="$winddir/rrfs.$date.$cycl.wind10m.conus.nc"
+rrfs_pr="$winddir/rrfs.$PDY.$cyc.wind10m.pr.nc"
+rrfs_hi="$winddir/rrfs.$PDY.$cyc.wind10m.hi.nc"
+rrfs_na="$winddir/rrfs.$PDY.$cyc.wind10m.na.nc"
+rrfs_ak="$winddir/rrfs.$PDY.$cyc.wind10m.ak.nc"
+rrfs_conus="$winddir/rrfs.$PDY.$cyc.wind10m.conus.nc"
 
-rwps_oc="$outdir/$meshname.$date.$cycl.wind10m.nbm.oc.nc"
-rwps_oc_ti="$outdir/$meshname.$date.$cycl.wind10m.nbm.oc.ti.nc"
-rwps_pr="$outdir/$meshname.$date.$cycl.wind10m.rrfs.pr.nc"
-rwps_hi="$outdir/$meshname.$date.$cycl.wind10m.rrfs.hi.nc"
-rwps_na="$outdir/$meshname.$date.$cycl.wind10m.rrfs.na.nc"
-rwps_ak="$outdir/$meshname.$date.$cycl.wind10m.rrfs.ak.nc"
-rwps_conus="$outdir/$meshname.$date.$cycl.wind10m.rrfs.conus.nc"
+rwps_oc="$outdir/$meshname.$PDY.$cyc.wind10m.nbm.oc.nc"
+rwps_oc_ti="$outdir/$meshname.$PDY.$cyc.wind10m.nbm.oc.ti.nc"
+rwps_pr="$outdir/$meshname.$PDY.$cyc.wind10m.rrfs.pr.nc"
+rwps_hi="$outdir/$meshname.$PDY.$cyc.wind10m.rrfs.hi.nc"
+rwps_na="$outdir/$meshname.$PDY.$cyc.wind10m.rrfs.na.nc"
+rwps_ak="$outdir/$meshname.$PDY.$cyc.wind10m.rrfs.ak.nc"
+rwps_conus="$outdir/$meshname.$PDY.$cyc.wind10m.rrfs.conus.nc"
 
 
 mkdir $outdir
-
-
-##weights_file = "InterpolationWeights."+mshfl[meshslash:len(mshfl)-3]+dom+".nc"
 
 ##LocalFS  = [ rwps_pr, rwps_hi, rwps_ak, rwps_conus, rwps_na] # file names
 ##VarFS    = [ 4.     , 4.    , 9.      , 16.       , 25.    ] # (m m /s /s)
@@ -141,6 +118,7 @@ rrfs_conus_dist="$fix/DistToBndy.$meshname.rrfs.conus.nc"
 )&
 
 wait;
+
 #Interpolate NBM in time to times within the NBM forecast covered by the RRFS forecast
 python InterpTime.py $rwps_oc $rwps_pr $rwps_oc_ti $windvars
 #add mesh geometry into file

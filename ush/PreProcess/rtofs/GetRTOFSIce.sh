@@ -1,19 +1,6 @@
 #!/bin/bash
-#PBS -N ESMPy
-#PBS -j oe
-#PBS -S /bin/bash
-#PBS -q dev
-#PBS -A NWPS-DEV
-#PBS -l walltime=00:05:00
-#PBS -l select=1:ncpus=1:mem=8G
-#PBS -l place=excl
-#PBS -l debug=true
 
-
-
-#"rtofs_glo_3dz_n006_6hrly_hvr_alaska.nc"
-
-#/lfs/h1/ops/prod/com/rtofs/v2.5/rtofs.20260727/rtofs_glo_2ds_f186_ice.nc
+#Retrieve global RTOFS ice forecast and consolidate in single NetCDF filesin
 
 module reset
 module load PrgEnv-intel/8.5.0
@@ -27,13 +14,10 @@ module load ve/hafs/2.1
 
 pip list -v
 
-date=$1
-cycl=$2
-
-tmpdir="tmp.rtofsIce.$date"
-filesin="/lfs/h1/ops/prod/com/rtofs/v2.5/rtofs.$date/*ice.nc"
-dirout=ice.$date.$cycl
-flout="$dirout/rtofs.ice.$date.nc"
+tmpdir="$COMINlocal/tmp.rtofsIce.$PDY"
+filesin="$COMINrtofs/*ice.nc"
+dirout="$COMINlocal/ice.$PDY.$cyc
+flout="$COMINlocal/rtofs.ice.$PDY.nc"
 
 mkdir $tmpdir
 cp $filesin $tmpdir/

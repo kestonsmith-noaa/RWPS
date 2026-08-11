@@ -1,13 +1,11 @@
-# aws s3 cp --no-sign-request s3://noaa-nws-rtofs-pds/rtofs.20260115/ ./rtofs_jan2026_ice/ --recursive --exclude "*" --include "*ice*"
-#Consolidate ice_coverage from RTOFS forecast files 
 import numpy as np
 import os
 import netCDF4 as nc
 import sys
 
+#Consolidate RTOFS ice forecast files to a single NetCDF file.
+
 # Get the path relative to this file and add to sys.path
-#sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'utils')))
-#import helper
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import InterpUtilities as  iutil
 
@@ -33,38 +31,20 @@ print("ny = "+str(ny))
 print(F.shape)
 for k in range(nt):
     flin=dirin+"/"+ncfiles[k]
-
     flinT=flin.replace("Ice","")
     flinT=flinT.replace("ice","prog")
-    
     print("ICE: org flin="+flin+" Time flin="+flinT)
-
     dataT=nc.Dataset(flinT,"r")
-
     data=nc.Dataset(flin,"r")
     F0=data["ice_coverage"][:]
-#    T0=data["MT"][:]    
-    T0=dataT["MT"][:]    
-
+    T0=dataT["MT"][:]
     print(F0.shape)
     print(F.shape)
     print(str(k)+" of "+ str(nt))
     F[k,:,:]=F0[0,:,:]
     MT[k]=T0
-#    tmp=iutil.ConvertTimeToUnixTime(flin,"MT")
-
     tmp=iutil.ConvertTimeToUnixTime(flinT,"MT")
-
     time[k]=tmp[0]
-
-#-rw-r--r-- 1 keston.smith couple 64M Jul 29 17:59 tmp.rtofsIce.20260728/rtofs_glo_2ds_f007_ice.nc
-#-rw-r--r-- 1 keston.smith couple 64M Jul 29 17:59 tmp.rtofsIce.20260728/rtofs_glo_2ds_n007_ice.nc
-#keston.smith@dlogin06:/lfs/h2/emc/couple/noscrub/keston.smith/RWPSInterpolationUtilities> l tmp.rtofs.20260728/*007*nc
-#-rw-r--r-- 1 keston.smith couple 149M Jul 29 17:49 tmp.rtofs.20260728/rtofs_glo_2ds_f007_prog.nc
-#-rw-r--r-- 1 keston.smith couple 149M Jul 29 17:50 tmp.rtofs.20260728/rtofs_glo_2ds_n007_prog.nc
-
-
-
 
 tindx = np.argsort(time)
 time=time[tindx]
@@ -86,7 +66,7 @@ with nc.Dataset(flout, 'w', format='NETCDF4') as ncout:
     var=data["Latitude"]
     iutil.CopyAttributes(var, lat_var)
     lat_var[:,:]=Y[:,:]
-    
+
     # Keep redundent time variables (time and MT) for conviniences
     time_var=ncout.createVariable('time', 'f8', ('time',))
     time_var.units         = 'seconds since 1970-01-01 00:00:00.0 0:00'
@@ -94,13 +74,12 @@ with nc.Dataset(flout, 'w', format='NETCDF4') as ncout:
     time_var.standard_name = 'time'
     time_var.axis          = 'T'
     time_var[:] = time[:]
-    
+
     MT_var=ncout.createVariable("MT", 'f8', ('time',))
     var=data["MT"]
     iutil.CopyAttributes(var, MT_var)
     MT_var[:] = MT[:]
 
-#    f_var               = ncout.createVariable('ice_coverage', 'f4', ('time','X','Y'),fill_value    = fill_value0)
     f_var               = ncout.createVariable('ICEC_surface', 'f4', ('time','X','Y'),fill_value    = fill_value0)
     var=data["ice_coverage"]
     iutil.CopyAttributes(var, f_var)

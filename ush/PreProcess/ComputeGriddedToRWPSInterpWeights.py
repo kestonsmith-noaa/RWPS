@@ -21,13 +21,7 @@ import scipy.sparse as sp
 
 import InterpUtilities as iutil
 
-
-#mshfl="../meshes/RWPS.V0a.small.msh"
-#flin="../RWPSWrkFlw/WindBlend/wind.20260507.00X/rrfs.20260507.00.wind10m.ak.nc"
-
-
 # Main program
-#AddExtrapolationSupport=False
 AddExtrapolationSupport=True
 
 nargin = len(sys.argv) - 1
@@ -47,16 +41,12 @@ if nargin > 4:
 xi, yi, ei, zi = iutil.loadWW3Mesh(mshfl)
 nn=len(xi)
 #shift coords to[129,370]
-#if np.mean(xi)<0.:
-    #xi=xi+360.
 data = nc.Dataset(flin,"r")
+
 #read spaital dimensions and determine if input mesh is curvilinear or regular
 x1=np.asarray(data["longitude"][:])
 y1=np.asarray(data["latitude"][:])
 
-# shift to common longitude
-#if np.mean(np.mean(x1))<0:
-#    x1=x1+360.
 #   rwps        :[-231, 11]
 #   nbm         :[129, 370]
 #   rrfs,pr     :[ -75.5000  -62.5087]
@@ -66,7 +56,6 @@ y1=np.asarray(data["latitude"][:])
 #   rrfs,conus  :[ 225.9045  299.0828]
 #   rtofs,glo   :[74.1552,434.0146]
 #   stofs, glo  :[-180,180]
-#
 
 #Shift longitude coordinates to RWPS specs for various files
 if "hi" in flin:
@@ -153,9 +142,7 @@ if Extrapolate:
     weightsExtrp=weights.tolist().append([1.0] * len(j0) )
     rowExtrp=np.concatenate( (row, np.array(j0)) )
     colExtrp=np.concatenate( (col, np.array(j0src+1)) )
-# this    colExtrp=np.concatenate( (col, np.array(j0src)) )
     weightsExtrp=np.concatenate( (weights, np.array([1.0] * len(j0))) )
-#    os.replace(weights_file, "NoExtrap."+weights_file)
     os.replace(weights_file, weights_file[0:-3]+".NoExtrap.nc")
     iutil.WriteInterpolationWeightsToNetCDF(weights_file,rowExtrp,colExtrp,weightsExtrp,len(xi),len(x1v))
 ##################################################################################
@@ -198,9 +185,6 @@ with nc.Dataset(weights_file, 'r+', format='NETCDF4') as ncadd:
 ##################################################################################
 # START: Compute distance to boundary for each node in mesh:
 ##################################################################################
-#if Extrapolate:
-#    dist2bnd=np.full(len(xi), np.inf) #all points are inside boundary- No boundary with this type of extrapolation
-#else:
 row_sum = matrix.sum(axis=1)
 j0=np.where( row_sum==0 ) # destination nodes with no coverage from interpolation matrix
 j0=np.array(j0[0]).tolist()

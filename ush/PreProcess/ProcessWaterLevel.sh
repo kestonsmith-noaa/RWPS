@@ -1,13 +1,4 @@
 #!/bin/bash
-#PBS -N ESMPy
-#PBS -j oe
-#PBS -S /bin/bash
-#PBS -q dev
-#PBS -A NWPS-DEV
-#PBS -l walltime=00:05:00
-#PBS -l select=1:ncpus=1:mem=8G
-#PBS -l place=excl
-#PBS -l debug=true
 
 module reset
 module load PrgEnv-intel/8.5.0
@@ -21,20 +12,16 @@ module load ve/hafs/2.1
 
 pip list -v
 
-#date=$1
-#cycl=$2
-#mesh=$3
-
 source ./rwpsenv
 
 meshname="${mesh##*/}"
 meshname="${meshname: 0: -4}"
 
-stofslev="stofs.$date.$cycl/stofs_2d_glo.t${cycl}z.fields.cwl.nc"
+stofslev="stofs.$PDY.$cyc/stofs_2d_glo.t${cycl}z.fields.cwl.nc"
 stofs_wghts="$fix/InterpolationWeights.$meshname.stofs.nc"
 stofs_dists="$fix/DistToBndy.$meshname.stofs.nc"
 
-stofs_rwps="$frc/$meshname.$date.$cycl.cwl.stofs.nc"
+stofs_rwps="$frc/$meshname.$PDY.$cyc.cwl.stofs.nc"
 
 varnames="zeta"
 

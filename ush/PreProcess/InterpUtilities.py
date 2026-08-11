@@ -29,7 +29,6 @@ def ConvertTimeToUnixTime(flin,TimeVarName = None):
     print(tstr)
     secstr=tstr[2].rsplit(".", 1)[0]
     base_date = datetime(int(dstr[0]),int(dstr[1]),int(dstr[2]),int(tstr[0]),int(tstr[1]),int(secstr))
-    #base_date = datetime(int(dstr[0]),int(dstr[1]),int(dstr[2]),int(tstr[0]),int(tstr[1]),int(tstr[2]))
     base_offset = int((base_date - epoch_1970).total_seconds())
     if tunits=="seconds":
         unix_time = time + base_offset
@@ -206,11 +205,9 @@ def interpolate_curvilinear_to_pointsRRFS(lon_in, lat_in, data_in, lon_out, lat_
 
     ns=nx*ny
     S=np.zeros((ns,nt))
-    #s0=np.zeros((nx,ny))
     s0=np.zeros((ny,nx))
     for k in range(nt):
         s0[:,:]=np.transpose(data_in[:,:,k])
-        #s0[:,:]=data_in[:,:,k]
         S[:,k] = s0.flatten()
 
     # Define the target points
@@ -285,7 +282,6 @@ def CurvilinearGridCreateInterpWeights(xi,yi,x1,y1, weights_file):
     # 5. Create esmpy Fields
     src_field = esmpy.Field(src_grid, name="src_field")
     dst_field = esmpy.Field(dst_grid, name="dst_field")
-#    src_field.data[...]=np.sqrt(x1/180)/(90+y1) # arbitrary function of x,y
     src_field.data[...]=np.sqrt(np.abs(x1/180))/(90+y1) # arbitrary function of x,y
 
     np.savetxt('F.txt', src_field.data[...])
@@ -374,8 +370,6 @@ def CalculateDistanceToInterpEnvelope(xi,yi,fi,SearchWidth):
     dist2bnd[jin]=din
     return dist2bnd
 
-#END WIND TO RWPS Utils
-
 def QuickDistance(lat1, lon1, lats2, lons2):
     deg2kmY=111.
     deg2kmX=np.cos( np.pi * lat1 / 180.)*deg2kmY
@@ -462,9 +456,6 @@ def FindElement(x,y,e,xi,yi):
     e=np.squeeze(e)
     j=-9999
     ne=e.shape[0]
-    #print(nd)
-    #print(ne)
-    #print(e)
     if nd > 1: 
         xc = np.squeeze(np.mean(x[e], axis=1))
         yc = np.squeeze(np.mean(y[e], axis=1))
@@ -493,27 +484,6 @@ def FindElement(x,y,e,xi,yi):
             return j
         
     return j
-"""
-import matplotlib.tri as mtri
-def compute_mesh_to_mesh_interp_weights(x, y, e, xi, yi, flout):
-
-# Assume x, y are vertex coords (N,), triangles is (M, 3) connectivity array
-    e0=e-1
-    triang = mtri.Triangulation(x, y, e0)
-
-    # z are the known values at each vertex (N,)
-    linear_interp = mtri.LinearTriInterpolator(triang, z)
-
-    # Evaluate at new points (callable directly)
-    z_new = linear_interp(x_new, y_new)
-    
-"""    
-
-def universal_len(obj):
-    try:
-        return len(obj)
-    except TypeError:
-        return 1
 
 
 def compute_mesh_to_mesh_interp_weights(x, y, e, xi, yi):
@@ -563,12 +533,6 @@ def compute_mesh_to_mesh_interp_weights(x, y, e, xi, yi):
     # convert node indexs to 0 .. nn-1
     e0=e-1
     
-
-#    triangle_indices, weights, valid_mask=compute_and_save_weights(x, y, e0, xi, yi)
-#    np.savetxt("triangle_indices.txt",triangle_indices)
-#    np.savetxt("weights.txt",weights)
-#    np.savetxt("mask.txt",valid_mask)
-
     xc = np.mean(x[e0], axis=1)
     yc = np.mean(y[e0], axis=1)
     
@@ -580,20 +544,12 @@ def compute_mesh_to_mesh_interp_weights(x, y, e, xi, yi):
     elenum = np.zeros(n_points, dtype=int)
     Dist2EleCenter = np.zeros(n_points)
     
-#    t0 = time.time()
 #    UseNearestEle=True
     for k in range(n_points):
         x0=xi[k]
         y0=yi[k]
         deg2kmX=np.cos( np.pi * y0 / 180.)*deg2kmY
-        #distances = np.abs((x0 + 1j*y0) - (xc + 1j*yc))
         distances = np.abs( deg2kmX*(x0 - xc) + 1j*deg2kmY*(y0 - yc))
-#        print(x0)
-#        print(y0)
-#        print(e0)
-#        print(xc)
-#        print(yc)
-#        print(distances)
         if UseNearestEle:
             jg=np.argmin(distances)
         else:
@@ -640,12 +596,8 @@ def compute_mesh_to_mesh_interp_weights(x, y, e, xi, yi):
 
         nodes[k, :] = e[j, :] #<- indexed 1 .. nn
         # Progress reporting every 100 iterations
-        if (k + 1) % 10 == 0:
-#            t1 = time.time()
-#            time_per_iter = (t1 - t0) / (k + 1)
-#            time_remaining = (n_points - k - 1) * time_per_iter / 60
+        if (k + 1) % 100 == 0:
             print(f"Progress: {k+1}/{n_points}")
-#            print(f"Time remaining: {time_remaining:.2f} minutes")
     return weights, nodes, elenum, Dist2EleCenter
 
 
@@ -664,14 +616,6 @@ def InterpolateField2Nodes(nodes,weights, f):
     return fi
 
 
-#!/bin/bash
-#PBS -N my_array_job
-#PBS -l select=1:ncpus=1:mem=2gb
-#PBS -l walltime=01:00:00
-#PBS -J 1-10%5
-#PBS -o my_job_array_out.txt
-#PBS -e my_job_array_err.txt
-
 # Move to the directory where the job was submitted
 #-->cd $PBS_O_WORKDIR
 #-->echo "Running on node: $(hostname)"
@@ -685,25 +629,8 @@ def WriteInterpJobscriptPBS(fl,flin,mshfl,Njobs, ComputeNodes):
     WghtFl="STOFS.wght."+mshfl[meshslash:len(mshfl)-4]+".txt"
     WghtFl="InterpWeights."+mshfl[meshslash:len(mshfl)-4]+".stofs.txt"
     WghtFlNetCDF="InterpWeights."+mshfl[meshslash:len(mshfl)-4]+".stofs.nc"
-#    WghtFlNetCDF="STOFS.wght."+mshfl[meshslash:len(mshfl)-4]+".nc"
-
     Njobs=64 #OVERWRITE FOR NOW
     with open(fl, 'w') as f:
-
-#cat STOFSInterpWeights.$meshname/Part.IntrpWghts.*.txt > InterpWeights.$meshname.stofs.txt
-
-
-# From rwps.cron
-#PBS -A RWPS-DEV
-#PBS -l select=1:ncpus=1:mem=100MB
-#PBS -l walltime=02:00:00
-#PBS -q dev
-#PBS -N rwps.boss.lsf
-#PBS -j oe
-#PBS -o rwps.MakeUnstrWghts.out
-#PBS -e rwps.MakeUnstrWghts.out
-
-#PBS -l select=2:ncpus=32:mem=128gb
         f.write("#PBS -N ESMPy\n")
         f.write("#PBS -j oe\n")
         f.write("#PBS -S /bin/bash\n")
@@ -734,12 +661,6 @@ def WriteInterpJobscriptPBS(fl,flin,mshfl,Njobs, ComputeNodes):
 
         f.write("# calculate interpolation weights in parallel geographically \n")
         f.write("python ComputeUnstrToRWPSInterpWeights.py "+flin+" "+mshfl+" $PBS_ARRAY_INDEX " + str(Njobs)+" > InterpJob.$PBS_ARRAY_INDEX.out \n")
-#        f.write("wait\n")
-#        f.write("# concatonate different parts of the mesh to common text file \n")
-#        f.write("cat "+TmpOutDir+"/Part.IntrpWghts.*.txt > "+WghtFl+" \n")
-#        f.write("# convert output weights to netcdf file \n")
-#        f.write("python ConvertWeights2Netcdf.py "+flin+" "+mshfl+" \n")
-#        print("to run $qsub -r y "+fl)
 
 
 def WriteInterpJobscriptSLURM(fl,flin,mshfl,Njobs, ComputeNodes):
@@ -749,10 +670,8 @@ def WriteInterpJobscriptSLURM(fl,flin,mshfl,Njobs, ComputeNodes):
     WghtFl="STOFS.wght."+mshfl[meshslash:len(mshfl)-4]+".txt"
     WghtFlNetCDF="STOFS.wght."+mshfl[meshslash:len(mshfl)-4]+".nc"
     with open(fl, 'w') as f:
-        #yi[k]=float(values[4])
         f.write("#!/bin/bash \n")
         f.write("#SBATCH --job-name=STOFS_interp_masterscript \n")
-#        f.write("#SBATCH --ntasks="+str(N)+" \n")
         f.write("#SBATCH --ntasks=1 \n") # ntasks per interpolation
         f.write("#SBATCH --time=08:00:00 \n") 
         f.write("#SBATCH --output=mpi_test_%j.log \n")

@@ -8,22 +8,14 @@
 
 import numpy as np
 import os
-
 import datetime
 import netCDF4 as nc
 import sys
 import re
 import InterpUtilities as iutil
-
 import xarray as xr
 import esmpy
 import scipy.sparse as sp
-
-import InterpUtilities as iutil
-
-
-#mshfl="../meshes/RWPS.V0a.small.msh"
-#flin="../RWPSWrkFlw/WindBlend/wind.20260507.00X/rrfs.20260507.00.wind10m.ak.nc"
 
 
 # Main program
@@ -144,7 +136,6 @@ if Extrapolate:
 ##################################################################################
 # START: Compute distance to boundary for each node in mesh:
 ##################################################################################
-#dist2bnd_file = "DistToBndy."+mshfl[meshslash:len(mshfl)-3]+dom+".txt"
 dist2bnd_file = "DistToBndy."+mshfl[meshslash:len(mshfl)-3]+dom+".nc"
 
 if Extrapolate:
@@ -165,4 +156,3 @@ with nc.Dataset(dist2bnd_file, 'w', format='NETCDF4') as ncout:
     d_var.units         = 'km'
     d_var.standard_name = 'distance to boundary'
     d_var[:]=dist2bnd[:]
-

@@ -1,13 +1,4 @@
 #!/bin/bash
-#PBS -N ESMPy
-#PBS -j oe
-#PBS -S /bin/bash
-#PBS -q dev
-#PBS -A NWPS-DEV
-#PBS -l walltime=00:05:00
-#PBS -l select=1:ncpus=1:mem=8G
-#PBS -l place=excl
-#PBS -l debug=true
 
 module reset
 module load PrgEnv-intel/8.5.0
@@ -21,24 +12,16 @@ module load ve/hafs/2.1
 
 pip list -v
 
-#date="20260602"
-#cycl="00"
-#mesh="meshes/RWPS.V0a.small.msh"
-
-#date=$1
-#cycl=$2
-#mesh=$3
-
 source ./rwpsenv
 
 meshname="${mesh##*/}"
 meshname="${meshname: 0: -4}"
 
 
-inpdir=ice.$date.$cycl
+inpdir=ice.$PDY.$cyc
 
-nbmice=$inpdir/nbm.$date.$cycl.ice.ak.nc
-rtofsice=$inpdir/rtofs.ice.$date.nc
+nbmice=$inpdir/nbm.$PDY.$cyc.ice.ak.nc
+rtofsice=$inpdir/rtofs.ice.$PDY.nc
 
 
 rtofs_wghts="$fix/InterpolationWeights.$meshname.rtofs.ice.nc"
@@ -46,15 +29,15 @@ rtofs_dists="$fix/DistToBndy.$meshname.rtofs.ice.nc"
 nbm_ak_wghts="$fix/InterpolationWeights.$meshname.nbm.ak.nc"
 nbm_ak_dists="$fix/DistToBndy.$meshname.nbm.ak.nc"
 
-rtofs_rwps="$tmp/$meshname.$date.ice.rtofs.nc"
-rtofs_rwps_ti="$tmp/$meshname.$date.$cycl.ice.rtofs.ti.nc"
+rtofs_rwps="$tmp/$meshname.$PDY.ice.rtofs.nc"
+rtofs_rwps_ti="$tmp/$meshname.$PDY.$cyc.ice.rtofs.ti.nc"
 
-nbm_rwps="$tmp/$meshname.$date.$cycl.ice.nbm.ak.nc"
-nbm_rwps_ti="$tmp/$meshname.$date.$cycl.ice.nbm.ak.ti.nc"
+nbm_rwps="$tmp/$meshname.$PDY.$cyc.ice.nbm.ak.nc"
+nbm_rwps_ti="$tmp/$meshname.$PDY.$cyc.ice.nbm.ak.ti.nc"
 
 varnames="ICEC_surface"
 
-combinedice="$frc/$meshname.$date.$cycl.ice.rtofsxnbm.nc"
+combinedice="$frc/$meshname.$PDY.$cyc.ice.rtofsxnbm.nc"
 
 ## NBM AK domain interpolation
 ## NOTE WE ARE USING THE RRFS ak WEIGHTS HERE NEED TO RELABEL AND RECOMPUTE FOR NBM AK DOMAIN

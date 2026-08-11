@@ -27,10 +27,7 @@ UseUnixTime=True
 nargin = len(sys.argv) - 1
 
 flin=sys.argv[1]
-#mshfl=sys.argv[2]
-#meshslash=mshfl.rfind('/')+1
 
-#weights_file="STOFS.wght."+mshfl[meshslash:len(mshfl)-4]+".nc"
 weights_file=sys.argv[2]
 
 flout=sys.argv[3]
@@ -100,9 +97,6 @@ else:
     sys.exit(1)
 
 nt=len(time)
-
-#nt=4
-#time=time[0:nt]
 
 print(time)
 
@@ -203,7 +197,7 @@ if not ((nni==Nrows) and (n1==Ncols)):
     print("  You may need to regnerate file "+ weights_file +" with appropriate weights")
 
 ##########################################################################################
-# CONSTRUCT PRESCRIBED ERROR COVARIANCE FOR UPDATING ESTIMATE
+# START: CONSTRUCT PRESCRIBED ERROR COVARIANCE FOR UPDATING ESTIMATE
 ##########################################################################################
 #grab variables for prescribing error variance
 if IcludeErrorVariance:
@@ -247,8 +241,9 @@ if IcludeErrorVariance:
     ErrorVariance=np.zeros((nt,nni))
     for k in range(nt):
         ErrorVariance[k,:]=Variance[:]
+
 ##########################################################################################
-# CONSTRUCT PRESCRIBED ERROR COVARIANCE FOR UPDATING ESTIMATE
+# FINISHED: CONSTRUCT PRESCRIBED ERROR COVARIANCE FOR UPDATING ESTIMATE
 ##########################################################################################
 
 ne=ei.shape[0]
@@ -332,5 +327,3 @@ with nc.Dataset(flout, 'w', format='NETCDF4') as ncout:
         ErrorVariance_var[:,:]=ErrorVariance
 
     ncout.close
-
-

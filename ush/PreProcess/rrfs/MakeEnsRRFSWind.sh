@@ -15,7 +15,6 @@
 module load intel-oneapi/2022.2.0.262
 module load wgrib2/2.0.8
 
-#INPUT_DIR="/lfs/h1/ops/para/com/rrfs/v1.0/rrfs.$1/$2"
 OUTPUT_FILE="rrfs.ensemble.$1.$2.wind10m.$3.nc"
 INPUT_DIR1="/lfs/h1/ops/para/com/rrfs/v1.0/rrfsens.$1/$2/m001/"
 
@@ -57,20 +56,6 @@ for file1 in $(ls "$INPUT_DIR1"/rrfs.t$2z.m001.2dfld.*km.f*.$3.grib2 | sort); do
     wgrib2 $file5  -match ":UGRD:10 m" -nc_table varname5.txt -append -netcdf "$OUTPUT_FILE"
     wgrib2 $file5  -match ":VGRD:10 m" -nc_table varname5.txt -append -netcdf "$OUTPUT_FILE"
 
-#    wgrib2 $file2 -nc_table varname2.txt -append -netcdf "$OUTPUT_FILE"
-#    wgrib2 $file3 -nc_table varname3.txt -append -netcdf "$OUTPUT_FILE"
-#    wgrib2 $file4 -nc_table varname4.txt -append -netcdf "$OUTPUT_FILE"
-#    wgrib2 $file5 -nc_table varname5.txt -append -netcdf "$OUTPUT_FILE"
-
-
-#    cat $file1 $file2 $file3 $file4 $file5  | wgrib2 - -match ":(UGRD|VGRD):10 m" -append -netcdf "$OUTPUT_FILE"
-# equivalent alternates
-#    cat $file1 $file2 $file3 $file4 $file5 > ensemble.grib2
-#    wgrib2 ensemble.grib2 -match ":UGRD:10 m" -append -netcdf "$OUTPUT_FILE"
-#    wgrib2 ensemble.grib2 -match ":VGRD:10 m" -append -netcdf "$OUTPUT_FILE"
-# or
-#    cat $file1 $file2 $file3 $file4 $file5  | wgrib2 - -match ":UGRD:10 m" -append -netcdf "$OUTPUT_FILE"
-#    cat $file1 $file2 $file3 $file4 $file5  | wgrib2 - -match ":VGRD:10 m" -append -netcdf "$OUTPUT_FILE"
 done
 
 echo "rrfs ensemble processing complete for forecast date $1, cycle $2, domain $3"

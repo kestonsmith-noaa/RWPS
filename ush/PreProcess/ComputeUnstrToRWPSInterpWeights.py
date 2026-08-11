@@ -2,7 +2,6 @@ import numpy as np
 import netCDF4 as nc
 import sys
 from scipy.interpolate import RegularGridInterpolator
-#import CalculateSTOFStoRWPSInterpWeightsUtility as mshint
 import InterpUtilities as  iutil
 
 import os
@@ -40,9 +39,6 @@ else:
     latS=int(sys.argv[5])
     latN=int(sys.argv[6])
 
-#latS=-40
-#latN=81
-
 meshslash=mshfl.rfind('/')+1
 if nargin <  5:
     weights_file = TmpOutDir+"/Part.IntrpWghts."+str(jobID)+".txt"
@@ -63,7 +59,6 @@ xi[j]=xi[j]-360.
 # and make North-South window contain the full target domain
 # NOTE: for efficiency the sections of the domain should have approximately
 # the same number of destination nodes and/or the same number of source elements
-# will implement as function shortly
 
 if nargin <  5:
 # balance node load for     

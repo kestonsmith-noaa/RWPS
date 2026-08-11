@@ -1,8 +1,3 @@
-#aws s3 ls --no-sign-request s3://noaa-nbm-pds/blendv5.0/alaska/2026/05/07/0000/ | g ice
-#aws s3 cp --no-sign-request s3://noaa-nbm-pds/blendv5.0/alaska/2026/05/07/0000/iceconcentration/blendv5.0_alaska_iceconcentration_2026-05-07T00:00_2026-05-08T12:00.tif ./
-#aws s3 cp --no-sign-request s3://noaa-nbm-pds/blendv5.0/alaska/2026/05/07/0000/icethickness/blendv5.0_alaska_icethickness_2026-05-07T00:00_2026-05-08T12:00.tif ./
-#pip install rioxarray xarray pyproj numpy NetCDF4
-#python ConvertNBMIcetif2NetCDF.py iceconcentration/blendv5.0_alaska_iceconcentration_2026-05-07T00:00_2026-05-08T12:00.tif
 import numpy as np
 import pyproj
 import rioxarray as rio
@@ -38,7 +33,6 @@ data_var = da.isel(band=0).drop_vars(["x", "y", "spatial_ref"])
 # 7. Build the NetCDF dataset with 2D curvilinear coordinates
 ds = xr.Dataset(
     data_vars={"variable_name": (["y", "x"], data_var.values)},
-#    data_vars={"Band1": (["y", "x"], data_var.values)},
     coords={
         "lon": (["y", "x"], lon_2d),
         "lat": (["y", "x"], lat_2d),

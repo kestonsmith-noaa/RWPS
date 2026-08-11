@@ -1,13 +1,6 @@
 #!/bin/bash
-#PBS -N ESMPy
-#PBS -j oe
-#PBS -S /bin/bash
-#PBS -q dev
-#PBS -A NWPS-DEV
-#PBS -l walltime=00:05:00
-#PBS -l select=1:ncpus=1:mem=8G
-#PBS -l place=excl
-#PBS -l debug=true
+
+#Retrieve global RTOFS currents and consolidate into a single NetCDF file
 
 module reset
 module load PrgEnv-intel/8.5.0
@@ -21,13 +14,11 @@ module load ve/hafs/2.1
 
 pip list -v
 
-date=$1
+tmpdir="$COMINlocal/tmp.rtofs.$PDY"
+filesin="$COMINrtofs/*prog.nc"
+flout="$COMINlocal/rtofs.$PDY.nc"
 
-tmpdir="tmp.rtofs.$date"
-filesin="/lfs/h1/ops/prod/com/rtofs/v2.5/rtofs.$date/*prog.nc"
-flout="rtofs.$date.nc"
-
-mkdir $tmpdir
+mkdir -p $tmpdir
 cp $filesin $tmpdir/
 python rtofs/GetRTOFSfcst.py $tmpdir $flout
 

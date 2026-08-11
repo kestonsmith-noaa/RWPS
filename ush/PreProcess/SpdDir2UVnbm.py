@@ -2,14 +2,15 @@ import os
 import argparse
 import numpy as np
 import netCDF4 as nc
-#import jigsawpy
 import sys
 import math
+
+# Converts NBM direction and magnitude wind variables to U,V 
+
+
 flin=sys.argv[1] 
 flout=sys.argv[2] 
-#fld="wdir10m.nc"
-#fls="wspd10m.nc"
-#flout="wind.08.31.WW3.nc"
+
 fcst0 = nc.Dataset(flin,"r")
 
 x=np.asarray(fcst0["longitude"][:])
@@ -21,12 +22,6 @@ theta=np.asarray(fcst0["WDIR_10maboveground"][:,:,:])
 spdV=fcst0["WIND_10maboveground"]
 fill_value0 = spdV._FillValue
 
-print("fil val")
-print(fill_value0)
-
-print("spd shape")
-print(spd.shape)
-
 u=-1*spd*np.sin(theta*np.pi/180.)
 v=-1*spd*np.cos(theta*np.pi/180.)
 u[np.where(spd==fill_value0)]=fill_value0
@@ -37,7 +32,7 @@ ny=len(y)
 nt=len(t)
 
 with nc.Dataset(flout, 'w', format='NETCDF4') as ncout:
-        # Create dimensions
+    # Create dimensions
     ncout.createDimension('lon' , nx)  # Unlimited dimension
     ncout.createDimension('lat' , ny)
     ncout.createDimension('time', nt)
@@ -63,14 +58,12 @@ with nc.Dataset(flout, 'w', format='NETCDF4') as ncout:
     time_var.axis          = 'time'
     time_var[:]=t[:]
 
-#    u_var=ncout.createVariable('UGRD_10maboveground', 'f4', ('lon','lat','time'),fill_value    = -99999)
     u_var=ncout.createVariable('UGRD_10maboveground', 'f4', ('time','lat','lon'),fill_value    = fill_value0)
     u_var.long_name     = 'U-Component of Wind'
     u_var.units         = 'm/s'
     u_var.standard_name = 'UGRD_10maboveground'
     u_var.level = '10 m above ground'
     u_var[:,:,:]=u[:,:,:]
-#    u_var[:,:,:]=np.transpose(u[:,:,:],(2,1,0))
 
     v_var=ncout.createVariable('VGRD_10maboveground', 'f4', ('time','lat','lon'),fill_value    = fill_value0)
     v_var.long_name     = 'V-Component of Wind'
@@ -78,8 +71,6 @@ with nc.Dataset(flout, 'w', format='NETCDF4') as ncout:
     v_var.standard_name = 'VGRD_10maboveground'
     v_var.level = '10 m above ground'
     v_var[:,:,:]=v[:,:,:]
-#    v_var[:,:,:]=np.transpose(v[:,:,:],(2,1,0))
-
     
     ncout.close
     

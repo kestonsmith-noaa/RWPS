@@ -27,10 +27,7 @@ UseUnixTime=True
 nargin = len(sys.argv) - 1
 
 flin=sys.argv[1]
-#mshfl=sys.argv[2]
-#meshslash=mshfl.rfind('/')+1
 
-#weights_file="STOFS.wght."+mshfl[meshslash:len(mshfl)-4]+".nc"
 weights_file=sys.argv[2]
 
 flout=sys.argv[3]
@@ -87,9 +84,6 @@ else:
     sys.exit(1)
 
 nt=len(time)
-
-#nt=4
-#time=time[0:nt]
 
 print(time)
 
@@ -201,8 +195,6 @@ if not ((nni==Nrows) and (n1==Ncols)):
     " but number of columns in "+ weights_file +" = "+str(Ncols)  )
     print("  You may need to regnerate file "+ weights_file +" with appropriate weights")
 
-#ne=ei.shape[0]
-
 with nc.Dataset(flout, 'w', format='NETCDF4') as ncout:
 
     ncout.createDimension('level' , 1)  
@@ -239,31 +231,3 @@ with nc.Dataset(flout, 'w', format='NETCDF4') as ncout:
             xtrp_var[:,:]          = IsExtrap[jv,:,:]
 
     ncout.close
-            
-    
-#mesh geometry should be added later
-"""
-
-    ncout.createDimension('element' , ne)
-    ncout.createDimension('noel', 3)
-    
-    lon_var=ncout.createVariable('longitude', 'f8', ('node',))
-    lon_var.units         = 'degree_east'
-    lon_var.long_name     = 'longitude'
-    lon_var.standard_name = 'longitude'
-    lon_var.axis          = 'X'
-    lon_var[:]=xi[:]
-
-    lat_var=ncout.createVariable('latitude', 'f8', ('node',))
-    lat_var.units         = 'degree_north'
-    lat_var.long_name     = 'latitude'
-    lat_var.standard_name = 'latitude'
-    lat_var.axis          = 'Y'
-    lat_var[:]=yi[:]
-    
-    tri_var=ncout.createVariable('tri', 'i4', ('noel','element'))
-    tri_var.long_name     = 'element list'
-    tri_var.standard_name = 'element list'
-    tri_var[:]=np.transpose(ei)
-"""
-

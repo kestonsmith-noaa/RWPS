@@ -1,11 +1,8 @@
 #!/bin/bash
 
-# This script retrieves rtofs and stofs as netcdf files
+# This script retrieves global RTOFS and STOFS as netcdf files
 
-
-date=$1
-cycl=$2
 source ./rwpsenv
-rtofs/GetRTOFS.sh $date &
-stofs/GetSTOFS.sh $date $cycl current&
+rtofs/GetRTOFS.sh $PDY &
+stofs/GetSTOFS.sh $PDY $cyc current&
 wait;

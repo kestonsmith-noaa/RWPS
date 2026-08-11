@@ -1,11 +1,8 @@
 #!/bin/bash
 
-# This script retrieves rtofs and stofs as netcdf files
+# This script retrieves ice forecasts for global RTOFS and Alaska NBM as netcdf files
 
-
-date=$1
-cycl=$2
 source ./rwpsenv
-rtofs/GetRTOFSIce.sh $date $cycl &
-nbm/GetNBMIce.sh $date $cycl &
+rtofs/GetRTOFSIce.sh $PDY $cyc &
+nbm/GetNBMIce.sh $PDY $cyc &
 wait;
