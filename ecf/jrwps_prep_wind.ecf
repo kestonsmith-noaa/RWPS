@@ -30,5 +30,5 @@ rm $tmp/FetchWinds.out $tmp/ProcWinds.out
 sh GetWinds.sh > $tmp/FetchWinds.out
 sh ProcessWinds.sh > $tmp/ProcWinds.out
 
-mv $frc/rwps.est.$meshname.$date.$cycl.wind10m.nc $frc/$meshname.$date.$cycl.wind.nc
+#mv $frc/rwps.est.$meshname.$date.$cycl.wind10m.nc $frc/$meshname.$date.$cycl.wind.nc
 

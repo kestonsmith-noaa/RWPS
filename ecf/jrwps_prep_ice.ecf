@@ -27,14 +27,10 @@ meshname="${meshname: 0: -4}"
 
 rm $prep/FetchIce.out $prep/ProcICE.out 
 
-(
 #    sh GetCurrents.sh $prep > FetchCurrents.out
 #    sh ProcessCurrents.sh $prep > ProcCurrents.out
-    sh GetIce.sh $prep > $tmp/FetchIce.out
-    sh ProcessIce.sh $prep  > $tmp/ProcIce.out
-)&
+sh GetIce.sh $prep > $tmp/FetchIce.out
+sh ProcessIce.sh $prep  > $tmp/ProcIce.out
 
-wait
-
-mv $frc/$meshname.$date.$cycl.ice.rtofsxnbm.nc $frc/$meshname.$date.$cycl.ice.nc
+#mv $frc/$meshname.$date.$cycl.ice.rtofsxnbm.nc $frc/$meshname.$date.$cycl.ice.nc
 

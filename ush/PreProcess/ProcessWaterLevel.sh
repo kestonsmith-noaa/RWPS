@@ -12,7 +12,7 @@ module load ve/hafs/2.1
 
 pip list -v
 
-source ./rwpsenv
+#source ./rwpsenv
 
 meshname="${mesh##*/}"
 meshname="${meshname: 0: -4}"
@@ -20,10 +20,10 @@ meshname="${meshname: 0: -4}"
 stofslev="$tmp/stofs.$PDY.$cyc/stofs_2d_glo.t${cyc}z.fields.cwl.nc"
 stofs_wghts="$fix/InterpolationWeights.$meshname.stofs.nc"
 stofs_dists="$fix/DistToBndy.$meshname.stofs.nc"
+stofs_rwps="$frc/$meshname.$PDY.$cyc.cwl.waterlevel.nc"
 
-stofs_rwps="$frc/$meshname.$PDY.$cyc.cwl.stofs.nc"
-waterlevel_rwps="$frc/$meshname.$PDY.$cyc.cwl.waterlevel.nc"
-stofs_rwps=$waterlevel_rwps
+rwps_waterlevel="$frc/$meshname.$PDY.$cyc.waterlevel.nc"
+
 varnames="zeta"
 
 ## STOFS interpolation
@@ -39,7 +39,6 @@ if [ ! -f "$stofs_dists" ]; then
     exit 1
 fi
 
-python InterpolateWithWeights.py $stofslev $stofs_wghts $stofs_rwps $varnames 0 
-python AddMeshGeomToFile.py $stofs_rwps $mesh
-python AddErrVarToFile.py $stofs_rwps $stofs_dists 1.
-
+python InterpolateWithWeights.py $stofslev $stofs_wghts $rwps_waterlevel $varnames 0
+python AddMeshGeomToFile.py $rwps_waterlevel $mesh
+python AddErrVarToFile.py $rwps_waterlevel $stofs_dists 1.

@@ -30,5 +30,5 @@ rm $prep/FetchCurrents.out $prep/ProcCurrents.out
 sh GetCurrents.sh $prep > $tmp/FetchCurrents.out
 sh ProcessCurrents.sh $prep > $tmp/ProcCurrents.out
 
-mv $frc/$meshname.$date.$cycl.vel.stofsxrtofs.nc $frc/$meshname.$date.$cycl.current.nc
+#mv $frc/$meshname.$date.$cycl.vel.stofsxrtofs.nc $frc/$meshname.$date.$cycl.current.nc
 
