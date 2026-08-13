@@ -1,0 +1,30 @@
+#!/bin/sh
+#PBS -q dev
+#PBS -l walltime=00:59:00
+#PBS -A GLWU-DEV
+#PBS -N RWPS.PreProc.waterlevel
+#PBS -j oe
+#PBS -l select=1:ncpus=4:mem=64GB
+#PBS -o RWPS.PreProc.out
+
+cd /lfs/h2/emc/couple/noscrub/keston.smith/TestRWPS/RWPS/ush/PreProcess
+
+module load PrgEnv-intel/8.1.0
+module load craype/2.7.8
+module load intel/19.1.3.304
+module load cfp/2.0.4
+module load prod_util/2.0.8
+module load prod_envir/2.0.5
+
+source rwpsenv
+
+meshname="${mesh##*/}"
+meshname="${meshname: 0: -4}"
+
+rm $tmp/FetchWaterLevel.out $tmp/ProcWaterLevel.out
+
+sh GetWaterLevel.sh > $tmp/FetchWaterLevel.out
+sh ProcessWaterLevel.sh  > $tmp/ProcWaterLevel.out
+
+mv $frc/$meshname.$date.$cycl.cwl.stofs.nc $frc/$meshname.$date.$cycl.waterlevel.nc
+

@@ -17,12 +17,13 @@ source ./rwpsenv
 meshname="${mesh##*/}"
 meshname="${meshname: 0: -4}"
 
-stofslev="stofs.$PDY.$cyc/stofs_2d_glo.t${cycl}z.fields.cwl.nc"
+stofslev="$tmp/stofs.$PDY.$cyc/stofs_2d_glo.t${cyc}z.fields.cwl.nc"
 stofs_wghts="$fix/InterpolationWeights.$meshname.stofs.nc"
 stofs_dists="$fix/DistToBndy.$meshname.stofs.nc"
 
 stofs_rwps="$frc/$meshname.$PDY.$cyc.cwl.stofs.nc"
-
+waterlevel_rwps="$frc/$meshname.$PDY.$cyc.cwl.waterlevel.nc"
+stofs_rwps=$waterlevel_rwps
 varnames="zeta"
 
 ## STOFS interpolation

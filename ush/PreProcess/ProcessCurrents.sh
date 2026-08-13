@@ -17,14 +17,15 @@ source ./rwpsenv
 meshname="${mesh##*/}"
 meshname="${meshname: 0: -4}"
 
-stofscur="stofs.$PDY.$cyc/stofs_2d_glo.t${cycl}z.fields.cwl.vel.nc"
-rtofscur="rtofs.$PDY.nc"
+stofscur="$tmp/stofs_2d_glo.t${cyc}z.fields.cwl.vel.nc"
+rtofscur="$tmp/rtofs.$PDY.nc"
 
 varnames="u-vel:v-vel"
 
 #name of blended wind
-combinedcur=$frc/$meshname.$PDY.$cyc.vel.stofsxrtofs.nc
-echo "outputting combined stofs and rtofs currents to $combinedcur"
+rwps_current=$frc/$meshname.$PDY.$cyc.current.nc
+#rwps_current=$frc/$meshname.$PDY.$cyc.vel.stofsxrtofs.nc
+echo "outputting combined stofs and rtofs currents to $rwps_current"
 
 ## STOFS interpolation
 stofs_wghts="$fix/InterpolationWeights.$meshname.stofs.nc"
@@ -82,5 +83,5 @@ wait
 python AddErrVarToFile.py $rtofs_rwps_ti $rtofs_dists 100.:1.:50.:250.:50.
 python AddErrVarToFile.py $stofs_rwps_ti $stofs_dists 1.:100.:50.:250.
 
-python BayesForecastUpdate.py $stofs_rwps_ti $rtofs_rwps_ti $combinedcur $varnames
+python BayesForecastUpdate.py $stofs_rwps_ti $rtofs_rwps_ti $rwps_current $varnames
 

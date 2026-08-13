@@ -3,6 +3,6 @@
 # This script retrieves ice forecasts for global RTOFS and Alaska NBM as netcdf files
 
 source ./rwpsenv
-rtofs/GetRTOFSIce.sh $PDY $cyc &
-nbm/GetNBMIce.sh $PDY $cyc &
+sh rtofs/GetRTOFSIce.sh $PDY $cyc &
+sh nbm/GetNBMIce.sh $PDY $cyc &
 wait;

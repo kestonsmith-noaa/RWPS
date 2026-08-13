@@ -2,12 +2,13 @@ import numpy as np
 import os
 import netCDF4 as nc
 import sys
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import InterpUtilities as  iutil
 
-# Consolidate u,v surface currents from global RTOFS into a sinble NetCDF file.
 
-# Get the path relative to this file and add to sys.path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+# Consolidate u,v surface currents from global RTOFS into a single NetCDF file.
 
 dirin=sys.argv[1]
 flout=sys.argv[2]

@@ -7,10 +7,13 @@ module load intel-oneapi/2022.2.0.262
 module load wgrib2/2.0.8
 
 INPUT_DIR="/lfs/h3/mdl/ptmp/mdl.nbm/blend/v5.2/blend.$1/$2/grib2"
-WSPD_FILE="$INPUT_DIR/blend.t$2z.wspd.$3.grib2"
-WDIR_FILE="$INPUT_DIR/blend.t$2z.wdir.$3.grib2"
+INPUT_DIR="/lfs/h3/mdl/ptmp/mdl.nbm/blend/v5.2/blend.$1/$2/grib2"
+
+WSPD_FILE="$COMINnbm/blend.t$2z.wspd.$3.grib2"
+WDIR_FILE="$COMINnbm/blend.t$2z.wdir.$3.grib2"
 
 OUTPUT_DIR="wind.$1.$2"
+OUTPUT_DIR="$COMINlocal/wind.$1.$2"
 OUTPUT_FILE="$OUTPUT_DIR/nbm.$1.$2.wind10m.$3.nc"
 
 mkdir -p "$OUTPUT_DIR"

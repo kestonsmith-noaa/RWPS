@@ -14,6 +14,8 @@ module load ve/hafs/2.1
 
 pip list -v
 
+cd $rootdir 
+
 tmpdir="$COMINlocal/tmp.rtofs.$PDY"
 filesin="$COMINrtofs/*prog.nc"
 flout="$COMINlocal/rtofs.$PDY.nc"

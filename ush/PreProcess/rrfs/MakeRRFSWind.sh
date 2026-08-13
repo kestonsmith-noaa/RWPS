@@ -16,11 +16,12 @@ echo "MakeRRFSWind.sh fetching rrfs : time = $1, cycle = $2, domain = $3"
 module load intel-oneapi/2022.2.0.262
 module load wgrib2/2.0.8
 
-INPUT_DIR="/lfs/h1/ops/para/com/rrfs/v1.0/rrfs.$1/$2"
-OUTPUT_DIR="wind.$1.$2"
+#INPUT_DIR="/lfs/h1/ops/para/com/rrfs/v1.0/rrfs.$1/$2"
+INPUT_DIR="$COMINrrfs"
+OUTPUT_DIR="$COMINlocal/wind.$1.$2"
 OUTPUT_FILE="$OUTPUT_DIR/rrfs.$1.$2.wind10m.$3.nc"
 
-mkdir "$OUTPUT_DIR"
+mkdir -p "$OUTPUT_DIR"
 # Remove existing output file to avoid mixing old data
 rm -f "$OUTPUT_FILE"
 

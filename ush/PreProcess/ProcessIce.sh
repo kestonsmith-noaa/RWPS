@@ -18,7 +18,7 @@ meshname="${mesh##*/}"
 meshname="${meshname: 0: -4}"
 
 
-inpdir=ice.$PDY.$cyc
+inpdir=$tmp/ice.$PDY.$cyc
 
 nbmice=$inpdir/nbm.$PDY.$cyc.ice.ak.nc
 rtofsice=$inpdir/rtofs.ice.$PDY.nc
@@ -37,7 +37,8 @@ nbm_rwps_ti="$tmp/$meshname.$PDY.$cyc.ice.nbm.ak.ti.nc"
 
 varnames="ICEC_surface"
 
-combinedice="$frc/$meshname.$PDY.$cyc.ice.rtofsxnbm.nc"
+#rwps_ice="$frc/$meshname.$PDY.$cyc.ice.rtofsxnbm.nc"
+rwps_ice="$frc/$meshname.$PDY.$cyc.ice.nc"
 
 ## NBM AK domain interpolation
 ## NOTE WE ARE USING THE RRFS ak WEIGHTS HERE NEED TO RELABEL AND RECOMPUTE FOR NBM AK DOMAIN
@@ -101,4 +102,4 @@ python AddErrVarToFile.py $rtofs_rwps_ti $rtofs_dists 100.
 #interior variance of 4., boundary variance fof 400., transition lengthscale 9. km
 python AddErrVarToFile.py $nbm_rwps_ti $nbm_ak_dists 4.:400.:9.
 
-python BayesForecastUpdate.py $rtofs_rwps_ti $nbm_rwps_ti $combinedice $varnames
+python BayesForecastUpdate.py $rtofs_rwps_ti $nbm_rwps_ti $rwps_ice $varnames

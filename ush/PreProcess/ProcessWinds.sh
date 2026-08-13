@@ -27,7 +27,7 @@ meshname="${meshname: 0: -4}"
 
 outdir="$tmp/rwps_winds.$meshname.$PDY.$cyc"
 
-rwps_est="$frc/rwps.est.$meshname.$PDY.$cyc.wind10m.nc"
+rwps_wind="$frc/$meshname.$PDY.$cyc.wind.nc"
 
 echo "outputing files to: $outdir"
 
@@ -126,9 +126,9 @@ python AddMeshGeomToFile.py $rwps_oc_ti $mesh
 #add prescribed error covariance for nbm oc domain (assumed constant 100. (m/s)^2 )
 python AddErrVarToFile.py $rwps_oc_ti $nbm_oc_dist 100.
 
-cp $rwps_oc_ti $rwps_est
-[ ! -f "$rwps_hi" ] && python BayesForecastUpdate.py $rwps_est $rwps_hi $rwps_est $windvars
-[ ! -f "$rwps_pr" ] && python BayesForecastUpdate.py $rwps_est $rwps_pr $rwps_est $windvars
-[ ! -f "$rwps_ak" ] && python BayesForecastUpdate.py $rwps_est $rwps_ak $rwps_est $windvars
-[ ! -f "$rwps_conus" ] && python BayesForecastUpdate.py $rwps_est $rwps_conus $rwps_est $windvars
-[ ! -f "$rwps_na" ] && python BayesForecastUpdate.py $rwps_est $rwps_na $rwps_est $windvars
+cp $rwps_oc_ti $rwps_wind
+[ ! -f "$rwps_hi" ] && python BayesForecastUpdate.py $rwps_wind $rwps_hi $rwps_wind $windvars
+[ ! -f "$rwps_pr" ] && python BayesForecastUpdate.py $rwps_wind $rwps_pr $rwps_wind $windvars
+[ ! -f "$rwps_ak" ] && python BayesForecastUpdate.py $rwps_wind $rwps_ak $rwps_wind $windvars
+[ ! -f "$rwps_conus" ] && python BayesForecastUpdate.py $rwps_wind $rwps_conus $rwps_wind $windvars
+[ ! -f "$rwps_na" ] && python BayesForecastUpdate.py $rwps_wind $rwps_na $rwps_wind $windvars

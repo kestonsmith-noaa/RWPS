@@ -14,13 +14,19 @@ module load ve/hafs/2.1
 
 pip list -v
 
+#source rwpsenv
+
 tmpdir="$COMINlocal/tmp.rtofsIce.$PDY"
 filesin="$COMINrtofs/*ice.nc"
-dirout="$COMINlocal/ice.$PDY.$cyc
-flout="$COMINlocal/rtofs.ice.$PDY.nc"
+dirout="$COMINlocal/ice.$PDY.$cyc"
+flout="$dirout/rtofs.ice.$PDY.nc"
+#flout="$tmp/rtofs.ice.$PDY.nc"
 
 mkdir $tmpdir
 cp $filesin $tmpdir/
+echo $tmpdir
+echo $flout
+
 python rtofs/GetRTOFSIcefcst.py $tmpdir $flout
 
 ## rm -rf $tmpdir
