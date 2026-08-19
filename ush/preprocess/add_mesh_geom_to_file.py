@@ -1,7 +1,7 @@
 import numpy as np
 import netCDF4 as nc
 import sys
-import InterpUtilities as  iutil
+import interp_utilities as  iutil
 import os
 
 UseUnixTime=True

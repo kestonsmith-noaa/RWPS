@@ -6,4 +6,4 @@ curdir=$(pwd)
 echo $curdir
 source ./rwpsenv
 
-stofs/GetSTOFS.sh $PDY $cyc waterlevel 
+stofs/get_stofs.sh $PDY $cyc waterlevel 

@@ -1,7 +1,7 @@
 import numpy as np
 import netCDF4 as nc
 import sys
-import InterpUtilities as  iutil
+import interp_utilities as  iutil
 import xarray as xr
 import scipy.sparse as sp
 from scipy.interpolate import NearestNDInterpolator

@@ -13,13 +13,13 @@ import datetime
 import netCDF4 as nc
 import sys
 import re
-import InterpUtilities as iutil
+import interp_utilities as iutil
 
 import xarray as xr
 import esmpy
 import scipy.sparse as sp
 
-import InterpUtilities as iutil
+import interp_utilities as iutil
 
 # Main program
 AddExtrapolationSupport=True

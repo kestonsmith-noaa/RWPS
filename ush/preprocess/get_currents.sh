@@ -4,5 +4,5 @@
 
 #source ./rwpsenv
 rtofs/GetRTOFS.sh $PDY &
-stofs/GetSTOFS.sh $PDY $cyc current&
+stofs/get_stofs.sh $PDY $cyc current&
 wait;

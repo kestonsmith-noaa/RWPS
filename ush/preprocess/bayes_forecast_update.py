@@ -3,7 +3,7 @@ import numpy as np
 import netCDF4 as nc
 import sys
 import re
-import InterpUtilities as iutil
+import interp_utilities as iutil
 flin0=sys.argv[1]
 flin1=sys.argv[2]
 flout=sys.argv[3]

@@ -19,13 +19,25 @@ mkdir -p $outdir
 
 if [[ "$fields" == *"current"* ]]; then
     echo retrieving stofs current for $PDY cycle $cyc
-    cp $COMINstofs/stofs_2d_glo.t"$cyc"z.fields.cwl.vel.nc  $outdir/
+    if [ "$useAWS" = "true" ]; then
+        aws s3 cp --no-sign-request s3://noaa-gestofs-pds/stofs_2d_glo.$PDY/stofs_2d_glo.t${cyc}z.fields.cwl.vel.nc $outdir/
+        echo "Retrieving stofs_2d_glo.t${cyc}z.fields.cwl.vel.nc from s3://noaa-gestofs-pds/stofs_2d_glo.$PDY/"
+    else
+        cp $COMINstofs/stofs_2d_glo.t"$cyc"z.fields.cwl.vel.nc  $outdir/
+    fi
+#    cp $COMINstofs/stofs_2d_glo.t"$cyc"z.fields.cwl.vel.nc  $outdir/
 #    cp /lfs/h1/ops/prod/com/stofs/v2.1/stofs_2d_glo.$PDY/stofs_2d_glo.t"$cyc"z.fields.cwl.vel.nc  stofs.$PDY.$cyc/
 fi
 
 if [[ "$fields" == *"level"* ]]; then
     echo retrieving stofs water level for $PDY cycle $cyc
-    cp $COMINstofs/stofs_2d_glo.t"$cyc"z.fields.cwl.nc  $outdir/
+    if [ "$useAWS" = "true" ]; then
+        aws s3 cp --no-sign-request s3://noaa-gestofs-pds/stofs_2d_glo.$PDY/stofs_2d_glo.t${cyc}z.fields.cwl.nc $outdir/
+        echo "Retrieving stofs_2d_glo.t${cyc}z.fields.cwl.nc from s3://noaa-gestofs-pds/stofs_2d_glo.$PDY/"
+    else
+        cp $COMINstofs/stofs_2d_glo.t"$cyc"z.fields.cwl.nc  $outdir/
+    fi
+#    cp $COMINstofs/stofs_2d_glo.t"$cyc"z.fields.cwl.nc  $outdir/
 #    cp /lfs/h1/ops/prod/com/stofs/v2.1/stofs_2d_glo.$PDY/stofs_2d_glo.t"$cyc"z.fields.cwl.nc  stofs.$PDY.$cyc/
 fi
 

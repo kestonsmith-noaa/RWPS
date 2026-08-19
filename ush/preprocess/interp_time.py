@@ -26,7 +26,7 @@ if nargin>4:
     print("Interpolating fields from second file: "+str(InterpSecondFile)+" and extrapolating via persistance in time")
 
 #might want to rewrite with an input file to derive full set of times
-print("running InterpTime.py: takes a forecast (arg1="+flin+") and interpolates to times ")
+print("running interp_time.py: takes a forecast (arg1="+flin+") and interpolates to times ")
 print("in another file (arg2="+flinNewTimes+"). The origonal and interpoated values are output to ")
 print("a new file(arg3="+flout+") .")
 print("interpolating for variables:")
@@ -114,7 +114,7 @@ for jv in range(nvar):
 
     InterpolatedVariables[jv,:,:]=uf[:,:]
 
-import InterpUtilities as iutil
+import interp_utilities as iutil
 with nc.Dataset(flout, 'w', format='NETCDF4') as ncout:
 
     ncout.createDimension('level' , 1)  

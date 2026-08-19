@@ -2,7 +2,7 @@ import numpy as np
 import netCDF4 as nc
 import sys
 from scipy.interpolate import RegularGridInterpolator
-import InterpUtilities as  iutil
+import interp_utilities as  iutil
 
 import os
 nargin = len(sys.argv) - 1
@@ -21,10 +21,10 @@ if nargin ==3 :
         os.remove(TmpOutDir+"/*.txt")
     except:
         print("directory "+TmpOutDir+" is alread empty")
-    iutil.WriteInterpJobscriptPBS("jobcardComputeUnstrToRWPSInterpWeightsPBS",flin,mshfl,Njobs, 1)
-    iutil.WriteInterpJobscriptSLURM("jobcardComputeUnstrToRWPSInterpWeightsSLURM",flin,mshfl,Njobs, 1)
+    iutil.WriteInterpJobscriptPBS("jobcardcompute_unstr_to_rwps_interp_weightsPBS",flin,mshfl,Njobs, 1)
+    iutil.WriteInterpJobscriptSLURM("jobcardcompute_unstr_to_rwps_interp_weightsSLURM",flin,mshfl,Njobs, 1)
     print("Made parallel jobcards to create interpolation weights with "+str(Njobs)+" processes. Next step:")
-    print("sbatch jobcardComputeUnstrToRWPSInterpWeightsSLURM")
+    print("sbatch jobcardcompute_unstr_to_rwps_interp_weightsSLURM")
     sys.exit()
 
 #if nargin==4 then do the part of the mesh for jobID of Njobs

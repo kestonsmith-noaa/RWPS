@@ -22,6 +22,6 @@ flout="$COMINlocal/rtofs.$PDY.nc"
 
 mkdir -p $tmpdir
 cp $filesin $tmpdir/
-python rtofs/GetRTOFSfcst.py $tmpdir $flout
+python rtofs/get_rtofs_fcst.py $tmpdir $flout
 
 #rm -rf $tmpdir

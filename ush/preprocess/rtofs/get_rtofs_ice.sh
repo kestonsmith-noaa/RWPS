@@ -27,6 +27,8 @@ cp $filesin $tmpdir/
 echo $tmpdir
 echo $flout
 
-python rtofs/GetRTOFSIcefcst.py $tmpdir $flout
+PDYCC="${PDY}${cyc}"
+echo $PDYCC
+python rtofs/get_rtofs_ice_fcst.py $tmpdir $PDYCC $flout
 
 ## rm -rf $tmpdir

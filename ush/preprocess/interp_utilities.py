@@ -38,6 +38,52 @@ def ConvertTimeToUnixTime(flin,TimeVarName = None):
         unix_time = time*60*60 + base_offset
     return unix_time
 
+def FileNameToUnixTime(flin,FcastPDY,FcastCYC):
+    year0=int(FcastPDY[0:4])
+    month0=int(FcastPDY[4:6])
+    day0=int(FcastPDY[6:8])
+    hr0=int(FcastCYC)
+    #remove path and file  
+    suffixp = flin.rfind(".")
+    dirp = flin.rfind("/")
+    flin=flin[dirp+1:suffixp]
+    
+    IsForecast=True
+    ntimep=flin.find(".f")
+    ntimeu=flin.find("_f")
+    ntime=max(ntimep,ntimeu)
+    print("ntime: "+str(ntime))
+    if ntime<1:
+        IsForecast=False
+        ntimep=flin.find(".n")
+        ntimeu=flin.find("_n")
+        ntime=max(ntimep,ntimeu)
+    
+    print("ntime: "+str(ntime))
+    ctime=flin[ntime+2:ntime+5]
+    print(ctime)
+    ctime=ctime.replace(".", "") #remove trailing "." in some file names
+    
+    print("FileNameToUnixTime A:")
+    print(flin)
+    print(ctime)
+    hrf=int(ctime)
+    epoch_1970 = datetime(1970, 1, 1, 0, 0, 0)
+    FileTime =   datetime(year0,month0,day0, hr0, 0, 0)
+    base_offset = int((FileTime - epoch_1970).total_seconds())
+    if IsForecast:
+        unix_time = base_offset + abs(hrf)*3600
+    else:
+        unix_time = base_offset - abs(hrf)*3600
+        
+    print("FileNameToUnixTime:")
+    print(str(year0)+" "+str(month0)+ " " +str(day0)   + " " +str(hr0))
+    print(flin)
+    print(ctime)
+    print(base_offset)
+    print(hrf)
+    return unix_time
+
 def loadWW3Mesh(fl):
     print("mesh file="+fl)
     f=open(fl, 'r')
@@ -660,7 +706,7 @@ def WriteInterpJobscriptPBS(fl,flin,mshfl,Njobs, ComputeNodes):
         f.write("cd "+current_dir+"\n")
 
         f.write("# calculate interpolation weights in parallel geographically \n")
-        f.write("python ComputeUnstrToRWPSInterpWeights.py "+flin+" "+mshfl+" $PBS_ARRAY_INDEX " + str(Njobs)+" > InterpJob.$PBS_ARRAY_INDEX.out \n")
+        f.write("python compute_unstr_to_rwps_interp_weights.py "+flin+" "+mshfl+" $PBS_ARRAY_INDEX " + str(Njobs)+" > InterpJob.$PBS_ARRAY_INDEX.out \n")
 
 
 def WriteInterpJobscriptSLURM(fl,flin,mshfl,Njobs, ComputeNodes):
@@ -695,7 +741,7 @@ def WriteInterpJobscriptSLURM(fl,flin,mshfl,Njobs, ComputeNodes):
         f.write("# concatonate different parts of the mesh to common text file \n")
         f.write("cat "+TmpOutDir+"/Part.IntrpWghts.*.txt > "+WghtFl+" \n")
         f.write("# convert output weights to netcdf file \n")
-        f.write("python ConvertWeights2Netcdf.py "+flin+" "+mshfl+" \n")
+        f.write("python convert_weights_to_netcdf.py "+flin+" "+mshfl+" \n")
 
             
     flintrp="STOFS.to."+mshfl[meshslash:len(mshfl)-4]+".sh"

@@ -71,64 +71,64 @@ rrfs_conus_dist="$fix/DistToBndy.$meshname.rrfs.conus.nc"
 
 (
     #Convert NBM speed and direction to u,v
-    python SpdDir2UVnbm.py $nbm_oc $nbm_oc_uv
+    python spd_dir_to_uv_nbm.py $nbm_oc $nbm_oc_uv
     # If the interpolation weights do not already exist for the domains create them
     # also creates distance to boundary used in prescribed error covariance specification
-    [ ! -f "$nbm_oc_wghts" ] && python ComputeGriddedToRWPSInterpWeights.py $nbm_oc_uv $mesh 1
-    python InterpolateWithWeights.py $nbm_oc_uv $nbm_oc_wghts $rwps_oc $windvars 3
-    python AddMeshGeomToFile.py $rwps_oc $mesh
+    [ ! -f "$nbm_oc_wghts" ] && python compute_gridded_to_rwps_interp_weights.py $nbm_oc_uv $mesh 1
+    python interpolate_with_weights.py $nbm_oc_uv $nbm_oc_wghts $rwps_oc $windvars 3
+    python add_mesh_geom_to_file.py $rwps_oc $mesh
 )&
 
 (
-    [ ! -f "$rrfs_hi_wghts" ] && python ComputeGriddedToRWPSInterpWeights.py $rrfs_hi $mesh $rrfs_hi_wghts $rrfs_hi_dist
-    python InterpolateWithWeights.py $rrfs_hi $rrfs_hi_wghts $rwps_hi $windvars -1 > intrp.rrfs.hi.out
+    [ ! -f "$rrfs_hi_wghts" ] && python compute_gridded_to_rwps_interp_weights.py $rrfs_hi $mesh $rrfs_hi_wghts $rrfs_hi_dist
+    python interpolate_with_weights.py $rrfs_hi $rrfs_hi_wghts $rwps_hi $windvars -1 > intrp.rrfs.hi.out
     #add mesh geometry into interpolated file
-    python AddMeshGeomToFile.py $rwps_hi $mesh
+    python add_mesh_geom_to_file.py $rwps_hi $mesh
     # Add error covariance field to files with interpolated fields for bayesian update
     # Based on distance to boundary of input field and commant line parameters InternalVariance:BoundaryVariance:LengthScale(km) 
-    python AddErrVarToFile.py $rwps_hi $rrfs_hi_dist 4.:40.:200.
+    python add_err_var_to_file.py $rwps_hi $rrfs_hi_dist 4.:40.:200.
 )&
 
 (
-    [ ! -f "$rrfs_pr_wghts" ] && python ComputeGriddedToRWPSInterpWeights.py $rrfs_pr $mesh $rrfs_pr_wghts $rrfs_pr_dist
-    python InterpolateWithWeights.py $rrfs_pr $rrfs_pr_wghts $rwps_pr $windvars -1 > intrp.rrfs.pr.out
-    python AddMeshGeomToFile.py $rwps_pr $mesh
-    python AddErrVarToFile.py $rwps_pr $rrfs_pr_dist 4.:40.:150.
+    [ ! -f "$rrfs_pr_wghts" ] && python compute_gridded_to_rwps_interp_weights.py $rrfs_pr $mesh $rrfs_pr_wghts $rrfs_pr_dist
+    python interpolate_with_weights.py $rrfs_pr $rrfs_pr_wghts $rwps_pr $windvars -1 > intrp.rrfs.pr.out
+    python add_mesh_geom_to_file.py $rwps_pr $mesh
+    python add_err_var_to_file.py $rwps_pr $rrfs_pr_dist 4.:40.:150.
 )&
 
 (
-    [ ! -f "$rrfs_ak_wghts" ] && python ComputeGriddedToRWPSInterpWeights.py $rrfs_ak $mesh $rrfs_ak_wghts $rrfs_ak_dist
-    python InterpolateWithWeights.py $rrfs_ak $rrfs_ak_wghts $rwps_ak $windvars -1 > intrp.rrfs.ak.out
-    python AddMeshGeomToFile.py $rwps_ak $mesh
-    python AddErrVarToFile.py $rwps_ak $rrfs_ak_dist 9.:90.:500.
+    [ ! -f "$rrfs_ak_wghts" ] && python compute_gridded_to_rwps_interp_weights.py $rrfs_ak $mesh $rrfs_ak_wghts $rrfs_ak_dist
+    python interpolate_with_weights.py $rrfs_ak $rrfs_ak_wghts $rwps_ak $windvars -1 > intrp.rrfs.ak.out
+    python add_mesh_geom_to_file.py $rwps_ak $mesh
+    python add_err_var_to_file.py $rwps_ak $rrfs_ak_dist 9.:90.:500.
 )&
 
 (
-    [ ! -f "$rrfs_conus_wghts" ] && python ComputeGriddedToRWPSInterpWeights.py $rrfs_conus $mesh $rrfs_conus_wghts $rrfs_conus_dist
-    python InterpolateWithWeights.py $rrfs_conus $rrfs_conus_wghts $rwps_conus $windvars -1
-    python AddMeshGeomToFile.py $rwps_conus $mesh
-    python AddErrVarToFile.py $rwps_conus $rrfs_conus_dist 16.:160.:1000.
+    [ ! -f "$rrfs_conus_wghts" ] && python compute_gridded_to_rwps_interp_weights.py $rrfs_conus $mesh $rrfs_conus_wghts $rrfs_conus_dist
+    python interpolate_with_weights.py $rrfs_conus $rrfs_conus_wghts $rwps_conus $windvars -1
+    python add_mesh_geom_to_file.py $rwps_conus $mesh
+    python add_err_var_to_file.py $rwps_conus $rrfs_conus_dist 16.:160.:1000.
 )&
 
 (
-    [ ! -f "$rrfs_na_wghts" ] && python ComputeGriddedToRWPSInterpWeights.py $rrfs_na $mesh $rrfs_na_wghts $rrfs_na_dist
-    python InterpolateWithWeights.py $rrfs_na $rrfs_na_wghts $rwps_na $windvars -1
-    python AddMeshGeomToFile.py $rwps_na $mesh
-    python AddErrVarToFile.py $rwps_na $rrfs_na_dist 50.:500.:1500.
+    [ ! -f "$rrfs_na_wghts" ] && python compute_gridded_to_rwps_interp_weights.py $rrfs_na $mesh $rrfs_na_wghts $rrfs_na_dist
+    python interpolate_with_weights.py $rrfs_na $rrfs_na_wghts $rwps_na $windvars -1
+    python add_mesh_geom_to_file.py $rwps_na $mesh
+    python add_err_var_to_file.py $rwps_na $rrfs_na_dist 50.:500.:1500.
 )&
 
 wait;
 
 #Interpolate NBM in time to times within the NBM forecast covered by the RRFS forecast
-python InterpTime.py $rwps_oc $rwps_pr $rwps_oc_ti $windvars
+python interp_time.py $rwps_oc $rwps_pr $rwps_oc_ti $windvars
 #add mesh geometry into file
-python AddMeshGeomToFile.py $rwps_oc_ti $mesh
+python add_mesh_geom_to_file.py $rwps_oc_ti $mesh
 #add prescribed error covariance for nbm oc domain (assumed constant 100. (m/s)^2 )
-python AddErrVarToFile.py $rwps_oc_ti $nbm_oc_dist 100.
+python add_err_var_to_file.py $rwps_oc_ti $nbm_oc_dist 100.
 
 cp $rwps_oc_ti $rwps_wind
-[ ! -f "$rwps_hi" ] && python BayesForecastUpdate.py $rwps_wind $rwps_hi $rwps_wind $windvars
-[ ! -f "$rwps_pr" ] && python BayesForecastUpdate.py $rwps_wind $rwps_pr $rwps_wind $windvars
-[ ! -f "$rwps_ak" ] && python BayesForecastUpdate.py $rwps_wind $rwps_ak $rwps_wind $windvars
-[ ! -f "$rwps_conus" ] && python BayesForecastUpdate.py $rwps_wind $rwps_conus $rwps_wind $windvars
-[ ! -f "$rwps_na" ] && python BayesForecastUpdate.py $rwps_wind $rwps_na $rwps_wind $windvars
+[ ! -f "$rwps_hi" ] && python bayes_forecast_update.py $rwps_wind $rwps_hi $rwps_wind $windvars
+[ ! -f "$rwps_pr" ] && python bayes_forecast_update.py $rwps_wind $rwps_pr $rwps_wind $windvars
+[ ! -f "$rwps_ak" ] && python bayes_forecast_update.py $rwps_wind $rwps_ak $rwps_wind $windvars
+[ ! -f "$rwps_conus" ] && python bayes_forecast_update.py $rwps_wind $rwps_conus $rwps_wind $windvars
+[ ! -f "$rwps_na" ] && python bayes_forecast_update.py $rwps_wind $rwps_na $rwps_wind $windvars

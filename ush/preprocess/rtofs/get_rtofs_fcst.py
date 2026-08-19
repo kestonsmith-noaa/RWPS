@@ -4,7 +4,7 @@ import netCDF4 as nc
 import sys
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-import InterpUtilities as  iutil
+import interp_utilities as  iutil
 
 
 

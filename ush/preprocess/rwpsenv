@@ -1,4 +1,4 @@
-export PDY=20260813
+export PDY=20251217
 export cyc=00
 export rootdir=$(pwd)
 export mesh="$rootdir/../../fix/rwps.oc_1500m_30km.msh"
@@ -6,6 +6,8 @@ export fix="$rootdir/../../fix"
 export prep="$rootdir/../../PrepInputs"
 export tmp="$prep/tmpfiles"
 export frc="$prep/forcing"
+export useAWS="true"
+export outdir=$prep
 
 mkdir -p $prep
 mkdir -p $tmp

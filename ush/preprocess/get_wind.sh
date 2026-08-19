@@ -7,8 +7,8 @@ source ./rwpsenv
 
 echo "retrieving winds from rrfs and nbm for rwps wind"
 (
-    echo "sh nbm/MakeNBMWind.sh $PDY $cyc oc > nbm.oc.out"
-    nbm/MakeNBMWind.sh $PDY $cyc oc > nbm.oc.out
+    echo "sh nbm/make_nbm_wind.sh $PDY $cyc oc > nbm.oc.out"
+    nbm/make_nbm_wind.sh $PDY $cyc oc > nbm.oc.out
     echo "retrieved winds from nbm oc domain"
     echo "Not retrieving other nbm domain winds"
 )&

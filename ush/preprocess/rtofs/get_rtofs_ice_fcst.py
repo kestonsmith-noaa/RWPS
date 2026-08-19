@@ -3,18 +3,63 @@ import os
 import netCDF4 as nc
 import sys
 
+import datetime
+import re
+
+def get_rtofs_unix_time(file_path: str) -> int:
+    """
+    Extracts the valid UTC Unix timestamp from a NOAA RTOFS file path.
+    Example path: '/pub/data/nccf/com/rtofs/prod/rtofs.20260813/rtofs_glo.t12z.f024.archv.nc'
+    """
+    # Regex to find 8-digit date, cycle hour (tXXz), and forecast hour (fXXX)
+    match = re.search(r'rtofs\.(\d{8}).*?\.t(\d{2})z\.f(\d{3})', file_path)
+    
+    if not match:
+        raise ValueError("Could not parse RTOFS naming convention from path.")
+        
+    date_str, cycle_str, forecast_str = match.groups()
+    
+    # 1. Parse base model initialization time to a UTC datetime object
+    base_time_str = f"{date_str} {cycle_str}"
+    base_dt = datetime.datetime.strptime(base_time_str, "%Y%m%d %H").replace(tzinfo=datetime.timezone.utc)
+    
+    # 2. Add the forecast hour offset
+    forecast_hours = int(forecast_str)
+    valid_dt = base_dt + datetime.timedelta(hours=forecast_hours)
+    
+    # 3. Convert valid UTC datetime to epoch integer
+    return int(valid_dt.timestamp())
+
+# --- Example Usage ---
+sample_path = "/pub/data/nccf/com/rtofs/prod/rtofs.20260813/rtofs_glo.t12z.f024.archv.nc"
+unix_time = get_rtofs_unix_time(sample_path)
+
+print(f"Unix Timestamp: {unix_time}")
+# Output: 1786708800 (Reflects: 2026-08-14 12:00:00 UTC)
+
 #Consolidate RTOFS ice forecast files to a single NetCDF file.
 
 # Get the path relative to this file and add to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-import InterpUtilities as  iutil
+import interp_utilities as  iutil
 
 dirin=sys.argv[1]
-flout=sys.argv[2]
+PDYCC=sys.argv[2]
+flout=sys.argv[3]
+print(PDYCC)
+PDY=PDYCC[0:8]
+CYC=PDYCC[8:10]
+print(PDY)
+print(CYC)
+
 
 ncfiles = os.listdir(dirin)
 print(ncfiles)
 nt=len(ncfiles)
+
+nt=17
+
+
 k=0
 flin=dirin+"/"+ncfiles[k]
 data=nc.Dataset(flin,"r")
@@ -31,20 +76,16 @@ print("ny = "+str(ny))
 print(F.shape)
 for k in range(nt):
     flin=dirin+"/"+ncfiles[k]
-    flinT=flin.replace("Ice","")
-    flinT=flinT.replace("ice","prog")
-    print("ICE: org flin="+flin+" Time flin="+flinT)
-    dataT=nc.Dataset(flinT,"r")
     data=nc.Dataset(flin,"r")
     F0=data["ice_coverage"][:]
-    T0=dataT["MT"][:]
     print(F0.shape)
     print(F.shape)
     print(str(k)+" of "+ str(nt))
     F[k,:,:]=F0[0,:,:]
-    MT[k]=T0
-    tmp=iutil.ConvertTimeToUnixTime(flinT,"MT")
-    time[k]=tmp[0]
+    tmp=iutil.FileNameToUnixTime(flin,PDY,CYC)
+    time[k]=tmp
+    print(flin)
+    print(time[k])
 
 tindx = np.argsort(time)
 time=time[tindx]

@@ -26,16 +26,16 @@ meshfile=$2
 Nprocs=$3
 
 ## First construct parallel jobscript to compute weights using Nprocs division of destination domain(meshfile)
-python ComputeUnstrToRWPSInterpWeights.py $filein $meshfile $Nprocs
+python compute_unstr_to_rwps_interp_weights.py $filein $meshfile $Nprocs
 
 ## Now run parallel job script
-## sbatch jobcardComputeUnstrToRWPSInterpWeightsSLURM
-qsub jobcardComputeUnstrToRWPSInterpWeightsPBS
+## sbatch jobcardcompute_unstr_to_rwps_interp_weightsSLURM
+qsub jobcardcompute_unstr_to_rwps_interp_weightsPBS
 wait;
 
 ## Now knit output from parallel job together and write to netcdf format
 ## The third argument "1" indicates to write (x,y) for destination and source nodes
 ## to support extrapolation
 
-python ConvertWeights2Netcdf.py $filein $meshfile 1
+python convert_weights_to_netcdf.py $filein $meshfile 1
 
