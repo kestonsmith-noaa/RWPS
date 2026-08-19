@@ -23,7 +23,7 @@ module load ve/hafs/2.1
 
 pip list -v
 
-cd /lfs/h2/emc/couple/noscrub/keston.smith/TestRWPS/RWPS/ush/PreProcess
+cd /lfs/h2/emc/couple/noscrub/keston.smith/TestRWPS/RWPS/ush/preprocess
 
 source SetMeshName
 
@@ -50,21 +50,21 @@ rrfsIntrp="$out/InterpolationWeights.$meshname.rrfs"
 rrfsDst="$out/DistToBndy.$meshname.rrfs"
 
 #no extrapolation with rrfs forecasts
-python ./ComputeGriddedToRWPSInterpWeights.py $rrfs_hi $mesh $rrfsIntrp.hi.nc $rrfsDst.hi.nc -1 > GenWhts.rrfs.hi.out
-python ./ComputeGriddedToRWPSInterpWeights.py $rrfs_pr $mesh $rrfsIntrp.pr.nc $rrfsDst.pr.nc -1 > GenWhts.rrfs.pr.out
-python ./ComputeGriddedToRWPSInterpWeights.py $rrfs_ak $mesh $rrfsIntrp.ak.nc $rrfsDst.ak.nc -1 > GenWhts.rrfs.ak.out
-python ./ComputeGriddedToRWPSInterpWeights.py $rrfs_na $mesh $rrfsIntrp.na.nc $rrfsDst.na.nc -1 > GenWhts.rrfs.na.out
-python ./ComputeGriddedToRWPSInterpWeights.py $rrfs_conus $mesh $rrfsIntrp.conus.nc $rrfsDst.conus.nc -1 > GenWhts.rrfs.conus.out
+python ./compute_gridded_to_rwps_interp_weights.py $rrfs_hi $mesh $rrfsIntrp.hi.nc $rrfsDst.hi.nc -1 > GenWhts.rrfs.hi.out
+python ./compute_gridded_to_rwps_interp_weights.py $rrfs_pr $mesh $rrfsIntrp.pr.nc $rrfsDst.pr.nc -1 > GenWhts.rrfs.pr.out
+python ./compute_gridded_to_rwps_interp_weights.py $rrfs_ak $mesh $rrfsIntrp.ak.nc $rrfsDst.ak.nc -1 > GenWhts.rrfs.ak.out
+python ./compute_gridded_to_rwps_interp_weights.py $rrfs_na $mesh $rrfsIntrp.na.nc $rrfsDst.na.nc -1 > GenWhts.rrfs.na.out
+python ./compute_gridded_to_rwps_interp_weights.py $rrfs_conus $mesh $rrfsIntrp.conus.nc $rrfsDst.conus.nc -1 > GenWhts.rrfs.conus.out
 
 nbm_oc=$SID/wind.$date.$cycl/nbm.$date.$cycl.wind10m.oc.nc
 nbmIntrp="$out/InterpolationWeights.$meshname.nbm"
 nbmDst="$out/DistToBndy.$meshname.nbm"
 #extrapolate nbm oc wind to all points
-python ./ComputeGriddedToRWPSInterpWeights.py $nbm_oc $mesh $nbmIntrp.oc.nc $nbmDst.oc.nc 1 > GenWhts.nbm.oc.out
+python ./compute_gridded_to_rwps_interp_weights.py $nbm_oc $mesh $nbmIntrp.oc.nc $nbmDst.oc.nc 1 > GenWhts.nbm.oc.out
 
 nbm_ak=$SID/ice.$date.$cycl/nbm.$date.$cycl.ice.ak.nc
 #do not extrapolate for NBM .ak. domain
-python ./ComputeGriddedToRWPSInterpWeights.py $nbm_ak $mesh $nbmIntrp.ak.nc $nbmDst.ak.nc -1 > GenWhts.nbm.ak.out
+python ./compute_gridded_to_rwps_interp_weights.py $nbm_ak $mesh $nbmIntrp.ak.nc $nbmDst.ak.nc -1 > GenWhts.nbm.ak.out
 
 rtofs_ice=$SID/ice.$date.$cycl/rtofs.ice.$date.nc
 rtofsIntrp="$out/InterpolationWeights.$meshname.rtofs"
@@ -72,24 +72,24 @@ rtofsDst="$out/DistToBndy.$meshname.rtofs"
 
 #extrapolate rtofs .glo. for full ice coverage
 
-python ./ComputeGriddedToRWPSInterpWeights.py $rtofs_ice $mesh $rtofsIntrp.ice.nc $rtofsDst.ice.nc 1 > GenWhts.rtofs.ice.out
+python ./compute_gridded_to_rwps_interp_weights.py $rtofs_ice $mesh $rtofsIntrp.ice.nc $rtofsDst.ice.nc 1 > GenWhts.rtofs.ice.out
 
 
 rtofs_cur=$SID/rtofs.$date/currents.$date.rtofs.nc
 #do not extrapolate rtofs .glo. currents 
-python ./ComputeGriddedToRWPSInterpWeights.py $rtofs_cur $mesh $rtofsIntrp.currents.nc $rtofsDst.currents.nc -1 > GenWhts.rtofs.currents.out
+python ./compute_gridded_to_rwps_interp_weights.py $rtofs_cur $mesh $rtofsIntrp.currents.nc $rtofsDst.currents.nc -1 > GenWhts.rtofs.currents.out
 
 
-cd /lfs/h2/emc/couple/noscrub/keston.smith/TestRWPS/RWPS/dev/PreProcess
+cd /lfs/h2/emc/couple/noscrub/keston.smith/TestRWPS/RWPS/dev/preprocess
 
 stofs_glo="$SID/stofs.20260730.00/stofs_2d_glo.t00z.fields.cwl.nc"
 
 ## First construct parallel jobscript to compute weights using Nprocs division of destination domain(meshfile)
-python ComputeUnstrToRWPSInterpWeights.py $stofs_glo $mesh $Nprocs
+python compute_unstr_to_rwps_interp_weights.py $stofs_glo $mesh $Nprocs
 
 ## Now run parallel job script
 
-qsub -W block=true jobcardComputeUnstrToRWPSInterpWeightsPBS
+qsub -W block=true jobcardcompute_unstr_to_rwps_interp_weightsPBS
 
 wait
 
