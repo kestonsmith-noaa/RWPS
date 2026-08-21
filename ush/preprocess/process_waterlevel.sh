@@ -12,7 +12,7 @@ module load ve/hafs/2.1
 
 pip list -v
 
-#source ./rwpsenv
+cd $RWPSroot/ush/preprocess
 
 meshname="${mesh##*/}"
 meshname="${meshname: 0: -4}"

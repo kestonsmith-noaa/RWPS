@@ -8,16 +8,8 @@ module load intel-oneapi/2022.2.0.262
 module load wgrib2/2.0.8
 
 
-#source ../rwpsenv
-
-
-#INPUT_DIR="/lfs/h3/mdl/ptmp/mdl.nbm/blend/v5.2/blend.$1/$2/grib2"
-
-#ICE_FILE="$INPUT_DIR/blend.t$2z.icec.ak.grib2"
-
 ICE_FILE="$COMINnbm/blend.t$2z.icec.ak.grib2"
 
-#OUTPUT_DIR="$tmp/ice.$1.$2"
 OUTPUT_DIR="$COMINlocal/ice.$1.$2"
 OUTPUT_FILE="$OUTPUT_DIR/nbm.$1.$2.ice.ak.nc"
 

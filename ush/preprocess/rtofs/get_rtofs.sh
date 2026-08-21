@@ -14,7 +14,7 @@ module load ve/hafs/2.1
 
 pip list -v
 
-cd $rootdir 
+cd $RWPSroot/ush/preprocess
 
 tmpdir="$COMINlocal/tmp.rtofs.$PDY"
 filesin="$COMINrtofs/*prog.nc"

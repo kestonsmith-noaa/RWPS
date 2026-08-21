@@ -20,18 +20,27 @@ zi=np.array(data["depth"][:])
 nn=len(dist2bnd)
 data.close()
 
+#remove path and file  
+suffixp = flin.rfind(".")
+dirp = flin.rfind("/")
+filename=flin[dirp+1:suffixp]
+
 
 VariableType="WaterLevel"
-if "wind" in flin:
+if "wind" in filename:
     VariableType="Wind"
-elif "uv" in flin:
+elif "uv" in filename:
     VariableType="Current"
-elif "vel" in flin:
+elif "vel" in filename:
     VariableType="Current"
-elif "ice" in flin:
+elif "ice" in filename:
     VariableType="Ice"
+if "water" in filename:
+    VariableType="WaterLevel"
+if "level" in filename:
+    VariableType="WaterLevel"
 
-
+print("flin = "+flin+ ", VariableType = "+ VariableType)
 if VariableType=="Current":
     VarShallow=float(VarParam[0]) # variance (m/s)**2 for shallow regions
     VarDeep=float(VarParam[1])  # variance (m/s)**2 for deep regions
@@ -48,7 +57,7 @@ if VariableType=="Current":
         Variance = np.maximum(VarianceDepth, VarianceBnd)
 
 if VariableType=="WaterLevel":
-    if "stofs" in flin:
+    if (("stofs" in flin) or (True)):
 #            Variance = 1.+0*zi
         VarInterior=float(VarParam[0]) # variance (m)**2 for stofs water level
         Variance = VarInterior+0.*zi

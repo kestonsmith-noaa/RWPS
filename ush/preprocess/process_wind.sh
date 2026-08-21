@@ -12,9 +12,9 @@ module load ve/hafs/2.1
 
 pip list -v
 
-source ./rwpsenv
+cd $RWPSroot/ush/preprocess
 
-winddir="wind.$PDY.$cyc"
+winddir="$tmp/wind.$PDY.$cyc"
 windvars="UGRD_10maboveground:VGRD_10maboveground"
 
 # extract mesh name from file path
@@ -25,7 +25,7 @@ meshname="${meshname: 0: -4}"
 # incorporate meshname date and cycle into output directory name to avoid
 # applying winds to wrong mesh
 
-outdir="$tmp/rwps_winds.$meshname.$PDY.$cyc"
+outdir="$tmp/rwps_wind.$meshname.$PDY.$cyc"
 
 rwps_wind="$frc/$meshname.$PDY.$cyc.wind.nc"
 
@@ -75,13 +75,13 @@ rrfs_conus_dist="$fix/DistToBndy.$meshname.rrfs.conus.nc"
     # If the interpolation weights do not already exist for the domains create them
     # also creates distance to boundary used in prescribed error covariance specification
     [ ! -f "$nbm_oc_wghts" ] && python compute_gridded_to_rwps_interp_weights.py $nbm_oc_uv $mesh 1
-    python interpolate_with_weights.py $nbm_oc_uv $nbm_oc_wghts $rwps_oc $windvars 3
+    python interpolate_with_weights.py $nbm_oc_uv $nbm_oc_wghts $rwps_oc $windvars 3 > $tmp/intrp.rrfs.oc.out
     python add_mesh_geom_to_file.py $rwps_oc $mesh
 )&
 
 (
     [ ! -f "$rrfs_hi_wghts" ] && python compute_gridded_to_rwps_interp_weights.py $rrfs_hi $mesh $rrfs_hi_wghts $rrfs_hi_dist
-    python interpolate_with_weights.py $rrfs_hi $rrfs_hi_wghts $rwps_hi $windvars -1 > intrp.rrfs.hi.out
+    python interpolate_with_weights.py $rrfs_hi $rrfs_hi_wghts $rwps_hi $windvars -1 > $tmp/intrp.rrfs.hi.out
     #add mesh geometry into interpolated file
     python add_mesh_geom_to_file.py $rwps_hi $mesh
     # Add error covariance field to files with interpolated fields for bayesian update
@@ -91,28 +91,28 @@ rrfs_conus_dist="$fix/DistToBndy.$meshname.rrfs.conus.nc"
 
 (
     [ ! -f "$rrfs_pr_wghts" ] && python compute_gridded_to_rwps_interp_weights.py $rrfs_pr $mesh $rrfs_pr_wghts $rrfs_pr_dist
-    python interpolate_with_weights.py $rrfs_pr $rrfs_pr_wghts $rwps_pr $windvars -1 > intrp.rrfs.pr.out
+    python interpolate_with_weights.py $rrfs_pr $rrfs_pr_wghts $rwps_pr $windvars -1 > $tmp/intrp.rrfs.pr.out
     python add_mesh_geom_to_file.py $rwps_pr $mesh
     python add_err_var_to_file.py $rwps_pr $rrfs_pr_dist 4.:40.:150.
 )&
 
 (
     [ ! -f "$rrfs_ak_wghts" ] && python compute_gridded_to_rwps_interp_weights.py $rrfs_ak $mesh $rrfs_ak_wghts $rrfs_ak_dist
-    python interpolate_with_weights.py $rrfs_ak $rrfs_ak_wghts $rwps_ak $windvars -1 > intrp.rrfs.ak.out
+    python interpolate_with_weights.py $rrfs_ak $rrfs_ak_wghts $rwps_ak $windvars -1 > $tmp/intrp.rrfs.ak.out
     python add_mesh_geom_to_file.py $rwps_ak $mesh
     python add_err_var_to_file.py $rwps_ak $rrfs_ak_dist 9.:90.:500.
 )&
 
 (
     [ ! -f "$rrfs_conus_wghts" ] && python compute_gridded_to_rwps_interp_weights.py $rrfs_conus $mesh $rrfs_conus_wghts $rrfs_conus_dist
-    python interpolate_with_weights.py $rrfs_conus $rrfs_conus_wghts $rwps_conus $windvars -1
+    python interpolate_with_weights.py $rrfs_conus $rrfs_conus_wghts $rwps_conus $windvars -1  > $tmp/intrp.rrfs.conus.out
     python add_mesh_geom_to_file.py $rwps_conus $mesh
     python add_err_var_to_file.py $rwps_conus $rrfs_conus_dist 16.:160.:1000.
 )&
 
 (
     [ ! -f "$rrfs_na_wghts" ] && python compute_gridded_to_rwps_interp_weights.py $rrfs_na $mesh $rrfs_na_wghts $rrfs_na_dist
-    python interpolate_with_weights.py $rrfs_na $rrfs_na_wghts $rwps_na $windvars -1
+    python interpolate_with_weights.py $rrfs_na $rrfs_na_wghts $rwps_na $windvars -1  > $tmp/intrp.rrfs.na.out
     python add_mesh_geom_to_file.py $rwps_na $mesh
     python add_err_var_to_file.py $rwps_na $rrfs_na_dist 50.:500.:1500.
 )&

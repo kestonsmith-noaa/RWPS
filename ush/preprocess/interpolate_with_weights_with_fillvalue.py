@@ -98,12 +98,7 @@ if ExtrapMethod==3:
 
 nan=float("nan")
 for jv in range(nvar):
-
-#    fill_value0=data[varname[jv]]._FillValue
-    try:
-        fill_value0=data[varname[jv]]._FillValue
-    except:
-        fill_value0=-99999
+    fill_value0=data[varname[jv]]._FillValue
     print("fill value="+str(fill_value0))
     for k in range(nt):
         print("interpolating for time step = "+str(k)+" of "+str(nt))

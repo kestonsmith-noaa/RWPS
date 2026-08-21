@@ -2,9 +2,9 @@
 #PBS -q dev
 #PBS -l walltime=00:59:00
 #PBS -A GLWU-DEV
-#PBS -N RWPS.PreProc.ice
+#PBS -N RWPS.PreProc.currents
 #PBS -j oe
-#PBS -l select=1:ncpus=1:mem=64GB
+#PBS -l select=1:ncpus=2:mem=64GB
 #PBS -o RWPS.PreProc.out
 
 cd $RWPSroot/ush/preprocess
@@ -16,10 +16,9 @@ module load cfp/2.0.4
 module load prod_util/2.0.8
 module load prod_envir/2.0.5
 
+rm $tmp/FetchCurrents.out $tmp/ProcCurrents.out 
 
-rm $tmp/FetchIce.out $tmp/ProcICE.out 
-
-sh get_ice.sh > $tmp/FetchIce.out
-sh process_ice.sh > $tmp/ProcIce.out
+sh get_currents.sh > $tmp/FetchCurrents.out
+sh process_currents.sh > $tmp/ProcCurrents.out
 
 

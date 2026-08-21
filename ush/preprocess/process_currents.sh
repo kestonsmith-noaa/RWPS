@@ -12,12 +12,12 @@ module load ve/hafs/2.1
 
 pip list -v
 
-source ./rwpsenv
+cd $RWPSroot/ush/preprocess
 
 meshname="${mesh##*/}"
 meshname="${meshname: 0: -4}"
 
-stofscur="$tmp/stofs_2d_glo.t${cyc}z.fields.cwl.vel.nc"
+stofscur="$tmp/stofs.$PDY.$cyc/stofs_2d_glo.t${cyc}z.fields.cwl.vel.nc"
 rtofscur="$tmp/rtofs.$PDY.nc"
 
 varnames="u-vel:v-vel"
@@ -33,6 +33,16 @@ stofs_dists="$fix/DistToBndy.$meshname.stofs.nc"
 stofs_rwps="$tmp/$meshname.$PDY.$cyc.vel.cwl.stofs.nc"
 stofs_rwps_ti="$tmp/$meshname.$PDY.$cyc.vel.cwl.stofs.ti.nc"
 
+
+
+## RTOFS interpolation
+rtofs_wghts="$fix/InterpolationWeights.$meshname.rtofs.current.nc"
+rtofs_dists="$fix/DistToBndy.$meshname.rtofs.current.nc"
+rtofs_rwps="$tmp/$meshname.$PDY.vel.rtofs.nc"
+rtofs_rwps_ti="$tmp/$meshname.$PDY.$cyc.vel.cwl.rtofs.ti.nc"
+
+
+
 if [ ! -f "$stofs_wghts" ]; then
     echo "missing stofs interpolation weights file: $stofs_wghts"
     echo "compute with script compute_unstr_to_rwps_interp_weights.sh"
@@ -46,12 +56,6 @@ fi
 
 # extrapolate with zero fill
 python interpolate_with_weights.py $stofscur $stofs_wghts $stofs_rwps $varnames 0 &
-
-## RTOFS interpolation
-rtofs_wghts="$fix/InterpolationWeights.$meshname.rtofs.currents.nc"
-rtofs_dists="$fix/DistToBndy.$meshname.rtofs.currents.nc"
-rtofs_rwps="$tmp/$meshname.$PDY.vel.rtofs.nc"
-rtofs_rwps_ti="$tmp/$meshname.$PDY.$cyc.vel.cwl.rtofs.ti.nc"
 
 if [ ! -f "$rtofs_wghts" ]; then
     echo "missing rtofs interpolation weights file: $stofs_wghts"

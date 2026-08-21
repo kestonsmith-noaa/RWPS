@@ -1,0 +1,54 @@
+#!/bin/bash
+# --------------------------------------------------------------------------- #
+#                                                                             #
+# Copy external fix files that are too large to store in repository           #
+#                                                                             #
+# Last Changed : 08-15-2025                                        Aug 2025   #
+# --------------------------------------------------------------------------- #
+
+echo 'setting paths...'
+
+export PDY=$1
+export cyc=$2
+export meshID=$3
+
+export RWPSroot="$(pwd)/../"
+export mesh="$RWPSroot/fix/rwps.$meshID.msh"
+export fix="$RWPSroot/fix"
+export prep="$RWPSroot/PrepInputs"
+export tmp="$prep/tmpfiles"
+export frc="$prep/forcing"
+export outdir=$prep
+
+echo $RWPSroot
+echo $fix $prep $tmp $outdir
+mkdir -p $prep
+mkdir -p $tmp
+mkdir -p $frc
+
+#machine dependend path to rtofs, nbm, rrfs, and stofs forecast files
+export COMINrtofs="/lfs/h1/ops/prod/com/rtofs/v2.5/rtofs.$PDY/"
+export COMINnbm="/lfs/h3/mdl/ptmp/mdl.nbm/blend/v5.2/blend.$PDY/$cyc/grib2"
+export COMINrrfs="/lfs/h1/ops/prod/com/rrfs/v1.0/rrfs.$PDY/$cyc"
+export COMINstofs="/lfs/h1/ops/prod/com/stofs/v3.1/stofs_2d_glo.$PDY"
+
+export COMINlocal=$tmp
+
+#machine dependend path to RWPS fix files
+export RWPSfix=/lfs/h2/emc/couple/noscrub/keston.smith/RWPS
+
+# copy mesh to local fix directory
+cp -p $RWPSfix/fix/$meshID/20260722/rwps.$meshID.msh $RWPSroot/fix/
+# copy Interpoplation weights for nbm, rrfs, rtofs and stofs to local fix directory
+cp -p $RWPSfix/fix/$meshID/20260722/InterpolationWeights*$meshID*.nc $RWPSroot/fix/
+# copy distance to boundary for nbm, rrfs, rtofs and stofs to local fix directory
+cp -p $RWPSfix/fix/$meshID/20260722/DistToBndy*$meshID*.nc $RWPSroot/fix/
+
+meshname="${mesh##*/}"
+export meshname="${meshname: 0: -4}"
+
+#Retrieve current and process for forecast cycle
+qsub -V $RWPSroot/ecf/jrwps_prep_current.ecf
+qsub -V $RWPSroot/ecf/jrwps_prep_ice.ecf
+qsub -V $RWPSroot/ecf/jrwps_prep_waterlevel.ecf
+qsub -V $RWPSroot/ecf/jrwps_prep_wind.ecf
