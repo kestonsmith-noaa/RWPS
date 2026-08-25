@@ -1,0 +1,41 @@
+PBS: Running prologue on parent mom node: nid001019...
+Job 136957101.dbqs01 nodelist: nid001019
+Job 136957101.dbqs01 - Prologue complete. Execution time: 4 seconds
+Agent pid 187446
+Identity added: /u/keston.smith/.ssh/id_ed25519 (keston.smith@noaa.gov)
+/u/keston.smith/.bashrc: line 46: alias: eval "$(ssh-agent -s)";  ssh-add ~/.ssh/id_ed25519: not found
+Resetting modules to system default. Reseting $MODULEPATH back to system default. All extra directories will be removed from $MODULEPATH.
+Package                   Version     Location                                                                           Installer
+------------------------- ----------- ---------------------------------------------------------------------------------- ---------
+Cartopy                   0.24.1      /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+certifi                   2025.1.31   /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+cftime                    1.6.4.post1 /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+contourpy                 1.3.1       /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+cycler                    0.12.1      /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+esmpy                     8.6.0       /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+fonttools                 4.55.8      /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+geographiclib             2.0         /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+geopy                     2.4.1       /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+Jinja2                    3.1.5       /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+kiwisolver                1.4.8       /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+MarkupSafe                3.0.2       /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+matplotlib                3.10.0      /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+netCDF4                   1.7.2       /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+numpy                     2.2.2       /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+packaging                 24.2        /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+pandas                    2.2.3       /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+pillow                    11.1.0      /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+pip                       25.0.1      /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+pyparsing                 3.2.1       /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+pyproj                    3.7.0       /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+pyshp                     2.3.1       /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+python-dateutil           2.9.0.post0 /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+pytz                      2025.1      /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+PyYAML                    6.0.2       /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+scipy                     1.15.1      /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+setuptools                75.8.0      /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+setuptools-git-versioning 2.1.0       /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+shapely                   2.0.7       /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+six                       1.17.0      /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+tzdata                    2025.1      /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+xarray                    2025.1.2    /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip

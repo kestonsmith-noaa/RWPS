@@ -2,23 +2,40 @@
 #PBS -q dev
 #PBS -l walltime=00:59:00
 #PBS -A GLWU-DEV
-#PBS -N RWPS.PreProc.currents
+#PBS -N RWPS.PreProc.current
 #PBS -j oe
-#PBS -l select=1:ncpus=2:mem=64GB
+#PBS -l select=1:ncpus=4:mem=64GB
 #PBS -o RWPS.PreProc.out
 
-cd $RWPSroot/ush/preprocess
+cd $HOMErwps/ush/preprocess
 
-module load PrgEnv-intel/8.1.0
-module load craype/2.7.8
-module load intel/19.1.3.304
-module load cfp/2.0.4
-module load prod_util/2.0.8
-module load prod_envir/2.0.5
+module use ${HOMErwps}/modulefiles
 
-rm $tmp/FetchCurrents.out $tmp/ProcCurrents.out 
+############################################################
+# Load modules
+############################################################
+source $HOMErwps/versions/preproc.${MACHINE_ID}.ver
 
-sh get_currents.sh > $tmp/FetchCurrents.out
-sh process_currents.sh > $tmp/ProcCurrents.out
+#modules for esmf
+module reset
+module load PrgEnv-intel/${PrgEnv_intel_ver}
+module load craype/${craype_ver}
+module load intel/${intel_ver}
+module load cray-mpich/${cray_mpich_ver}
+module load hdf5-C/${hdf5_C_ver}
+module load netcdf-C/${netcdf_C_ver}
+module load esmf-C/${esmf_C_ver}
+module load ve/hafs/${ve_hafs_ver}
+
+#modules for wgrib2
+module load intel-oneapi/${intel_oneapi_ver}
+module load wgrib2/${wgrib2_ver}
+
+module list 
+
+rm $tmp/FetchCurrent.out $tmp/ProcCurrent.out
+
+sh get_current.sh > $tmp/FetchCurrent.out
+sh process_current.sh  > $tmp/ProcCurrent.out
 
 

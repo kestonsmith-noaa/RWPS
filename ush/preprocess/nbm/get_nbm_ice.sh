@@ -4,10 +4,6 @@
 # This script takes rrfs grib2 forecast files, extracts 10m u and v wind
 # components and outputs to netcdf. Comand line arguments are
 
-module load intel-oneapi/2022.2.0.262
-module load wgrib2/2.0.8
-
-
 ICE_FILE="$COMINnbm/blend.t$2z.icec.ak.grib2"
 
 OUTPUT_DIR="$COMINlocal/ice.$1.$2"

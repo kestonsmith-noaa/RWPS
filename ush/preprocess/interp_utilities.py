@@ -675,7 +675,7 @@ def WriteInterpJobscriptPBS(fl,flin,mshfl,Njobs, ComputeNodes):
     WghtFl="STOFS.wght."+mshfl[meshslash:len(mshfl)-4]+".txt"
     WghtFl="InterpWeights."+mshfl[meshslash:len(mshfl)-4]+".stofs.txt"
     WghtFlNetCDF="InterpWeights."+mshfl[meshslash:len(mshfl)-4]+".stofs.nc"
-    Njobs=64 #OVERWRITE FOR NOW
+    Njobs=32 #OVERWRITE FOR NOW
     with open(fl, 'w') as f:
         f.write("#PBS -N ESMPy\n")
         f.write("#PBS -j oe\n")

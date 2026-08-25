@@ -3,9 +3,6 @@
 # This script takes rrfs grib2 forecast files, extracts 10m u and v wind
 # components and outputs to netcdf. Comand line arguments are
 
-module load intel-oneapi/2022.2.0.262
-module load wgrib2/2.0.8
-
 WSPD_FILE="$COMINnbm/blend.t$2z.wspd.$3.grib2" 
 WDIR_FILE="$COMINnbm/blend.t$2z.wdir.$3.grib2"
 

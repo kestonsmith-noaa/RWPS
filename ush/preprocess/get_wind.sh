@@ -3,7 +3,7 @@
 # This script retrieves rrfs and nbm winbds and exports as 
 # netcdf files
 
-cd $RWPSroot/ush/preprocess
+cd $HOMErwps/ush/preprocess
 
 echo "retrieving winds from rrfs and nbm for rwps wind"
 (

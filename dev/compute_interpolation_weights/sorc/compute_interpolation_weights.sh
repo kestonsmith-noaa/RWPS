@@ -1,4 +1,4 @@
-#!/bin/bash
+!/bin/bash
 # --------------------------------------------------------------------------- #
 #                                                                             #
 # Copy external fix files that are too large to store in repository           #
@@ -8,38 +8,27 @@
 
 echo 'setting paths...'
 
-export PDY=$1
-export cyc=$2
-export meshID=$3
-
-readonly HOMErwps=$(cd "$(dirname "$(readlink -f -n "${BASH_SOURCE[0]}")")" && git rev-parse --show-toplevel)
-cd "${HOMErwps}/sorc" || exit 1
-
-source "${HOMErwps}/ush/detect_machine.sh"
-source "${HOMErwps}/ush/module-setup.sh"
-#source "${HOMErwps}/versions/build.ver"
-
-export MACHINE_ID
-export HOMErwps
-
-if [[ -z "${MACHINE_ID}" ]]; then
-    echo "FATAL: Unable to determine target machine"
-    exit 1
-fi
+export meshID=$1
+export RWPSroot="$(pwd)/../../../"
+export mesh="$RWPSroot/fix/rwps.$meshID.msh"
 
 
-export mesh="$HOMErwps/fix/rwps.$meshID.msh"
-export fix="$HOMErwps/fix"
-export prep="$HOMErwps/PrepInputs"
+export fix="$RWPSroot/fix"
+export prep="$RWPSroot/PrepInputs"
 export tmp="$prep/tmpfiles"
 export frc="$prep/forcing"
 export outdir=$prep
 
-echo $HOMErwps
+echo $RWPSroot
 echo $fix $prep $tmp $outdir
 mkdir -p $prep
 mkdir -p $tmp
 mkdir -p $frc
+
+
+echo $RWPSroot
+echo $fix $prep $tmp $outdir
+
 
 #machine dependend path to rtofs, nbm, rrfs, and stofs forecast files
 export COMINrtofs="/lfs/h1/ops/prod/com/rtofs/v2.5/rtofs.$PDY/"
@@ -53,17 +42,11 @@ export COMINlocal=$tmp
 export RWPSfix=/lfs/h2/emc/couple/noscrub/keston.smith/RWPS
 
 # copy mesh to local fix directory
-cp -p $RWPSfix/fix/$meshID/20260722/rwps.$meshID.msh $HOMErwps/fix/
-# copy Interpoplation weights for nbm, rrfs, rtofs and stofs to local fix directory
-cp -p $RWPSfix/fix/$meshID/20260722/InterpolationWeights*$meshID*.nc $HOMErwps/fix/
-# copy distance to boundary for nbm, rrfs, rtofs and stofs to local fix directory
-cp -p $RWPSfix/fix/$meshID/20260722/DistToBndy*$meshID*.nc $HOMErwps/fix/
+cp -p $RWPSfix/fix/$meshID/20260722/rwps.$meshID.msh $RWPSroot/fix/
 
 meshname="${mesh##*/}"
 export meshname="${meshname: 0: -4}"
 
 #Retrieve current and process for forecast cycle
-qsub -V $HOMErwps/ecf/jrwps_prep_current.ecf 
-qsub -V $HOMErwps/ecf/jrwps_prep_ice.ecf
-qsub -V $HOMErwps/ecf/jrwps_prep_waterlevel_gws.ecf
-qsub -V $HOMErwps/ecf/jrwps_prep_wind.ecf
+qsub -V $RWPSroot/dev/compute_interpolation_weights/ecf/compute_interpolation_weights.ecf
+

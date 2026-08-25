@@ -1,0 +1,757 @@
+PBS: Running prologue on parent mom node: nid001112...
+Job 136818048.dbqs01 nodelist: nid001112
+Job 136818048.dbqs01 - Prologue complete. Execution time: 4 seconds
+Agent pid 1554071
+Identity added: /u/keston.smith/.ssh/id_ed25519 (keston.smith@noaa.gov)
+/u/keston.smith/.bashrc: line 46: alias: eval "$(ssh-agent -s)";  ssh-add ~/.ssh/id_ed25519: not found
+Resetting modules to system default. Reseting $MODULEPATH back to system default. All extra directories will be removed from $MODULEPATH.
+Package                   Version     Location                                                                           Installer
+------------------------- ----------- ---------------------------------------------------------------------------------- ---------
+Cartopy                   0.24.1      /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+certifi                   2025.1.31   /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+cftime                    1.6.4.post1 /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+contourpy                 1.3.1       /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+cycler                    0.12.1      /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+esmpy                     8.6.0       /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+fonttools                 4.55.8      /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+geographiclib             2.0         /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+geopy                     2.4.1       /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+Jinja2                    3.1.5       /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+kiwisolver                1.4.8       /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+MarkupSafe                3.0.2       /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+matplotlib                3.10.0      /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+netCDF4                   1.7.2       /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+numpy                     2.2.2       /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+packaging                 24.2        /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+pandas                    2.2.3       /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+pillow                    11.1.0      /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+pip                       25.0.1      /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+pyparsing                 3.2.1       /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+pyproj                    3.7.0       /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+pyshp                     2.3.1       /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+python-dateutil           2.9.0.post0 /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+pytz                      2025.1      /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+PyYAML                    6.0.2       /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+scipy                     1.15.1      /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+setuptools                75.8.0      /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+setuptools-git-versioning 2.1.0       /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+shapely                   2.0.7       /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+six                       1.17.0      /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+tzdata                    2025.1      /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+xarray                    2025.1.2    /apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages pip
+Traceback (most recent call last):
+  File "/lfs/h2/emc/couple/noscrub/keston.smith/RWPSworkflow/RWPS/ush/preprocess/./compute_gridded_to_rwps_interp_weights.py", line 194, in <module>
+    dist2bnd=iutil.CalculateDistanceToInterpEnvelope(xi,yi,u0, 1.)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lfs/h2/emc/couple/noscrub/keston.smith/RWPSworkflow/RWPS/ush/preprocess/interp_utilities.py", line 413, in CalculateDistanceToInterpEnvelope
+    din[k]=QuickDistance(yin[k],xin[k],yout,xout) # distance from node to closest point not interpolated to
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lfs/h2/emc/couple/noscrub/keston.smith/RWPSworkflow/RWPS/ush/preprocess/interp_utilities.py", line 422, in QuickDistance
+    d= np.min(  np.sqrt( (  (lat1-lats2)*deg2kmY)**2 + ((lon1-lons2)*deg2kmX)**2 )  )
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages/numpy/_core/fromnumeric.py", line 3302, in min
+    return _wrapreduction(a, np.minimum, 'min', axis, None, out,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages/numpy/_core/fromnumeric.py", line 86, in _wrapreduction
+    return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: zero-size array to reduction operation minimum which has no identity
+Traceback (most recent call last):
+  File "/lfs/h2/emc/couple/noscrub/keston.smith/RWPSworkflow/RWPS/ush/preprocess/./compute_gridded_to_rwps_interp_weights.py", line 194, in <module>
+    dist2bnd=iutil.CalculateDistanceToInterpEnvelope(xi,yi,u0, 1.)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lfs/h2/emc/couple/noscrub/keston.smith/RWPSworkflow/RWPS/ush/preprocess/interp_utilities.py", line 413, in CalculateDistanceToInterpEnvelope
+    din[k]=QuickDistance(yin[k],xin[k],yout,xout) # distance from node to closest point not interpolated to
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lfs/h2/emc/couple/noscrub/keston.smith/RWPSworkflow/RWPS/ush/preprocess/interp_utilities.py", line 422, in QuickDistance
+    d= np.min(  np.sqrt( (  (lat1-lats2)*deg2kmY)**2 + ((lon1-lons2)*deg2kmX)**2 )  )
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages/numpy/_core/fromnumeric.py", line 3302, in min
+    return _wrapreduction(a, np.minimum, 'min', axis, None, out,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/apps/prod/ve/intel/19.1.3.304/python/3.12.0/hafs/2.1/lib/python3.12/site-packages/numpy/_core/fromnumeric.py", line 86, in _wrapreduction
+    return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: zero-size array to reduction operation minimum which has no identity
+directory STOFSInterpWeights.rwps.oc_20km_300km is alread empty
+Made parallel jobcards to create interpolation weights with 16 processes. Next step:
+sbatch jobcardcompute_unstr_to_rwps_interp_weightsSLURM
+136819126[].dbqs01
+python: can't open file '/lfs/h2/emc/couple/noscrub/keston.smith/RWPSworkflow/RWPS/ush/preprocess/ConvertWeights2Netcdf.py': [Errno 2] No such file or directory
+cp: cannot stat 'InterpWeights.rwps.oc_20km_300km.stofs.nc': No such file or directory
+cp: cannot stat 'DistToBndy.rwps.oc_20km_300km.stofs.nc': No such file or directory
+directory STOFSInterpWeights.rwps.oc_20km_300km is alread empty
+Made parallel jobcards to create interpolation weights with 16 processes. Next step:
+sbatch jobcardcompute_unstr_to_rwps_interp_weightsSLURM
+136819425[].dbqs01
+mesh file=/lfs/h2/emc/couple/noscrub/keston.smith/RWPSworkflow/RWPS/dev/compute_interpolation_weights/sorc/../../..//fix/rwps.oc_20km_300km.msh
+nn = 21329
+number of nodes read: 21329
+ne=40527 -includes boundary nodes
+number of open boundary nodes read: 129
+number of elements read: 40398
+n=62076
+n_s=62076
+PBS: Running epilogue on parent mom node: nid001112...
+==================================================================
+BEGIN - DEBUG INFO
+==================================================================
+Job 136818048.dbqs01 - Post Job Mem Usage:
+nid001112: 2026-08-24.51 1 ===========================================
+nid001112: 2026-08-24.51 2 #### Node Memory Usage for nid001112 ####
+nid001112: 2026-08-24.51 3 ------------------
+nid001112: 2026-08-24.51 4 Mem: total:526983544 used:17820532 free:510198608 shared:862632 cache:1554584 avail:509163012
+nid001112: 2026-08-24.51 5 4.0K	/dev/shm
+nid001112: 2026-08-24.51 6 40K	/tmp
+nid001112: 2026-08-24.51 7 ===========================================
+nid001112: 2026-08-24.57 1 ===========================================
+nid001112: 2026-08-24.57 2 #### Node Memory Usage for nid001112 ####
+nid001112: 2026-08-24.57 3 ------------------
+nid001112: 2026-08-24.57 4 Mem: total:526983544 used:18714996 free:508390092 shared:862644 cache:3343248 avail:508268548
+nid001112: 2026-08-24.57 5 4.0K	/dev/shm
+nid001112: 2026-08-24.57 6 40K	/tmp
+nid001112: 2026-08-24.57 7 ===========================================
+
+------------------------------------------------------------------
+------------------------------------------------------------------
+Job 136818048.dbqs01 - Post Job Mem Usage Profile:
+2026-08-24A--:--:--.------+--:-- nid001112 #### nid001112 - Job 136818048.dbqs01 NUMA Node Memory Allocation and Fragmentation Reports
+Starting Fragmentation Report for nid001112
+Node   Order9   Order10   Score    MB_Free   %Free   State
+0      5202     15        5232     10464     16      FRAG
+1      9117     2771      14659    29318     45      MARG
+2      5629     7539      20707    41414     64      OK
+3      2883     11773     26429    52858     82      OK
+4      6304     7640      21584    43168     66      OK
+5      2042     12865     27772    55544     86      OK
+6      3502     10704     24910    49820     77      OK
+7      1516     13517     28550    57100     88      OK
+
+** nid001112 : node0_score=5232 node0_state=FRAG uptime=4577381s  Overall=FRAG **
+Ending Fragmentation Report for nid001112
+Node   Order9   Order10   Score    MB_Free   %Free   State
+0      5206     15        5236     10472     16      FRAG
+1      9124     2774      14672    29344     45      MARG
+2      5630     7540      20710    41420     64      OK
+3      2882     11774     26430    52860     82      OK
+4      6302     7643      21588    43176     66      OK
+5      2022     12892     27806    55612     86      OK
+6      3509     10707     24923    49846     77      OK
+7      1520     13522     28564    57128     88      OK
+
+** nid001112 : node0_score=5236 node0_state=FRAG uptime=4578167s  Overall=FRAG **
+2026-08-24A--:--:--.------+--:-- nid001112 #### nid001112 - Job 136818048.dbqs01 VMSTATS Memory Report
+**Only Printing Significant Findings - TEST CODE - Results are NOT positive indication of a problem. **
+nid001112 [!] Inactive file cache ballooned: 431139 (threshold: 100000)
+
+------------------------------------------------------------------
+Job 136818048.dbqs01 - /var/log/messages for job duration:
+2026-08-24A--:--:--.------+--:-- nid001112 #### nid001112 - Job 136818048.dbqs01 Runtime Data from /var/log/messages
+nid001112:  nid001112 #### nid001112 - Job 136818048.dbqs01 Runtime Data from /var/log/messages
+nid001112: 2026-08-24T13:38:51.407558+00:00 nid001112 prologue: MARK: Job 136818048.dbqs01 Start
+nid001112: 2026-08-24T13:38:51.413679+00:00 nid001112 prologue: Job 136818048.dbqs01 nodelist: nid001112
+nid001112: 2026-08-24T13:38:51.415558+00:00 nid001112 prologue: Job 136818048.dbqs01 - Recording pre-execution stats and counters...
+nid001112: 2026-08-24T13:38:51.449276+00:00 nid001112 prologue: Job 136818048.dbqs01 - Killing any stray user processes...
+nid001112: 2026-08-24T13:38:51.535866+00:00 nid001112 prologue: Job 136818048.dbqs01 - Clearing /tmp...
+nid001112: 2026-08-24T13:38:51.551379+00:00 nid001112 prologue: Job 136818048.dbqs01 - Verifying key post-boot workarounds with warchk...
+nid001112: 2026-08-24T13:38:51.579373+00:00 nid001112 WARCHK: root : /sfs/admin/scripts/warchk --batch
+nid001112: 2026-08-24T13:38:51.771868+00:00 nid001112 prologue: Job 136818048.dbqs01 - Recording pre-job memory usage...
+nid001112: 2026-08-24T13:38:51.851441+00:00 nid001112 prologue: Job 136818048.dbqs01 - FRAG_STATE: ** nid001112 : node0_score=5232 node0_state=FRAG uptime=4577381s  Overall=FRAG **
+nid001112: 2026-08-24T13:38:51.852575+00:00 nid001112 prologue: Job 136818048.dbqs01 - Recording pre-job HSN counters...
+nid001112: 2026-08-24T13:38:51.976365+00:00 nid001112 prologue: Job 136818048.dbqs01 - Recording pre-job Lustre counters...
+nid001112: 2026-08-24T13:38:52.998196+00:00 nid001112 prologue: Job 136818048.dbqs01 - Recording initial NFS client statistics...
+nid001112: 2026-08-24T13:38:53.008049+00:00 nid001112 prologue: Job 136818048.dbqs01 - Saving a copy of the job script...
+nid001112: 2026-08-24T13:38:53.015124+00:00 nid001112 prologue: Job 136818048.dbqs01 - Checking existing ASLR settings...
+nid001112: 2026-08-24T13:38:53.020906+00:00 nid001112 prologue: Job 136818048.dbqs01 - Checking palsd open file count...
+nid001112: 2026-08-24T13:38:53.115961+00:00 nid001112 PBS_CMD: root : /opt/pbs/bin/qstat -Bf
+nid001112: 2026-08-24T13:38:54.131024+00:00 nid001112 prologue: Job 136818048.dbqs01 - Checking one-shot enabled: False
+nid001112: 2026-08-24T13:38:54.132179+00:00 nid001112 prologue: Job 136818048.dbqs01 - Enabling turboboost...
+nid001112: 2026-08-24T13:38:54.135197+00:00 nid001112 prologue: Job 136818048.dbqs01 - Checking warchk results...
+nid001112: 2026-08-24T13:38:54.138329+00:00 nid001112 prologue: Job 136818048.dbqs01 - Warchk Complete
+nid001112: 2026-08-24T13:38:54.141005+00:00 nid001112 prologue: Job 136818048.dbqs01 - Prologue complete. Execution time: 4 seconds
+nid001112: 2026-08-24T13:40:47.144700+00:00 nid001112 kernel: [4577206.032353][T13525] LNet: 13525:0:(o2iblnd_cb.c:3388:kiblnd_check_conns()) Timed out tx for 10.253.127.25@o2ib: 1 seconds
+nid001112: 2026-08-24T13:41:48.135821+00:00 nid001112 kernel: [4577267.020490][T13525] LNet: 13525:0:(o2iblnd_cb.c:3388:kiblnd_check_conns()) Timed out tx for 10.253.126.122@o2ib: 1 seconds
+nid001112: 2026-08-24T13:43:15.817637+00:00 nid001112 kernel: [4577354.694851][T13514] LNet: 2 peer NIs in recovery (showing 2): 10.253.126.122@o2ib, 10.253.127.25@o2ib
+nid001112: 2026-08-24T13:43:40.046173+00:00 nid001112 systemd[1]: etc_update.service: Deactivated successfully.
+nid001112: 2026-08-24T13:45:03.696624+00:00 nid001112 systemd[1]: session-11882.scope: Deactivated successfully.
+nid001112: 2026-08-24T13:48:15.845649+00:00 nid001112 kernel: [4577654.707776][T13514] LNet: 2 peer NIs in recovery (showing 2): 10.253.126.122@o2ib, 10.253.127.25@o2ib
+nid001112: 2026-08-24T13:48:51.011503+00:00 nid001112 PBS_CMD: keston.smith : /opt/pbs/bin/qsub -W block=true jobcardcompute_unstr_to_rwps_interp_weightsPBS
+nid001112: 2026-08-24T13:50:24.253091+00:00 nid001112 PBS_CMD: keston.smith : /opt/pbs/bin/qsub -W block=true jobcardcompute_unstr_to_rwps_interp_weightsPBS
+nid001112: 2026-08-24T13:50:39.786587+00:00 nid001112 chronyd[951904]: Source 172.234.37.140 replaced with 162.244.81.139 (2.suse.pool.ntp.org)
+nid001112: 2026-08-24T13:51:42.035807+00:00 nid001112 systemd[1]: etc_update.service: Deactivated successfully.
+nid001112: 2026-08-24T13:51:57.168536+00:00 nid001112 epilogue: Job 136818048.dbqs01 complete, running post-job actions.
+nid001112: 2026-08-24T13:51:57.188126+00:00 nid001112 epilogue: MARK: Job 136818048.dbqs01 Complete.
+
+------------------------------------------------------------------
+Job 136818048.dbqs01 - dmesg output for job duration:
+2026-08-24A--:--:--.------+--:-- nid001112 #### nid001112 - Job 136818048.dbqs01 Runtime Data from dmesg
+nid001112:  nid001112 #### nid001112 - Job 136818048.dbqs01 Runtime Data from dmesg
+nid001112: [Mon Aug 24 13:33:59 2026] MARK: Job 136818048.dbqs01 Start
+nid001112: [Mon Aug 24 13:35:55 2026] LNet: 13525:0:(o2iblnd_cb.c:3388:kiblnd_check_conns()) Timed out tx for 10.253.127.25@o2ib: 1 seconds
+nid001112: [Mon Aug 24 13:36:56 2026] LNet: 13525:0:(o2iblnd_cb.c:3388:kiblnd_check_conns()) Timed out tx for 10.253.126.122@o2ib: 1 seconds
+nid001112: [Mon Aug 24 13:38:23 2026] LNet: 2 peer NIs in recovery (showing 2): 10.253.126.122@o2ib, 10.253.127.25@o2ib
+nid001112: [Mon Aug 24 13:43:23 2026] LNet: 2 peer NIs in recovery (showing 2): 10.253.126.122@o2ib, 10.253.127.25@o2ib
+nid001112: [Mon Aug 24 13:47:05 2026] MARK: Job 136818048.dbqs01 Complete.
+
+------------------------------------------------------------------
+Job 136818048.dbqs01 - Pre/Post job diff on HSN (MLX) Counters:
+2026-08-24A--:--:--.------+--:-- nid001112 #### nid001112 - Job 136818048.dbqs01 HSN0 MLX Counter Post-Job Difference
+nid001112: multicast::             5998376          |  multicast::             5998536          |  Diff:  160
+nid001112: rx_bytes::              175732410880     |  rx_bytes::              175733588514     |  Diff:  1177634
+nid001112: rx_packets::            56731654         |  rx_packets::            56732477         |  Diff:  823
+nid001112: tx_bytes::              459805352880     |  tx_bytes::              459805539523     |  Diff:  186643
+nid001112: tx_packets::            81385193         |  tx_packets::            81385985         |  Diff:  792
+nid001112: port_rcv_data::         218447199721576  |  port_rcv_data::         218447532387621  |  Diff:  332666045
+nid001112: port_rcv_packets::      357868701358     |  port_rcv_packets::      357869195490     |  Diff:  494132
+nid001112: port_xmit_data::        218557640868690  |  port_xmit_data::        218559188548079  |  Diff:  1547679389
+nid001112: port_xmit_packets::     355820321573     |  port_xmit_packets::     355821943197     |  Diff:  1621624
+nid001112: unicast_rcv_packets::   357868701358     |  unicast_rcv_packets::   357869195490     |  Diff:  494132
+nid001112: unicast_xmit_packets::  355820321573     |  unicast_xmit_packets::  355821943197     |  Diff:  1621624
+nid001112: resp_cqe_error::        76536            |  resp_cqe_error::        76572            |  Diff:  36
+nid001112: resp_cqe_flush_error::  72951            |  resp_cqe_flush_error::  72985            |  Diff:  34
+nid001112: rx_write_requests::     267371451        |  rx_write_requests::     267381876        |  Diff:  10425
+
+------------------------------------------------------------------
+Job 136818048.dbqs01 - Pre/Post job diff for Lustre Stats:
+2026-08-24A--:--:--.------+--:-- nid001112 #### nid001112 - Job 136818048.dbqs01 Lustre Counters Post-Job Difference
+nid001112: ### LustreStats: Multi-value diffs correspond to [samples min max total sum_of_squares] ###
+nid001112: /lfs/h1 vah1-ffff922c9375f800 :
+nid001112:   h1:    snapshot_time: Diffs: [                                               786]  secs 
+nid001112:   h1:     elapsed_time: Diffs: [                                               785]  secs 
+nid001112:   h1:            ioctl: Diffs: [                                                 2]  reqs 
+nid001112:   h1:          getattr: Diffs: [                                     15 0 0 58 732]  Avg_usec :         3.86
+nid001112:   h1: inode_permission: Diffs: [                                         2 0 0 2 2]  Avg_usec :         1.00
+nid001112:   h1:        opencount: Diffs: [                                         2 0 0 2 2]  Avg_reqs :         1.00
+nid001112: ----------------
+nid001112: /lfs/h2 vah2-ffff923ccc444000 :
+nid001112:   h2:    snapshot_time: Diffs: [                                               786]  secs 
+nid001112:   h2:     elapsed_time: Diffs: [                                               785]  secs 
+nid001112:   h2:       read_bytes: Diffs: [           559426 0 0 5503438117 43105739845453767]  Avg_bytes:      9837.65
+nid001112:   h2:      write_bytes: Diffs: [           339788 0 0 6622063266 65429322276485738]  Avg_bytes:     19488.80
+nid001112:   h2:             read: Diffs: [                   559406 0 0 4789832 412510293996]  Avg_usec :         8.56
+nid001112:   h2:            write: Diffs: [                    340011 0 0 6200260 74845333006]  Avg_usec :        18.23
+nid001112:   h2:            ioctl: Diffs: [                                               758]  reqs 
+nid001112:   h2:             open: Diffs: [                            527 0 0 68403 24655545]  Avg_usec :       129.79
+nid001112:   h2:            close: Diffs: [                             528 0 0 36951 5626697]  Avg_usec :        69.98
+nid001112:   h2:             seek: Diffs: [                             1278975 0 0 753 24119]  Avg_usec :            0
+nid001112:   h2:          readdir: Diffs: [                               59 0 0 6795 2951687]  Avg_usec :       115.16
+nid001112:   h2:         truncate: Diffs: [                        109 0 0 359934 14330718878]  Avg_usec :      3302.14
+nid001112:   h2:            flock: Diffs: [                                92 0 0 5832 859180]  Avg_usec :        63.39
+nid001112:   h2:          getattr: Diffs: [                        2871 0 0 375419 9704657913]  Avg_usec :       130.76
+nid001112:   h2:           unlink: Diffs: [                              31 0 0 15366 8006106]  Avg_usec :       495.67
+nid001112:   h2:            mkdir: Diffs: [                                  2 0 0 707 250145]  Avg_usec :       353.50
+nid001112:   h2:            rmdir: Diffs: [                                   1 0 0 246 60516]  Avg_usec :       246.00
+nid001112:   h2:            mknod: Diffs: [                             42 0 0 19138 12684482]  Avg_usec :       455.66
+nid001112:   h2:           rename: Diffs: [                                3 0 0 1791 1098873]  Avg_usec :       597.00
+nid001112:   h2:         getxattr: Diffs: [                               273 0 0 5024 507858]  Avg_usec :        18.40
+nid001112:   h2:    getxattr_hits: Diffs: [                                               203]  reqs 
+nid001112:   h2: inode_permission: Diffs: [                              20842 0 0 8768 46402]  Avg_usec :          .42
+nid001112:   h2:        opencount: Diffs: [                                529 0 0 3341 41341]  Avg_reqs :         6.31
+nid001112: ----------------
+nid001112: /lfs/f1 vaf1-ffff923ccc444800 :
+nid001112:   f1:    snapshot_time: Diffs: [                                               785]  secs 
+nid001112:   f1:     elapsed_time: Diffs: [                                               785]  secs 
+nid001112:   f1:            ioctl: Diffs: [                                                 2]  reqs 
+nid001112:   f1:          getattr: Diffs: [                                     11 0 0 35 253]  Avg_usec :         3.18
+nid001112:   f1: inode_permission: Diffs: [                                         2 0 0 2 2]  Avg_usec :         1.00
+nid001112:   f1:        opencount: Diffs: [                                         2 0 0 2 2]  Avg_reqs :         1.00
+nid001112: ----------------
+nid001112: /lfs/f2 vaf2-ffff922c9f5a8800 :
+nid001112:   f2:    snapshot_time: Diffs: [                                               785]  secs 
+nid001112:   f2:     elapsed_time: Diffs: [                                               786]  secs 
+nid001112:   f2:       read_bytes: Diffs: [                          20 0 0 122109 1783525125]  Avg_bytes:      6105.45
+nid001112:   f2:      write_bytes: Diffs: [                             18 0 0 29161 96835341]  Avg_bytes:      1620.05
+nid001112:   f2:             read: Diffs: [                                  20 0 0 327 10491]  Avg_usec :        16.35
+nid001112:   f2:            write: Diffs: [                              484 0 0 7805 3573829]  Avg_usec :        16.12
+nid001112:   f2:            ioctl: Diffs: [                                                14]  reqs 
+nid001112:   f2:             open: Diffs: [                                 23 0 0 708 121820]  Avg_usec :        30.78
+nid001112:   f2:            close: Diffs: [                                23 0 0 2280 774426]  Avg_usec :        99.13
+nid001112:   f2:             seek: Diffs: [                                        21 0 0 2 4]  Avg_usec :          .09
+nid001112:   f2:          readdir: Diffs: [                                  2 0 0 387 149769]  Avg_usec :       193.50
+nid001112:   f2:          getattr: Diffs: [                               38 0 0 4256 1330196]  Avg_usec :       112.00
+nid001112:   f2:            mknod: Diffs: [                                11 0 0 2829 848225]  Avg_usec :       257.18
+nid001112:   f2:         getxattr: Diffs: [                                11 0 0 1358 179244]  Avg_usec :       123.45
+nid001112:   f2: inode_permission: Diffs: [                                  138 0 0 358 8106]  Avg_usec :         2.59
+nid001112:   f2:        opencount: Diffs: [                                     25 0 0 56 230]  Avg_reqs :         2.24
+nid001112: ----------------
+nid001112: /lfs/h3 vah3-ffff922c93235000 :
+nid001112:   h3:    snapshot_time: Diffs: [                                               785]  secs 
+nid001112:   h3:     elapsed_time: Diffs: [                                               786]  secs 
+nid001112:   h3:            ioctl: Diffs: [                                                 2]  reqs 
+nid001112:   h3:          getattr: Diffs: [                                      7 0 0 28 198]  Avg_usec :         4.00
+nid001112:   h3: inode_permission: Diffs: [                                         2 0 0 2 2]  Avg_usec :         1.00
+nid001112:   h3:        opencount: Diffs: [                                         2 0 0 2 2]  Avg_reqs :         1.00
+nid001112: ----------------
+nid001112: /apps vaf2-ffff922c97713000 :
+nid001112: apps:    snapshot_time: Diffs: [                                               785]  secs 
+nid001112: apps:     elapsed_time: Diffs: [                                               786]  secs 
+nid001112: apps:       read_bytes: Diffs: [                14883 0 0 268925845 25166134096371]  Avg_bytes:     18069.33
+nid001112: apps:             read: Diffs: [                        14883 0 0 760989 249255825]  Avg_usec :        51.13
+nid001112: apps:            ioctl: Diffs: [                                             10934]  reqs 
+nid001112: apps:             open: Diffs: [                        17634 0 0 862373 167033917]  Avg_usec :        48.90
+nid001112: apps:            close: Diffs: [                        17634 0 0 667602 134779154]  Avg_usec :        37.85
+nid001112: apps:             mmap: Diffs: [                             8112 0 0 47407 710627]  Avg_usec :         5.84
+nid001112: apps:       page_fault: Diffs: [                            171776 0 0 12810 35074]  Avg_usec :          .07
+nid001112: apps:             seek: Diffs: [                                   21713 0 0 24 38]  Avg_usec :            0
+nid001112: apps:          readdir: Diffs: [                         6626 0 0 413072 348261918]  Avg_usec :        62.34
+nid001112: apps:          getattr: Diffs: [                       78610 0 0 1402798 217899610]  Avg_usec :        17.84
+nid001112: apps:         getxattr: Diffs: [                                   14 0 0 134 5896]  Avg_usec :         9.57
+nid001112: apps:    getxattr_hits: Diffs: [                                                13]  reqs 
+nid001112: apps: inode_permission: Diffs: [                         1079411 0 0 148154 370760]  Avg_usec :          .13
+nid001112: apps:        opencount: Diffs: [                            17636 0 0 58582 321052]  Avg_reqs :         3.32
+nid001112: ----------------
+
+------------------------------------------------------------------
+### Job 136818048.dbqs01 - NFS Statistics for job duration:
+#### 2026-08-24A--:--:--.------+--:-- nid001112 Job 136818048.dbqs01 - DEBUG-NFS: Unable to find NFS stats file: /lfs/f2/hpc/jobdata/136818048/nfsstats.136818048.nid001112
+
+------------------------------------------------------------------
+### Job 136818048.dbqs01 - Lustre evictions (if present):
+
+------------------------------------------------------------------
+### Job 136818048.dbqs01 - Exit status is 0
+
+------------------------------------------------------------------
+Job 136818048.dbqs01 - Job summary:
+Job Id: 136818048.dbqs01
+    Job_Name = ESMPy
+    Job_Owner = keston.smith@dlogin03.dogwood.wcoss2.ncep.noaa.gov
+    resources_used.cpupercent = 110
+    resources_used.cput = 00:10:27
+    resources_used.mem = 12832188kb
+    resources_used.ncpus = 16
+    resources_used.vmem = 11770788kb
+    resources_used.walltime = 00:12:04
+    job_state = R
+    queue = dev
+    server = dbqs01
+    Account_Name = NWPS-DEV
+    Checkpoint = u
+    ctime = Mon Aug 24 13:38:48 2026
+    Error_Path = dlogin03.dogwood.wcoss2.ncep.noaa.gov:/lfs/h2/emc/couple/noscr
+	ub/keston.smith/RWPSworkflow/RWPS/dev/compute_interpolation_weights/sor
+	c/ESMPy.e136818048
+    exec_host = nid001112/0*16
+    exec_vnode = (nid001112:ncpus=16:mem=268435456kb)
+    Hold_Types = n
+    Join_Path = oe
+    Keep_Files = oed
+    Mail_Points = a
+    mtime = Mon Aug 24 13:51:01 2026
+    Output_Path = dlogin03.dogwood.wcoss2.ncep.noaa.gov:/lfs/h2/emc/couple/nosc
+	rub/keston.smith/RWPSworkflow/RWPS/dev/compute_interpolation_weights/so
+	rc/ESMPy.o136818048
+    Priority = 0
+    qtime = Mon Aug 24 13:38:48 2026
+    Rerunable = False
+    Resource_List.alvl = 2
+    Resource_List.aslr = True
+    Resource_List.debug = True
+    Resource_List.dfs = False
+    Resource_List.hyper = True
+    Resource_List.ldebug = False
+    Resource_List.mem = 256gb
+    Resource_List.ncpus = 16
+    Resource_List.nodect = 1
+    Resource_List.one-shot = False
+    Resource_List.place = exclhost
+    Resource_List.select = 1:ncpus=16:mem=256GB
+    Resource_List.turbo = True
+    Resource_List.walltime = 04:00:00
+    schedselect = 1:ncpus=16:mem=256GB:prepost=False
+    stime = Mon Aug 24 13:38:50 2026
+    session_id = 1552072
+    Shell_Path_List = /bin/bash
+    jobdir = /u/keston.smith
+    substate = 42
+    Variable_List = PBS_O_HOME=/u/keston.smith,PBS_O_LANG=en_US.UTF-8,
+	PBS_O_LOGNAME=keston.smith,
+	PBS_O_PATH=/opt/cray/bin:/u/keston.smith/.local/bin:/usr/local/bin:/us
+	r/bin:/bin:/opt/c3/bin:/opt/pbs/bin:/sbin,
+	PBS_O_MAIL=/var/spool/mail/keston.smith,PBS_O_SHELL=/bin/bash,
+	PBS_O_WORKDIR=/lfs/h2/emc/couple/noscrub/keston.smith/RWPSworkflow/RWP
+	S/dev/compute_interpolation_weights/sorc,PBS_O_SYSTEM=Linux,
+	LMOD_FAMILY_CRAYPE_NETWORK_VERSION=false,meshID=oc_20km_300km,
+	LD_LIBRARY_PATH=/opt/cray/lib64,
+	LS_COLORS=no=00:fi=00:di=01;34:ln=00;36:pi=40;33:so=01;35:do=01;35:bd=
+	40;33;01:cd=40;33;01:or=41;33;01:ex=00;32:*.cmd=00;32:*.exe=01;32:*.com
+	=01;32:*.bat=01;32:*.btm=01;32:*.dll=01;32:*.tar=00;31:*.tbz=00;31:*.tg
+	z=00;31:*.rpm=00;31:*.deb=00;31:*.arj=00;31:*.taz=00;31:*.lzh=00;31:*.l
+	zma=00;31:*.zip=00;31:*.zoo=00;31:*.z=00;31:*.Z=00;31:*.gz=00;31:*.bz2=
+	00;31:*.tb2=00;31:*.tz2=00;31:*.tbz2=00;31:*.xz=00;31:*.avi=01;35:*.bmp
+	=01;35:*.dl=01;35:*.fli=01;35:*.gif=01;35:*.gl=01;35:*.jpg=01;35:*.jpeg
+	=01;35:*.mkv=01;35:*.mng=01;35:*.mov=01;35:*.mp4=01;35:*.mpg=01;35:*.pc
+	x=01;35:*.pbm=01;35:*.pgm=01;35:*.png=01;35:*.ppm=01;35:*.svg=01;35:*.t
+	ga=01;35:*.tif=01;35:*.webm=01;35:*.webp=01;35:*.wmv=01;35:*.xbm=01;35:
+	*.xcf=01;35:*.xpm=01;35:*.aiff=00;32:*.ape=00;32:*.au=00;32:*.flac=00;3
+	2:*.m4a=00;32:*.mid=00;32:*.mp3=00;32:*.mpc=00;32:*.ogg=00;32:*.voc=00;
+	32:*.wav=00;32:*.wma=00;32:*.wv=00;32:,HOSTTYPE=x86_64,
+	prep=/lfs/h2/emc/couple/noscrub/keston.smith/RWPSworkflow/RWPS/sorc/..
+	//PrepInputs,
+	__LMOD_REF_COUNT_PATH=/opt/cray/bin:1;/u/keston.smith/.local/bin:1;/us
+	r/local/bin:1;/usr/bin:1;/bin:2;/opt/c3/bin:1;/opt/pbs/bin:1;/sbin:1,
+	_ModuleTable002_=ck5hbWUiXT0iY3JheXBlLW5ldHdvcmstb2ZpIix9LFsiY3JheXBlL
+	Xg4Ni1yb21lIl09e1siZm4iXT0iL29wdC9jcmF5L3BlL2xtb2QvbW9kdWxlZmlsZXMvY3Jh
+	eXBlLXRhcmdldHMvZGVmYXVsdC9jcmF5cGUteDg2LXJvbWUubHVhIixbImZ1bGxOYW1lIl0
+	9ImNyYXlwZS14ODYtcm9tZSIsWyJsb2FkT3JkZXIiXT0xLHByb3BUPXt9LFsic3RhY2tEZX
+	B0aCJdPTEsWyJzdGF0dXMiXT0iYWN0aXZlIixbInVzZXJOYW1lIl09ImNyYXlwZS14ODYtc
+	m9tZSIsfSxlbnZ2YXI9e1siZm4iXT0iL2FwcHMvcHJvZC9sbW9kdWxlcy9zeXNfY29yZS9l
+	bnZ2YXIvMS4wIixbImZ1bGxOYW1lIl09ImVudnZhci8xLjAiLFsibG9hZE9yZGVyIl09NCx
+	wcm9wVD17fSxbInN0YWNrRGVwdGgiXT0w,
+	SSH_CONNECTION=192.58.153.6 55826 192.58.153.13 22,
+	mesh=/lfs/h2/emc/couple/noscrub/keston.smith/RWPSworkflow/RWPS/dev/com
+	pute_interpolation_weights/sorc/../../..//fix/rwps.oc_20km_300km.msh,
+	XAUTHLOCALHOSTNAME=dlogin03,LESSCLOSE=lessclose.sh %s %s,
+	XKEYSYMDB=/usr/X11R6/lib/X11/XKeysymDB,
+	LMOD_FAMILY_CRAYPE_CPU=craype-x86-rome,
+	LMOD_MODULERCFILE=/apps/prod/lmodules/.modulerc.lua,
+	PE_PRODUCT_LIST=CRAYPE_X86_ROME,LMOD_IGNORE_CACHE=yes,LANG=en_US.UTF-8,
+	WINDOWMANAGER=xterm,LESS=-M -I -R,DISPLAY=localhost:16.0,
+	HISTTIMEFORMAT=%F %T,HOSTNAME=dlogin03,
+	LMOD_SYSTEM_DEFAULT_MODULES=envvar/1.0,
+	OLDPWD=/lfs/h2/emc/couple/noscrub/keston.smith/RWPSworkflow/RWPS/dev/c
+	ompute_interpolation_weights/ecf,
+	__LMOD_REF_COUNT__LMFILES_=/opt/cray/pe/lmod/modulefiles/craype-target
+	s/default/craype-x86-rome.lua:1;/opt/cray/modulefiles/libfabric/1.20.1:
+	1;/opt/cray/pe/lmod/modulefiles/craype-targets/default/craype-network-o
+	fi.lua:1;/apps/prod/lmodules/sys_core/envvar/1.0:1,
+	CONFIG_SITE=/usr/share/site/x86_64-unknown-linux-gnu,CSHEDIT=emacs,
+	LMOD_CUSTOM_CNCM_INTEL_19_0_UCX_1_0_X86_ROME_1_0_CRAY_MPICH_8_0_PREFIX
+	=/apps/prod/lmodules/INTEL_cray_mpich/19.1.3.304/cray-mpich/8.1.4:/apps
+	/ops/prod/libs/modulefiles/mpi/intel/19.1.3.304/cray-mpich/8.1.4,
+	LMOD_CUSTOM_COMPILER_GNU_8_0_PREFIX=/apps/prod/lmodules/gcc/11.2.0:/ap
+	ps/prod/lmodules/gcc/10.2.0,GPG_TTY=/dev/pts/12,
+	LESS_ADVANCED_PREPROCESSOR=no,COLORTERM=1,
+	frc=/lfs/h2/emc/couple/noscrub/keston.smith/RWPSworkflow/RWPS/sorc/../
+	/PrepInputs/forcing,LMOD_FAMILY_CRAYPE_NETWORK=craype-network-ofi,
+	MACHTYPE=x86_64-suse-linux,
+	__LMOD_REF_COUNT_LD_LIBRARY_PATH=/opt/cray/lib64:1,
+	__LMOD_REF_COUNT_PKG_CONFIG_PATH=/opt/cray/lib64/pkgconfig:1,
+	LMOD_CUSTOM_CNCM_CRAYCLANG_10_0_UCX_1_0_PREFIX=/apps/prod/lmodules/cce
+	/13.0.0:/apps/prod/lmodules/cce/12.0.3:/apps/prod/lmodules/cce/11.0.4,
+	tmp=/lfs/h2/emc/couple/noscrub/keston.smith/RWPSworkflow/RWPS/sorc/../
+	/PrepInputs/tmpfiles,SSH_AUTH_SOCK=/tmp/ssh-8YXrZyNz6e62/agent.4140983,
+	_ModuleTable004_=U0lPTi9tb2R1bGVmaWxlcyIsIi91c3Ivc2hhcmUvbW9kdWxlcy9tb
+	2R1bGVmaWxlcyIsIi91c3Ivc2hhcmUvbW9kdWxlZmlsZXMvTGludXgiLCIvdXNyL3NoYXJl
+	L21vZHVsZWZpbGVzL0NvcmUiLCIvdXNyL3NoYXJlL2xtb2QvbG1vZC9tb2R1bGVmaWxlcy9
+	Db3JlIiwiL29wdC9jcmF5L3BlL2xtb2QvbW9kdWxlZmlsZXMvY29yZSIsIi9vcHQvY3JheS
+	9wZS9sbW9kL21vZHVsZWZpbGVzL2NyYXlwZS10YXJnZXRzL2RlZmF1bHQiLCIvYXBwcy9wc
+	m9kL2xtb2R1bGVzL3N5c19jb3JlIiwiL2FwcHMvb3BzL3Byb2QvbmNvL21vZHVsZWZpbGVz
+	L2NvcmUiLCIvYXBwcy9wcm9kL2xtb2R1bGVzL2NvcmUiLCIvb3B0L2NyYXkvbW9kdWxlZml
+	sZXMiLH0sWyJzeXN0ZW1CYXNlTVBBVEgi,MINICOM=-c on,
+	QT_SYSTEM_DIR=/usr/share/desktop-data,OSTYPE=linux,
+	meshname=rwps.oc_20km_300km,USER=keston.smith,
+	MODULES_SET_SHELL_STARTUP=0,PAGER=less,MODULE_VERSION=3.2.10,
+	LMOD_CUSTOM_CNCM_GNU_8_0_OFI_1_0_X86_ROME_1_0_CRAY_MPICH_8_0_PREFIX=/a
+	pps/prod/lmodules/GCC_cray_mpich/10.2.0/cray-mpich/8.1.4,
+	LMOD_CUSTOM_CNCM_GNU_8_0_UCX_1_0_X86_ROME_1_0_CRAY_MPICH_8_0_PREFIX=/a
+	pps/prod/lmodules/GCC_cray_mpich/10.2.0/cray-mpich/8.1.4,
+	CRAY_CPU_TARGET=x86-rome,
+	LMOD_CUSTOM_CNCM_CRAYCLANG_10_0_UCX_1_0_X86_ROME_1_0_CRAY_MPICH_8_0_PR
+	EFIX=/apps/prod/lmodules/CCE_cray_mpich/11.0.4/cray-mpich/8.1.4,
+	__LMOD_REF_COUNT_MODULEPATH=/opt/cray/pe/lmod/modulefiles/net/ofi/1.0:
+	1;/opt/cray/pe/lmod/modulefiles/cpu/x86-rome/1.0:1;/usr/share/modules:1
+	;/usr/share/Modules/$MODULE_VERSION/modulefiles:1;/usr/share/modules/mo
+	dulefiles:1;/usr/share/modulefiles/Linux:1;/usr/share/modulefiles/Core:
+	1;/usr/share/lmod/lmod/modulefiles/Core:1;/opt/cray/pe/lmod/modulefiles
+	/core:1;/opt/cray/pe/lmod/modulefiles/craype-targets/default:1;/apps/pr
+	od/lmodules/sys_core:1;/apps/ops/prod/nco/modulefiles/core:1;/apps/prod
+	/lmodules/core:1;/opt/cray/modulefiles:1,
+	COMINrrfs=/lfs/h1/ops/prod/com/rrfs/v1.0/rrfs./,MORE=-sl,
+	__LMOD_REF_COUNT_LOADEDMODULES=craype-x86-rome:1;libfabric/1.20.1:1;cr
+	aype-network-ofi:1;envvar/1.0:1,
+	PWD=/lfs/h2/emc/couple/noscrub/keston.smith/RWPSworkflow/RWPS/dev/comp
+	ute_interpolation_weights/sorc,
+	COMINrtofs=/lfs/h1/ops/prod/com/rtofs/v2.5/rtofs./,
+	HOME=/u/keston.smith,
+	COMINnbm=/lfs/h3/mdl/ptmp/mdl.nbm/blend/v5.2/blend.//grib2,
+	PELOCAL_PRGENV=true,SSH_AGENT_PID=4140994,HOST=dlogin03,
+	SSH_CLIENT=192.58.153.6 55826 22,LMOD_VERSION=8.3.1,
+	XNLSPATH=/usr/share/X11/nls,CRAY_LMOD_CPU=x86-rome/1.0,
+	LMOD_FAMILY_CRAYPE_CPU_VERSION=false,
+	BASH_ENV=/usr/share/lmod/lmod/init/bash,XDG_DATA_DIRS=/usr/share,
+	LMOD_CUSTOM_CNCM_INTEL_19_0_OFI_1_0_X86_ROME_1_0_CRAY_MPICH_8_0_PREFIX
+	=/apps/prod/lmodules/INTEL_cray_mpich/19.1.3.304/cray-mpich/8.1.4:/apps
+	/ops/prod/libs/modulefiles/mpi/intel/19.1.3.304/cray-mpich/8.1.4,
+	CRAY_LMOD_NET=ofi/1.0,
+	RWPSroot=/lfs/h2/emc/couple/noscrub/keston.smith/RWPSworkflow/RWPS/dev
+	/compute_interpolation_weights/sorc/../../../,
+	COMINlocal=/lfs/h2/emc/couple/noscrub/keston.smith/RWPSworkflow/RWPS/s
+	orc/..//PrepInputs/tmpfiles,
+	__LMOD_REF_COUNT_LMOD_CUSTOM_COMPILER_INTEL_19_0_PREFIX=/apps/ops/prod
+	/nco/models/modulefiles:1;/apps/prod/lmodules/intel/19.1.3.304:1;/apps/
+	ops/prod/libs/modulefiles/compiler/intel/19.1.3.304:1;/apps/ops/prod/nc
+	o/modulefiles/compiler/intel/19.1.3.304:1,LIBGL_DEBUG=quiet,
+	LMOD_CUSTOM_COMPILER_INTEL_19_0_PREFIX=/apps/ops/prod/nco/models/modul
+	efiles:/apps/prod/lmodules/intel/19.1.3.304:/apps/ops/prod/libs/modulef
+	iles/compiler/intel/19.1.3.304:/apps/ops/prod/nco/modulefiles/compiler/
+	intel/19.1.3.304,PROFILEREAD=true,LMOD_sys=Linux,
+	_ModuleTable001_=X01vZHVsZVRhYmxlXz17WyJNVHZlcnNpb24iXT0zLFsiY19yZWJ1a
+	WxkVGltZSJdPWZhbHNlLFsiY19zaG9ydFRpbWUiXT1mYWxzZSxkZXB0aFQ9e30sZmFtaWx5
+	PXtbImNyYXlwZV9jcHUiXT0iY3JheXBlLXg4Ni1yb21lIixbImNyYXlwZV9uZXR3b3JrIl0
+	9ImNyYXlwZS1uZXR3b3JrLW9maSIsfSxtVD17WyJjcmF5cGUtbmV0d29yay1vZmkiXT17Wy
+	JmbiJdPSIvb3B0L2NyYXkvcGUvbG1vZC9tb2R1bGVmaWxlcy9jcmF5cGUtdGFyZ2V0cy9kZ
+	WZhdWx0L2NyYXlwZS1uZXR3b3JrLW9maS5sdWEiLFsiZnVsbE5hbWUiXT0iY3JheXBlLW5l
+	dHdvcmstb2ZpIixbImxvYWRPcmRlciJdPTMscHJvcFQ9e30sWyJzdGFja0RlcHRoIl09MSx
+	bInN0YXR1cyJdPSJhY3RpdmUiLFsidXNl,
+	LOADEDMODULES=craype-x86-rome:libfabric/1.20.1:craype-network-ofi:envv
+	ar/1.0,LMOD_AVAIL_STYLE=en_grouped:system,CRAYPE_NETWORK_TARGET=ofi,
+	_ModuleTable006_=b2R1bGVmaWxlcyIsfQ==,
+	__LMOD_REF_COUNT_MANPATH=/opt/cray/share/man:1;/usr/share/lmod/lmod/sh
+	are/man:1;/usr/share/man:1;/opt/c3/man:1;/opt/pbs/share/man:1,
+	_ModuleTable003_=LFsic3RhdHVzIl09ImFjdGl2ZSIsWyJ1c2VyTmFtZSJdPSJlbnZ2Y
+	XIvMS4wIix9LGxpYmZhYnJpYz17WyJmbiJdPSIvb3B0L2NyYXkvbW9kdWxlZmlsZXMvbGli
+	ZmFicmljLzEuMjAuMSIsWyJmdWxsTmFtZSJdPSJsaWJmYWJyaWMvMS4yMC4xIixbImxvYWR
+	PcmRlciJdPTIscHJvcFQ9e30sWyJzdGFja0RlcHRoIl09MixbInN0YXR1cyJdPSJhY3Rpdm
+	UiLFsidXNlck5hbWUiXT0ibGliZmFicmljIix9LH0sbXBhdGhBPXsiL29wdC9jcmF5L3BlL
+	2xtb2QvbW9kdWxlZmlsZXMvbmV0L29maS8xLjAiLCIvb3B0L2NyYXkvcGUvbG1vZC9tb2R1
+	bGVmaWxlcy9jcHUveDg2LXJvbWUvMS4wIiwiL3Vzci9zaGFyZS9tb2R1bGVzIiwiL3Vzci9
+	zaGFyZS9Nb2R1bGVzLyRNT0RVTEVfVkVS,LMOD_ROOT=/usr/share/lmod,
+	SSH_TTY=/dev/pts/12,FROM_HEADER=,MAIL=/var/spool/mail/keston.smith,
+	COMINstofs=/lfs/h1/ops/prod/com/stofs/v3.1/stofs_2d_glo.,
+	LESSKEY=/etc/lesskey.bin,TERM=xterm-256color,SHELL=/bin/bash,
+	LMOD_ADMIN_FILE=/apps/prod/lmodules/admin.list,
+	LMOD_CUSTOM_COMPILER_GNU_8_0_UCX_1_0_PREFIX=/apps/prod/lmodules/gcc/11
+	.2.0:/apps/prod/lmodules/gcc/10.2.0,
+	outdir=/lfs/h2/emc/couple/noscrub/keston.smith/RWPSworkflow/RWPS/sorc/
+	..//PrepInputs,lmod_prefix_path=/usr/share,
+	LMOD_CUSTOM_COMPILER_CRAYCLANG_10_0_PREFIX=/apps/prod/lmodules/cce/13.
+	0.0:/apps/prod/lmodules/cce/12.0.3:/apps/prod/lmodules/cce/11.0.4,
+	_ModuleTable_Sz_=6,LS_OPTIONS=-N --color=tty -T 0,
+	LMOD_CUSTOM_CNCM_CRAYCLANG_10_0_OFI_1_0_X86_ROME_1_0_CRAY_MPICH_8_0_PR
+	EFIX=/apps/prod/lmodules/CCE_cray_mpich/11.0.4/cray-mpich/8.1.4,
+	TMOUT=1800,PYTHONSTARTUP=/etc/pythonstart,
+	RWPSfix=/lfs/h2/emc/couple/noscrub/keston.smith/RWPS,SHLVL=3,
+	LANGUAGE=en_US.UTF-8,G_FILENAME_ENCODING=@locale\,UTF-8\,ISO-8859-15\,
+	CP1252,
+	LMOD_CUSTOM_COMPILER_INTEL_19_0_UCX_1_0_PREFIX=/apps/prod/lmodules/int
+	el/19.1.3.304:/apps/ops/prod/libs/modulefiles/compiler/intel/19.1.3.304
+	:/apps/ops/prod/nco/modulefiles/compiler/intel/19.1.3.304,
+	HPC_OPT=/apps/ops/prod/libs,
+	MANPATH=/opt/cray/share/man:/usr/share/lmod/lmod/share/man:/usr/share/
+	man:/opt/c3/man:/opt/pbs/share/man,OSCAR_HOME=/opt/oscar,
+	fix=/lfs/h2/emc/couple/noscrub/keston.smith/RWPSworkflow/RWPS/dev/comp
+	ute_interpolation_weights/sorc/../../..//fix,
+	MODULEPATH=/opt/cray/pe/lmod/modulefiles/net/ofi/1.0:/opt/cray/pe/lmod
+	/modulefiles/cpu/x86-rome/1.0:/usr/share/modules:/usr/share/Modules/$MO
+	DULE_VERSION/modulefiles:/usr/share/modules/modulefiles:/usr/share/modu
+	lefiles/Linux:/usr/share/modulefiles/Core:/usr/share/lmod/lmod/modulefi
+	les/Core:/opt/cray/pe/lmod/modulefiles/core:/opt/cray/pe/lmod/modulefil
+	es/craype-targets/default:/apps/prod/lmodules/sys_core:/apps/ops/prod/n
+	co/modulefiles/core:/apps/prod/lmodules/core:/opt/cray/modulefiles,
+	LOGNAME=keston.smith,MODULE_VERSION_STACK=3.2.10,
+	MODULEPATH_ROOT=/usr/share/modulefiles,
+	LMOD_PACKAGE_PATH=/apps/prod/lmodules,XDG_CONFIG_DIRS=/etc/xdg,
+	PATH=/opt/cray/bin:/u/keston.smith/.local/bin:/usr/local/bin:/usr/bin:
+	/bin:/opt/c3/bin:/opt/pbs/bin:/sbin,
+	__LMOD_REF_COUNT_PE_PRODUCT_LIST=CRAYPE_X86_ROME:1,
+	_LMFILES_=/opt/cray/pe/lmod/modulefiles/craype-targets/default/craype-
+	x86-rome.lua:/opt/cray/modulefiles/libfabric/1.20.1:/opt/cray/pe/lmod/m
+	odulefiles/craype-targets/default/craype-network-ofi.lua:/apps/prod/lmo
+	dules/sys_core/envvar/1.0,MODULESHOME=/usr/share/lmod/lmod,
+	PKG_CONFIG_PATH=/opt/cray/lib64/pkgconfig,
+	LMOD_SETTARG_FULL_SUPPORT=no,INFOPATH=:/apps/docs/info,
+	G_BROKEN_FILENAMES=1,HISTSIZE=10000,LMOD_PKG=/usr/share/lmod/lmod,
+	CPU=x86_64,
+	_ModuleTable005_=XT0iL3Vzci9zaGFyZS9tb2R1bGVzOi91c3Ivc2hhcmUvTW9kdWxlc
+	y8kTU9EVUxFX1ZFUlNJT04vbW9kdWxlZmlsZXM6L3Vzci9zaGFyZS9tb2R1bGVzL21vZHVs
+	ZWZpbGVzOi91c3Ivc2hhcmUvbW9kdWxlZmlsZXMvTGludXg6L3Vzci9zaGFyZS9tb2R1bGV
+	maWxlcy9Db3JlOi91c3Ivc2hhcmUvbG1vZC9sbW9kL21vZHVsZWZpbGVzL0NvcmU6L29wdC
+	9jcmF5L3BlL2xtb2QvbW9kdWxlZmlsZXMvY29yZTovb3B0L2NyYXkvcGUvbG1vZC9tb2R1b
+	GVmaWxlcy9jcmF5cGUtdGFyZ2V0cy9kZWZhdWx0Oi9hcHBzL3Byb2QvbG1vZHVsZXMvc3lz
+	X2NvcmU6L2FwcHMvb3BzL3Byb2QvbmNvL21vZHVsZWZpbGVzL2NvcmU6L2FwcHMvcHJvZC9
+	sbW9kdWxlcy9jb3JlOi9vcHQvY3JheS9t,
+	LMOD_CMD=/usr/share/lmod/lmod/libexec/lmod,CVS_RSH=ssh,
+	LESSOPEN=lessopen.sh %s,LMOD_DIR=/usr/share/lmod/lmod/libexec,
+	LC_TIME=C.UTF-8,
+	BASH_FUNC_module%%=() {  eval $($LMOD_CMD bash \"$@\") && eval $(${LMO
+	D_SETTARG_CMD:-:} -s sh)
+    euser = keston.smith
+    egroup = emc
+    hashname = 136818048.dbqs01
+    queue_rank = 1787578728965575
+    queue_type = E
+    comment = Job run at Mon Aug 24 at 13:38 on (nid001112:ncpus=16:mem=2684354
+	56kb)
+    etime = Mon Aug 24 13:38:48 2026
+    umask = 22
+    run_count = 6
+    eligible_time = 00:00:08
+    accrue_type = 3
+    Submit_arguments = -V /lfs/h2/emc/couple/noscrub/keston.smith/RWPSworkflow/
+	RWPS/dev/compute_interpolation_weights/sorc/../../..//dev/compute_inter
+	polation_weights/ecf/compute_interpolation_weights.ecf
+    project = NWPS-DEV
+    run_version = 1
+    Submit_Host = dlogin03.dogwood.wcoss2.ncep.noaa.gov
+    server_instance_id = dbqs01.dogwood.wcoss2.ncep.noaa.gov:15001
+
+
+------------------------------------------------------------------
+Job 136818048.dbqs01 - PBS tracejob output (for parent mom node only):
+
+Job: 136818048.dbqs01
+
+08/24/2026 13:38:50  M    update_job_usage: CPU usage: 0.000 secs
+08/24/2026 13:38:50  M    update_job_usage: cpupercent initialized to zero
+08/24/2026 13:38:50  M    update_job_usage: Memory usage: mem=0b
+08/24/2026 13:38:54  M    Started, pid = 1552072
+08/24/2026 13:40:21  M    update_job_usage: CPU usage: 101.000 secs
+08/24/2026 13:40:21  M    update_job_usage: 136818048.dbqs01 measured interval cpupercent 110 increased job cpupercent to 110
+08/24/2026 13:40:21  M    update_job_usage: Memory usage: mem=2176660kb
+08/24/2026 13:42:22  M    update_job_usage: CPU usage: 228.000 secs
+08/24/2026 13:42:22  M    update_job_usage: Memory usage: mem=4368980kb
+08/24/2026 13:44:24  M    update_job_usage: CPU usage: 349.000 secs
+08/24/2026 13:44:24  M    update_job_usage: Memory usage: mem=11424744kb
+08/24/2026 13:46:25  M    update_job_usage: CPU usage: 474.000 secs
+08/24/2026 13:46:25  M    update_job_usage: Memory usage: mem=11424744kb
+08/24/2026 13:48:26  M    update_job_usage: CPU usage: 594.000 secs
+08/24/2026 13:48:26  M    update_job_usage: Memory usage: mem=12687432kb
+08/24/2026 13:50:27  M    update_job_usage: CPU usage: 627.000 secs
+08/24/2026 13:50:27  M    update_job_usage: Memory usage: mem=12832188kb
+08/24/2026 13:51:56  M    task 00000001 terminated
+08/24/2026 13:51:56  M    Terminated
+08/24/2026 13:51:56  M    task 00000001 cput=00:10:34
+08/24/2026 13:51:56  M    kill_job
+08/24/2026 13:51:56  M    nid001112 cput=00:10:27 mem=12832188kb
+08/24/2026 13:51:56  M    update_job_usage: CPU usage: 632.000 secs
+08/24/2026 13:51:56  M    update_job_usage: Memory usage: mem=12832188kb
+
+------------------------------------------------------------------
+To see full PBS log data, run: /sfs/admin/scripts/tracejob.sh 136818048.dbqs01
+
+==================================================================
+END - DEBUG INFO
+==================================================================
+
+Job 136818048.dbqs01 - Epilogue DEBUG complete. DEBUG Execution time: 6 seconds
+Job 136818048.dbqs01 - Epilogue complete. Execution time: 8 seconds
+##### Job 136818048.dbqs01 - PBS Job Script:
+(Note: Duplicate #PBS entries are a function how PBS interprets and caches the original job script.)
+
+#!/bin/bash
+#PBS -N ESMPy
+#PBS -j oe
+#PBS -S /bin/bash
+#PBS -q dev
+#PBS -A NWPS-DEV
+#PBS -l walltime=04:00:00
+##PBS -l select=1:ncpus=8:mem=128GB
+#PBS -l select=1:ncpus=16:mem=256GB
+###PBS -l select=1:ncpus=1:mem=8G
+#PBS -l place=excl
+#PBS -l debug=true
+
+module reset
+module load PrgEnv-intel/8.5.0
+module load intel/19.1.3.304
+module load craype/2.7.17
+module load cray-mpich/8.1.19
+module load hdf5-C/1.14.0
+module load netcdf-C/4.9.2
+module load esmf-C/8.6.0
+module load ve/hafs/2.1
+
+pip list -v
+
+cd $RWPSroot/ush/preprocess
+
+SID="/lfs/h2/emc/couple/noscrub/keston.smith/SampleInput"
+date="20260730"
+cycl="00"
+Nprocs=16
+
+
+meshname="${mesh##*/}"
+meshname="${meshname: 0: -4}"
+
+rrfs_hi=$SID/wind.$date.$cycl/rrfs.$date.$cycl.wind10m.hi.nc
+rrfs_pr=$SID/wind.$date.$cycl/rrfs.$date.$cycl.wind10m.pr.nc
+rrfs_ak=$SID/wind.$date.$cycl/rrfs.$date.$cycl.wind10m.ak.nc
+rrfs_na=$SID/wind.$date.$cycl/rrfs.$date.$cycl.wind10m.na.nc
+rrfs_conus=$SID/wind.$date.$cycl/rrfs.$date.$cycl.wind10m.conus.nc
+
+out="../../fix"
+
+rrfsIntrp="$out/InterpolationWeights.$meshname.rrfs"
+rrfsDst="$out/DistToBndy.$meshname.rrfs"
+
+#no extrapolation with rrfs forecasts
+python ./compute_gridded_to_rwps_interp_weights.py $rrfs_hi $mesh $rrfsIntrp.hi.nc $rrfsDst.hi.nc -1 > GenWhts.rrfs.hi.out
+python ./compute_gridded_to_rwps_interp_weights.py $rrfs_pr $mesh $rrfsIntrp.pr.nc $rrfsDst.pr.nc -1 > GenWhts.rrfs.pr.out
+python ./compute_gridded_to_rwps_interp_weights.py $rrfs_ak $mesh $rrfsIntrp.ak.nc $rrfsDst.ak.nc -1 > GenWhts.rrfs.ak.out
+python ./compute_gridded_to_rwps_interp_weights.py $rrfs_na $mesh $rrfsIntrp.na.nc $rrfsDst.na.nc -1 > GenWhts.rrfs.na.out
+python ./compute_gridded_to_rwps_interp_weights.py $rrfs_conus $mesh $rrfsIntrp.conus.nc $rrfsDst.conus.nc -1 > GenWhts.rrfs.conus.out
+
+nbm_oc=$SID/wind.$date.$cycl/nbm.$date.$cycl.wind10m.oc.nc
+nbmIntrp="$out/InterpolationWeights.$meshname.nbm"
+nbmDst="$out/DistToBndy.$meshname.nbm"
+#extrapolate nbm oc wind to all points
+python ./compute_gridded_to_rwps_interp_weights.py $nbm_oc $mesh $nbmIntrp.oc.nc $nbmDst.oc.nc 1 > GenWhts.nbm.oc.out
+
+nbm_ak=$SID/ice.$date.$cycl/nbm.$date.$cycl.ice.ak.nc
+#do not extrapolate for NBM .ak. domain
+python ./compute_gridded_to_rwps_interp_weights.py $nbm_ak $mesh $nbmIntrp.ak.nc $nbmDst.ak.nc -1 > GenWhts.nbm.ak.out
+
+rtofs_ice=$SID/ice.$date.$cycl/rtofs.ice.$date.nc
+rtofsIntrp="$out/InterpolationWeights.$meshname.rtofs"
+rtofsDst="$out/DistToBndy.$meshname.rtofs"
+
+#extrapolate rtofs .glo. for full ice coverage
+
+python ./compute_gridded_to_rwps_interp_weights.py $rtofs_ice $mesh $rtofsIntrp.ice.nc $rtofsDst.ice.nc 1 > GenWhts.rtofs.ice.out
+
+
+rtofs_cur=$SID/rtofs.$date/currents.$date.rtofs.nc
+#do not extrapolate rtofs .glo. currents 
+python ./compute_gridded_to_rwps_interp_weights.py $rtofs_cur $mesh $rtofsIntrp.current.nc $rtofsDst.current.nc -1 > GenWhts.rtofs.current.out
+
+
+stofs_glo="$SID/stofs.20260730.00/stofs_2d_glo.t00z.fields.cwl.nc"
+
+## First construct parallel jobscript to compute weights using Nprocs division of destination domain(meshfile)
+python compute_unstr_to_rwps_interp_weights.py $stofs_glo $mesh $Nprocs
+
+## Now run parallel job script
+
+qsub -W block=true jobcardcompute_unstr_to_rwps_interp_weightsPBS
+
+wait
+
+#combine text file output of parallel jobs
+cat STOFSInterpWeights.$meshname/Part.IntrpWghts.*.txt > InterpWeights.$meshname.stofs.txt
+
+# convert output weights to netcdf file 
+python ConvertWeights2Netcdf.py $stofs_glo $mesh InterpWeights.$meshname.stofs.txt 1
+cp InterpWeights.$meshname.stofs.nc $out/InterpolationWeights.$meshname.stofs.v2.nc
+cp DistToBndy.$meshname.stofs.nc $out/DistToBndy.$meshname.stofs.v2.nc
+
+rm -rf STOFSInterpWeights.$meshname
+
+#compute stofs weights for current(v3) stofs mesh 
+stofs_glo="$SID/stofs.v3/stofs.20260819.00/stofs_2d_glo.t00z.fields.cwl.nc"
+
+## First construct parallel jobscript to compute weights using Nprocs division of destination domain(meshfile)
+python compute_unstr_to_rwps_interp_weights.py $stofs_glo $mesh $Nprocs
+
+## Now run parallel job script
+
+qsub -W block=true jobcardcompute_unstr_to_rwps_interp_weightsPBS
+
+wait
+
+#combine text file output of parallel jobs
+cat STOFSInterpWeights.$meshname/Part.IntrpWghts.*.txt > InterpWeights.$meshname.stofs.txt
+
+# convert output weights to netcdf file 
+python convert_weights_to_netcdf.py $stofs_glo $mesh InterpWeights.$meshname.stofs.txt 1
+cp InterpWeights.$meshname.stofs.nc $out/InterpolationWeights.$meshname.stofs.nc
+cp DistToBndy.$meshname.stofs.nc $out/DistToBndy.$meshname.stofs.nc
+
+
+
+
+
+##### End of job script
+------------------------------------------------------------------
+
