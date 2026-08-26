@@ -191,7 +191,11 @@ j0=np.array(j0[0]).tolist()
 u0=np.ones(xi.shape)
 nan=float("nan")
 u0[j0]=nan
-dist2bnd=iutil.CalculateDistanceToInterpEnvelope(xi,yi,u0, 1.)
+
+if not j0: #all points are interpolation envelope
+    dist2bnd=0.*xi + np.inf
+else:
+    dist2bnd=iutil.CalculateDistanceToInterpEnvelope(xi,yi,u0, 1.)
 
 if Extrapolate:
     dist2bnd=0.*dist2bnd + np.inf #all points are inside boundary- No boundary with this type of extrapolation

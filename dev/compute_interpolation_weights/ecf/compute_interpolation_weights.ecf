@@ -19,14 +19,32 @@ module load netcdf-C/4.9.2
 module load esmf-C/8.6.0
 module load ve/hafs/2.1
 
-
-# Compute interpolation weights and distance to boundary for a RWPS mesh.
+######################################################################
+# This job computes interpolation weights and distance to boundary for 
+# a RWPS mesh. Currently configured for:
+# nbm oc domain (wind)
+# nbm ak domain (ice)
+# rrfs hi domain (wind)
+# rrfs pr domain (wind)
+# rrfs ak domain (wind)
+# rrfs conus domain (wind)
+# rrfs na domain (wind)
+# rtofs glo domain (surface currents, ice)
+# stofs v3 (waterlevel, currents)
+#
+# Different sets of interpolation weights are created for rtofs ice 
+# and surface currents so that ice concentration can be extrapolated
+# by nearest node while currents are not extrapolated into coastal 
+# regions outside of rtofs marine domain.
+#
 # Files are created in local RWPS/fix directory.
+######################################################################
 
 pip list -v
 
 cd $RWPSroot/ush/preprocess
 
+# Sample input directory
 SID="/lfs/h2/emc/couple/noscrub/keston.smith/SampleInput"
 date="20260730"
 cycl="00"
@@ -36,6 +54,11 @@ Nprocs=16
 meshname="${mesh##*/}"
 meshname="${meshname: 0: -4}"
 
+
+######################################################################
+# Compute rrfs interpolation weights for interpolating wind.
+# no extrapolation for rrfs forecasts.
+######################################################################
 rrfs_hi=$SID/wind.$date.$cycl/rrfs.$date.$cycl.wind10m.hi.nc
 rrfs_pr=$SID/wind.$date.$cycl/rrfs.$date.$cycl.wind10m.pr.nc
 rrfs_ak=$SID/wind.$date.$cycl/rrfs.$date.$cycl.wind10m.ak.nc
@@ -47,7 +70,6 @@ out="../../fix"
 rrfsIntrp="$out/InterpolationWeights.$meshname.rrfs"
 rrfsDst="$out/DistToBndy.$meshname.rrfs"
 
-#no extrapolation with rrfs forecasts
 rm -rf $rrfsIntrp.hi.nc $rrfsDst.hi.nc __pycache__
 python ./compute_gridded_to_rwps_interp_weights.py $rrfs_hi $mesh $rrfsIntrp.hi.nc $rrfsDst.hi.nc -1 > GenWhts.rrfs.hi.out
 rm -rf $rrfsIntrp.pr.nc $rrfsDst.pr.nc __pycache__
@@ -59,6 +81,11 @@ python ./compute_gridded_to_rwps_interp_weights.py $rrfs_na $mesh $rrfsIntrp.na.
 rm -rf $rrfsIntrp.conus.nc $rrfsDst.conus.nc __pycache__
 python ./compute_gridded_to_rwps_interp_weights.py $rrfs_conus $mesh $rrfsIntrp.conus.nc $rrfsDst.conus.nc -1 > GenWhts.rrfs.conus.out
 
+
+######################################################################
+# Compute nbm interpolation weights on oc domain for interpolating wind.
+# Extrapolate to cover minor edge differences on south and east boundaries.
+######################################################################
 nbm_oc=$SID/wind.$date.$cycl/nbm.$date.$cycl.wind10m.oc.nc
 nbmIntrp="$out/InterpolationWeights.$meshname.nbm"
 nbmDst="$out/DistToBndy.$meshname.nbm"
@@ -67,6 +94,11 @@ nbmDst="$out/DistToBndy.$meshname.nbm"
 rm $nbmIntrp.oc.nc $nbmDst.oc.nc
 python ./compute_gridded_to_rwps_interp_weights.py $nbm_oc $mesh $nbmIntrp.oc.nc $nbmDst.oc.nc 1 > GenWhts.nbm.oc.out
 
+
+######################################################################
+# Compute nbm interpolation weights on ak domain for interpolating ice.
+# No extrapolation outside the ak region
+######################################################################
 nbm_ak=$SID/ice.$date.$cycl/nbm.$date.$cycl.ice.ak.nc
 #do not extrapolate for NBM .ak. domain
 rm $nbmIntrp.ak.nc $nbmDst.ak.nc
@@ -76,63 +108,69 @@ rtofs_ice=$SID/ice.$date.$cycl/rtofs.ice.$date.nc
 rtofsIntrp="$out/InterpolationWeights.$meshname.rtofs"
 rtofsDst="$out/DistToBndy.$meshname.rtofs"
 
-#extrapolate rtofs .glo. for full ice coverage
+######################################################################
+# Compute rtofs interpolation weights for interpolating ice.
+# Do extrapolate rtofs .glo. for full ice coverage in near shore.
+######################################################################
 rm $rtofsIntrp.ice.nc $rtofsDst.ice.nc 
 python ./compute_gridded_to_rwps_interp_weights.py $rtofs_ice $mesh $rtofsIntrp.ice.nc $rtofsDst.ice.nc 1 > GenWhts.rtofs.ice.out
 
 
+######################################################################
+# Compute rtofs interpolation weights for interpolating currents.
+# Do not extrapolate into coastal regions
+######################################################################
 rtofs_cur=$SID/rtofs.$date/currents.$date.rtofs.nc
 #do not extrapolate rtofs .glo. currents 
 rm $rtofsIntrp.current.nc $rtofsDst.current.nc
 python ./compute_gridded_to_rwps_interp_weights.py $rtofs_cur $mesh $rtofsIntrp.current.nc $rtofsDst.current.nc -1 > GenWhts.rtofs.current.out
 
 
-
-#comute interpolation weights for current stofs output 
-mkdir -p  STOFSInterpWeights.$meshname
-#compute stofs weights for current(v3) stofs mesh 
+######################################################################
+# Compute stofs interpolation weights for stofs v3 output
+# All dates after ~ August 18 2026
+######################################################################
 stofs_glo="$SID/stofs.v3/stofs.20260819.00/stofs_2d_glo.t00z.fields.cwl.nc"
 
-## First construct parallel jobscript to compute weights using Nprocs division of destination domain(meshfile)
+mkdir -p  STOFSInterpWeights.$meshname
+
+# First construct parallel jobscript to compute weights using Nprocs division of destination domain(meshfile)
 python compute_unstr_to_rwps_interp_weights.py $stofs_glo $mesh $Nprocs
 
-## Now run parallel job script
-
+# Now run the parallel job script
 qsub -W block=true jobcardcompute_unstr_to_rwps_interp_weightsPBS
-
 wait
 
-#combine text file output of parallel jobs
+# combine text file output of parallel jobs
 cat STOFSInterpWeights.$meshname/Part.IntrpWghts.*.txt > InterpWeights.$meshname.stofs.txt
 
-# convert output weights to netcdf file 
+# sort order of nodes and convert output weights to netcdf file 
 python convert_weights_to_netcdf.py $stofs_glo $mesh InterpWeights.$meshname.stofs.txt 1
 cp InterpWeights.$meshname.stofs.nc $out/InterpolationWeights.$meshname.stofs.nc
 cp DistToBndy.$meshname.stofs.nc $out/DistToBndy.$meshname.stofs.nc
 
-
+# clean up temporary directory and files
 rm -rf STOFSInterpWeights.$meshname
 rm InterpWeights.$meshname.stofs.txt 
 rm *.out
 rm ESMPy*
 
 
-
-
-# Old v2 of stofs
+######################################################################
+# Compute stofs interpolation weights for old(v2) stofs output
+# All dates before ~ August 18 2026
 # Note: stofs v3 and  stofs v2 appear to use the same mesh but file sizes differ. 
-# There should not be any problem just useing the  stofs v3 based weights for v2 output files
-# v2 file:
+# There should not be any problem just useing the stofs v3 based weights for v2 output files
+######################################################################
 stofs_glo="$SID/stofs.20260730.00/stofs_2d_glo.t00z.fields.cwl.nc"
 
 mkdir -p STOFSInterpWeights.$meshname
-## First construct parallel jobscript to compute weights using Nprocs division of destination domain(meshfile)
+
+# First construct parallel jobscript to compute weights using Nprocs division of destination domain(meshfile)
 python compute_unstr_to_rwps_interp_weights.py $stofs_glo $mesh $Nprocs
 
-## Now run parallel job script
-
+# Now run parallel job script
 qsub -W block=true jobcardcompute_unstr_to_rwps_interp_weightsPBS
-
 wait
 
 #combine text file output of parallel jobs
@@ -142,9 +180,10 @@ cat STOFSInterpWeights.$meshname/Part.IntrpWghts.*.txt > InterpWeights.$meshname
 python convert_weights_to_netcdf.py $stofs_glo $mesh InterpWeights.$meshname.stofs.txt 1
 cp InterpWeights.$meshname.stofs.nc $out/InterpolationWeights.$meshname.stofs.v2.nc
 cp DistToBndy.$meshname.stofs.nc $out/DistToBndy.$meshname.stofs.v2.nc
-mv  DistToBndy.$meshname.stofs.nc  DistToBndy.$meshname.stofs.v2.nc
+mv DistToBndy.$meshname.stofs.nc  DistToBndy.$meshname.stofs.v2.nc
 mv InterpWeights.$meshname.stofs.nc InterpWeights.$meshname.stofs.v2.nc
 
+# clean up temporary directory and files
 rm -rf STOFSInterpWeights.$meshname
 rm InterpWeights.$meshname.stofs.txt 
 rm *.out
