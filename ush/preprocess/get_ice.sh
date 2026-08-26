@@ -5,5 +5,5 @@
 cd $HOMErwps/ush/preprocess
 
 sh rtofs/get_rtofs_ice.sh $PDY $cyc &
-sh nbm/get_nbm_ice.sh $PDY $cyc &
+if [$mixed_ice_forcing]; then sh nbm/get_nbm_ice.sh $PDY $cyc &; fi
 wait;
