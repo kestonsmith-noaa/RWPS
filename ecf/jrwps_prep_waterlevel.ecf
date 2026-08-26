@@ -4,7 +4,7 @@
 #PBS -A GLWU-DEV
 #PBS -N RWPS.PreProc.waterlevel
 #PBS -j oe
-#PBS -l select=1:ncpus=4:mem=64GB
+#PBS -l select=1:ncpus=16:mem=64GB
 #PBS -o RWPS.PreProc.out
 
 cd $HOMErwps/ush/preprocess

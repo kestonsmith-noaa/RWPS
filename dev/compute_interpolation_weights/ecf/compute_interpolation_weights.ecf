@@ -5,10 +5,7 @@
 #PBS -q dev
 #PBS -A NWPS-DEV
 #PBS -l walltime=04:00:00
-##PBS -l select=1:ncpus=8:mem=128GB
-#PBS -l select=1:ncpus=16:mem=256GB
-##PBS -l select=1:ncpus=32:mem=256GB
-###PBS -l select=1:ncpus=1:mem=8G
+#PBS -l select=1:ncpus=16:mem=500GB
 #PBS -l place=excl
 #PBS -l debug=true
 
@@ -86,40 +83,12 @@ python ./compute_gridded_to_rwps_interp_weights.py $rtofs_ice $mesh $rtofsIntrp.
 
 rtofs_cur=$SID/rtofs.$date/currents.$date.rtofs.nc
 #do not extrapolate rtofs .glo. currents 
-rm $rtofsIntrp.ice.nc $rtofsDst.ice.nc
+rm $rtofsIntrp.current.nc $rtofsDst.current.nc
 python ./compute_gridded_to_rwps_interp_weights.py $rtofs_cur $mesh $rtofsIntrp.current.nc $rtofsDst.current.nc -1 > GenWhts.rtofs.current.out
 
 
 
-#Old v2 of stofs
-stofs_glo="$SID/stofs.20260730.00/stofs_2d_glo.t00z.fields.cwl.nc"
-
-mkdir -p STOFSInterpWeights.$meshname
-## First construct parallel jobscript to compute weights using Nprocs division of destination domain(meshfile)
-python compute_unstr_to_rwps_interp_weights.py $stofs_glo $mesh $Nprocs
-
-## Now run parallel job script
-
-qsub -W block=true jobcardcompute_unstr_to_rwps_interp_weightsPBS
-
-wait
-
-#combine text file output of parallel jobs
-cat STOFSInterpWeights.$meshname/Part.IntrpWghts.*.txt > InterpWeights.$meshname.stofs.txt
-
-# convert output weights to netcdf file 
-python convert_weights_to_netcdf.py $stofs_glo $mesh InterpWeights.$meshname.stofs.txt 1
-cp InterpWeights.$meshname.stofs.nc $out/InterpolationWeights.$meshname.stofs.v2.nc
-cp DistToBndy.$meshname.stofs.nc $out/DistToBndy.$meshname.stofs.v2.nc
-mv  DistToBndy.$meshname.stofs.nc  DistToBndy.$meshname.stofs.v2.nc
-mv InterpWeights.$meshname.stofs.nc InterpWeights.$meshname.stofs.v2.nc
-
-rm -rf STOFSInterpWeights.$meshname
-rm InterpWeights.$meshname.stofs.txt 
-rm *.out
-rm ESMPy*
-
-
+#comute interpolation weights for current stofs output 
 mkdir -p  STOFSInterpWeights.$meshname
 #compute stofs weights for current(v3) stofs mesh 
 stofs_glo="$SID/stofs.v3/stofs.20260819.00/stofs_2d_glo.t00z.fields.cwl.nc"
@@ -147,5 +116,38 @@ rm InterpWeights.$meshname.stofs.txt
 rm *.out
 rm ESMPy*
 
+
+
+
+# Old v2 of stofs
+# Note: stofs v3 and  stofs v2 appear to use the same mesh but file sizes differ. 
+# There should not be any problem just useing the  stofs v3 based weights for v2 output files
+# v2 file:
+stofs_glo="$SID/stofs.20260730.00/stofs_2d_glo.t00z.fields.cwl.nc"
+
+mkdir -p STOFSInterpWeights.$meshname
+## First construct parallel jobscript to compute weights using Nprocs division of destination domain(meshfile)
+python compute_unstr_to_rwps_interp_weights.py $stofs_glo $mesh $Nprocs
+
+## Now run parallel job script
+
+qsub -W block=true jobcardcompute_unstr_to_rwps_interp_weightsPBS
+
+wait
+
+#combine text file output of parallel jobs
+cat STOFSInterpWeights.$meshname/Part.IntrpWghts.*.txt > InterpWeights.$meshname.stofs.txt
+
+# convert output weights to netcdf file 
+python convert_weights_to_netcdf.py $stofs_glo $mesh InterpWeights.$meshname.stofs.txt 1
+cp InterpWeights.$meshname.stofs.nc $out/InterpolationWeights.$meshname.stofs.v2.nc
+cp DistToBndy.$meshname.stofs.nc $out/DistToBndy.$meshname.stofs.v2.nc
+mv  DistToBndy.$meshname.stofs.nc  DistToBndy.$meshname.stofs.v2.nc
+mv InterpWeights.$meshname.stofs.nc InterpWeights.$meshname.stofs.v2.nc
+
+rm -rf STOFSInterpWeights.$meshname
+rm InterpWeights.$meshname.stofs.txt 
+rm *.out
+rm ESMPy*
 
 

@@ -1,10 +1,10 @@
 #!/bin/sh
 #PBS -q dev
-#PBS -l walltime=00:59:00
+#PBS -l walltime=04:00:00
 #PBS -A GLWU-DEV
 #PBS -N RWPS.PreProc.wind
 #PBS -j oe
-#PBS -l select=1:ncpus=4:mem=64GB
+#PBS -l select=1:ncpus=32:mem=64GB
 #PBS -o RWPS.PreProc.out
 
 cd $HOMErwps/ush/preprocess
