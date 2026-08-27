@@ -5,7 +5,6 @@ import interp_utilities as  iutil
 import os
 #Add compute and add error variance field to existing file 
 
-UseUnixTime=True
 nargin = len(sys.argv) - 1
 
 flin=sys.argv[1]
@@ -121,8 +120,8 @@ with  nc.Dataset(fltmp, "w", format="NETCDF4") as ncout:
 
     if not 'node' in ncout.dimensions:
         ncadd.createDimension('node' , nn)
-    if not 'time' in ncout.dimensions:
-        ncadd.createDimension('time' , nt)
+    if not 'T' in ncout.dimensions:
+        ncadd.createDimension('T' , nt)
     if not 'ErrorVariance' in ncout.variables:
         ErrorVariance_var=ncout.createVariable('ErrorVariance', 'f8', ('T','node'))
         ErrorVariance_var.long_name     = 'forecast error variance'

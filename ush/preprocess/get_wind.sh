@@ -6,6 +6,8 @@
 cd $HOMErwps/ush/preprocess
 
 echo "retrieving winds from rrfs and nbm for rwps wind"
+export OUTPUT_DIR="$COMINlocal/wind.$PDY.$cyc"
+mkdir -p $OUTPUT_DIR
 
 (
     echo "sh nbm/make_nbm_wind.sh $PDY $cyc oc > $tmp/nbm.oc.out"
@@ -14,7 +16,9 @@ echo "retrieving winds from rrfs and nbm for rwps wind"
     echo "Not retrieving other nbm domain winds"
 )&
 
-if [$mixed_wind_forcing]; then
+if [[ $mixed_wind_forcing -eq 1 ]]; then
+    echo "I should onot be here if this is 0  ==> $mixed_wind_forcing"
+
     (
         echo "sh rrfs/make_rrfs_wind.sh $PDY $cyc na > $tmp/rrfs.na.out"
         rrfs/make_rrfs_wind.sh $PDY $cyc na > $tmp/rrfs.na.out
@@ -44,8 +48,6 @@ if [$mixed_wind_forcing]; then
         rrfs/make_rrfs_wind.sh $PDY $cyc conus > $tmp/rrfs.conus.out
         echo "retrieved winds from rrfs conus domain"
     )&
-    wait
-    echo "finished retrieving winds from all rrfs domains"
 fi
 
 wait

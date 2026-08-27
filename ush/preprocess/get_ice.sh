@@ -3,8 +3,7 @@
 cd $HOMErwps/ush/preprocess
 sh rtofs/get_rtofs_ice.sh $PDY $cyc &
 
-#[[ $mixed_ice_forcing == 1 ]] && sh nbm/get_nbm_ice.sh $PDY $cyc &
-if [ $mixed_ice_forcing == 1 ]; then
+if [[ $mixed_ice_forcing -eq 1 ]]; then
     sh nbm/get_nbm_ice.sh $PDY $cyc &
 fi
 wait;

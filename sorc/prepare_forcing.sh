@@ -12,6 +12,19 @@ export PDY=$1
 export cyc=$2
 export meshID=$3
 
+# if mixed_wind_forcing=0, wind will be based on nbm oc forecast.
+# if mixed_wind_forcing=1, nbm oc wind will be updated based on 
+# rrfs hi, pr, ak, na and conus forecasts.
+export mixed_wind_forcing=1
+
+# if mixed_current_forcing=0, current will be based on stofs glo forecast.
+# if mixed_current_forcing=1, stofs glo forecast will be updated in deep water 
+# with rtofs glo surface currents.
+export mixed_current_forcing=1
+
+# if mixed_ice_forcing=0, ice will be based on rtofs glo ice forecast.
+# if mixed_ice_forcing=1, rtofs glo ice forecast will be updated with the nbm ak
+# ice forecast.
 export mixed_ice_forcing=1
 
 readonly HOMErwps=$(cd "$(dirname "$(readlink -f -n "${BASH_SOURCE[0]}")")" && git rev-parse --show-toplevel)
@@ -19,7 +32,6 @@ cd "${HOMErwps}/sorc" || exit 1
 
 source "${HOMErwps}/ush/detect_machine.sh"
 source "${HOMErwps}/ush/module-setup.sh"
-#source "${HOMErwps}/versions/build.ver"
 
 export MACHINE_ID
 export HOMErwps
@@ -28,7 +40,6 @@ if [[ -z "${MACHINE_ID}" ]]; then
     echo "FATAL: Unable to determine target machine"
     exit 1
 fi
-
 
 export mesh="$HOMErwps/fix/rwps.$meshID.msh"
 export fix="$HOMErwps/fix"
@@ -65,7 +76,7 @@ meshname="${mesh##*/}"
 export meshname="${meshname: 0: -4}"
 
 #Retrieve current and process for forecast cycle
-qsub -V $HOMErwps/ecf/jrwps_prep_current.ecf 
+qsub -V $HOMErwps/ecf/jrwps_prep_current.ecf
 qsub -V $HOMErwps/ecf/jrwps_prep_ice.ecf
 qsub -V $HOMErwps/ecf/jrwps_prep_waterlevel.ecf
 qsub -V $HOMErwps/ecf/jrwps_prep_wind.ecf

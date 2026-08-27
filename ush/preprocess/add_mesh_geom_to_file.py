@@ -4,7 +4,6 @@ import sys
 import interp_utilities as  iutil
 import os
 
-UseUnixTime=True
 nargin = len(sys.argv) - 1
 
 flin=sys.argv[1]

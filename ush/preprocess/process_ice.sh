@@ -34,7 +34,7 @@ rwps_ice="$frc/$meshname.$PDY.$cyc.ice.nc"
 
 #../../fix/DistToBndy.rwps.oc_1500m_30km.nbm.ak.nc
 
-if [ $mixed_ice_forcing == 1 ]; then
+if [[ $mixed_ice_forcing -eq 1 ]]; then
     if [ ! -f "$nbm_ak_wghts" ]; then
         echo "missing nbm ak interpolation weights file: $nbm_ak_wghts"
         echo "compute with script compute_unstr_to_rwps_interp_weights.sh"
@@ -69,7 +69,7 @@ python interpolate_with_weights.py $rtofsice $rtofs_wghts $rtofs_rwps $varnames 
 wait;
 python add_mesh_geom_to_file.py $rtofs_rwps $mesh
 
-if [ $mixed_ice_forcing == 1 ]; then
+if [[ $mixed_ice_forcing -eq 1 ]]; then
 
     python add_mesh_geom_to_file.py $nbm_rwps $mesh
 
@@ -89,6 +89,6 @@ if [ $mixed_ice_forcing == 1 ]; then
 
     python bayes_forecast_update.py $rtofs_rwps_ti $nbm_rwps_ti $rwps_ice $varnames
 else
-    python add_err_var_to_file.py $rtofs_rwps $rtofs_dists 100.
+    python add_err_var_to_file.py $rtofs_rwps $rtofs_dists 1.
     cp $rtofs_rwps $rwps_ice
 fi
