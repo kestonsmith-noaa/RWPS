@@ -120,7 +120,7 @@ with nc.Dataset(flout, 'w', format='NETCDF4') as ncout:
     ncout.createDimension('level' , 1)  
     ncout.createDimension('node' , nn)
     ncout.createDimension('element' , ne)
-    ncout.createDimension('time', nt)
+    ncout.createDimension('T', nt)
     ncout.createDimension('noel', 3)
 
     lon_var=ncout.createVariable('longitude', 'f8', ('node',))
@@ -138,7 +138,7 @@ with nc.Dataset(flout, 'w', format='NETCDF4') as ncout:
     lat_var[:]=y[:]
 
     time_var0=data0["time"]
-    time_var=ncout.createVariable('time', 'f8', ('time',))
+    time_var=ncout.createVariable('time', 'f8', ('T',))
     iutil.CopyAttributes(time_var0, time_var)
     time_var[:]=tf[:]
 
@@ -150,7 +150,7 @@ with nc.Dataset(flout, 'w', format='NETCDF4') as ncout:
     #Copy attributes from old file to new
     for jv in range(nvar):
         var=data0[varname[jv]]
-        f_var=ncout.createVariable(varname[jv], 'f4', ('time','node'))
+        f_var=ncout.createVariable(varname[jv], 'f4', ('T','node'))
         iutil.CopyAttributes(var, f_var)
         f_var[:,:]=InterpolatedVariables[jv,:,:]
     ncout.close

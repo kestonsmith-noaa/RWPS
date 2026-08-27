@@ -70,7 +70,7 @@ with nc.Dataset(flout, 'w', format='NETCDF4') as ncout:
     ncout.createDimension('level' , 1)  
     ncout.createDimension('node' , nn)
     ncout.createDimension('element' , ne)
-    ncout.createDimension('time', nt)
+    ncout.createDimension('T', nt)
     ncout.createDimension('noel', 3)
 
     lon_var=ncout.createVariable('longitude', 'f8', ('node',))
@@ -87,7 +87,7 @@ with nc.Dataset(flout, 'w', format='NETCDF4') as ncout:
     lat_var.axis          = 'Y'
     lat_var[:]=y[:]
 
-    time_var=ncout.createVariable('time', 'f4', ('time',))
+    time_var=ncout.createVariable('time', 'f4', ('T',))
     iutil.CopyAttributes(data0["time"], time_var)
     time_var[:]=t[:]
 
@@ -98,12 +98,12 @@ with nc.Dataset(flout, 'w', format='NETCDF4') as ncout:
 
     #Copy attributes from old file to new
     for jv in range(nvar):
-        f_var=ncout.createVariable(varname[jv], 'f4', ('time','node'))
+        f_var=ncout.createVariable(varname[jv], 'f4', ('T','node'))
         iutil.CopyAttributes(data0[varname[jv]], f_var)
         f_var[:,:]=field[jv,:,:]
 
     ErrVar0=data0["ErrorVariance"]
-    ErrVar_var=ncout.createVariable("ErrorVariance", 'f4', ('time','node'))
+    ErrVar_var=ncout.createVariable("ErrorVariance", 'f4', ('T','node'))
     iutil.CopyAttributes(ErrVar0, ErrVar_var)
     ErrVar_var[:,:]=var[:,:]
     ncout.close
