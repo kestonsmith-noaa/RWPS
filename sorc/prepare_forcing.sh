@@ -12,6 +12,8 @@ export PDY=$1
 export cyc=$2
 export meshID=$3
 
+export mixed_ice_forcing=1
+
 readonly HOMErwps=$(cd "$(dirname "$(readlink -f -n "${BASH_SOURCE[0]}")")" && git rev-parse --show-toplevel)
 cd "${HOMErwps}/sorc" || exit 1
 

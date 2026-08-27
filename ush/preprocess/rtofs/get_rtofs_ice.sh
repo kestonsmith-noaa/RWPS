@@ -7,7 +7,8 @@ filesin="$COMINrtofs/*ice.nc"
 dirout="$COMINlocal/ice.$PDY.$cyc"
 flout="$dirout/rtofs.ice.$PDY.nc"
 
-mkdir $tmpdir
+mkdir -p $tmpdir
+mkdir -p $dirout
 cp $filesin $tmpdir/
 echo $tmpdir
 echo $flout

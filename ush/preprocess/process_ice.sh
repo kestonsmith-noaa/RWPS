@@ -34,22 +34,21 @@ rwps_ice="$frc/$meshname.$PDY.$cyc.ice.nc"
 
 #../../fix/DistToBndy.rwps.oc_1500m_30km.nbm.ak.nc
 
+if [ $mixed_ice_forcing == 1 ]; then
+    if [ ! -f "$nbm_ak_wghts" ]; then
+        echo "missing nbm ak interpolation weights file: $nbm_ak_wghts"
+        echo "compute with script compute_unstr_to_rwps_interp_weights.sh"
+        exit 1
+    fi
 
-if [ ! -f "$nbm_ak_wghts" ]; then
-    echo "missing nbm ak interpolation weights file: $nbm_ak_wghts"
-    echo "compute with script compute_unstr_to_rwps_interp_weights.sh"
-    exit 1
+    if [ ! -f "$nbm_ak_dists" ]; then
+       echo "missing nbm ak  distance to boundary file: $nbm_ak_dists"
+       echo "compute with script compute_unstr_to_rwps_interp_weights.sh"
+        exit 1
+    fi
+#  no extrapolation
+    python interpolate_with_weights.py $nbmice $nbm_ak_wghts $nbm_rwps $varnames -1 &
 fi
-
-if [ ! -f "$nbm_ak_dists" ]; then
-    echo "missing nbm ak  distance to boundary file: $nbm_ak_dists"
-    echo "compute with script compute_unstr_to_rwps_interp_weights.sh"
-    exit 1
-fi
-
-# no extrapolation
-python interpolate_with_weights.py $nbmice $nbm_ak_wghts $nbm_rwps $varnames -1 &
-
 ## RTOFS interpolation
 
 if [ ! -f "$rtofs_wghts" ]; then
@@ -68,26 +67,28 @@ echo "$rtofsice"
 python interpolate_with_weights.py $rtofsice $rtofs_wghts $rtofs_rwps $varnames 0 &
 
 wait;
-
 python add_mesh_geom_to_file.py $rtofs_rwps $mesh
-python add_mesh_geom_to_file.py $nbm_rwps $mesh
 
-#python add_err_var_to_file.py $rtofs_rwps $rtofs_dists 100.:1.:50.:250.:50.
-#python add_err_var_to_file.py $stofs_rwps $stofs_dists 1.:100.:50.:250.
+if [ $mixed_ice_forcing == 1 ]; then
 
-#interpolate from stofs to common stofs and rtofs times within range of stofs time
-python interp_time.py $rtofs_rwps $nbm_rwps $rtofs_rwps_ti $varnames False &
+    python add_mesh_geom_to_file.py $nbm_rwps $mesh
 
-#interpolate from rtofs to common stofs and rtofs times within range of stofs time
-#values out of range are extrapolated to assuming persistance
-python interp_time.py $rtofs_rwps $nbm_rwps $nbm_rwps_ti $varnames True &
+# interpolate from stofs to common rtofs and nbm times within range of rtofs time
+    python interp_time.py $rtofs_rwps $nbm_rwps $rtofs_rwps_ti $varnames False &
 
-wait
+# interpolate from rtofs to common rtofs and nbm times within range of rtofs time
+# values out of range are extrapolated to assuming persistance
+    python interp_time.py $rtofs_rwps $nbm_rwps $nbm_rwps_ti $varnames True &
+    wait
 
 #uniform variance of 100.
-python add_err_var_to_file.py $rtofs_rwps_ti $rtofs_dists 100.
+    python add_err_var_to_file.py $rtofs_rwps_ti $rtofs_dists 100.
 
 #interior variance of 4., boundary variance fof 400., transition lengthscale 9. km
-python add_err_var_to_file.py $nbm_rwps_ti $nbm_ak_dists 4.:400.:9.
+    python add_err_var_to_file.py $nbm_rwps_ti $nbm_ak_dists 4.:400.:9.
 
-python bayes_forecast_update.py $rtofs_rwps_ti $nbm_rwps_ti $rwps_ice $varnames
+    python bayes_forecast_update.py $rtofs_rwps_ti $nbm_rwps_ti $rwps_ice $varnames
+else
+    python add_err_var_to_file.py $rtofs_rwps $rtofs_dists 100.
+    cp $rtofs_rwps $rwps_ice
+fi
