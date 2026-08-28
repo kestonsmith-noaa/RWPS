@@ -204,9 +204,9 @@ with nc.Dataset(flout, 'w', format='NETCDF4') as ncout:
 
     ncout.createDimension('level' , 1)  
     ncout.createDimension('node' , nni)
-    ncout.createDimension('T', nt)
+    ncout.createDimension('time', nt)
 
-    time_var=ncout.createVariable('time', 'f8', ('T',))
+    time_var=ncout.createVariable('time', 'f8', ('time',))
     varin = data["time"]
     iutil.CopyAttributes(varin, time_var)
     if UseUnixTime:
@@ -218,13 +218,18 @@ with nc.Dataset(flout, 'w', format='NETCDF4') as ncout:
     for jv in range(nvar):
         print("writing output for :"+varname[jv])
         varin = data[varname[jv]]
-        F_var=ncout.createVariable(varname[jv], 'f4', ('T','node'),fill_value = fill_value0)
+
+        try:
+            fill_value0=data[varname[jv]]._FillValue
+        except:
+            fill_value0=-99999
+        F_var=ncout.createVariable(varname[jv], 'f4', ('time','node'),fill_value = fill_value0)
         iutil.CopyAttributes(varin, F_var)
         F_var.location      = 'node'
         F_var[:,:]          = vari[jv,:,:]
         
         if ExtrapMethod >= 0 :
-            xtrp_var=ncout.createVariable(varname[jv]+'IsExtrap', 'i1', ('T','node'))
+            xtrp_var=ncout.createVariable(varname[jv]+'IsExtrap', 'i1', ('time','node'))
             xtrp_var.long_name     = '==1 if the interpolated value extrapolated. 0 if interpolated'
             xtrp_var.standard_name = 'is extrapolated'
             xtrp_var.location      = 'node'
