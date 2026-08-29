@@ -2,6 +2,8 @@
 
 cd $HOMErwps/ush/preprocess
 
+max_current_spd=2.0
+
 meshname="${mesh##*/}"
 meshname="${meshname: 0: -4}"
 
@@ -78,3 +80,7 @@ else
     python add_err_var_to_file.py $stofs_rwps_ti $stofs_dists 1.
     cp $stofs_rwps $rwps_current 
 fi
+
+rwps_current_nolim="${rwps_current: 0: -3}.unlimited.nc"
+mv $rwps_current $rwps_current_nolim
+python limit_max_current_speed.py $rwps_current_nolim  $rwps_current $max_current_spd
