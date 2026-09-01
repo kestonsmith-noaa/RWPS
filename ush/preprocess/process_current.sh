@@ -2,8 +2,6 @@
 
 cd $HOMErwps/ush/preprocess
 
-max_current_spd=2.0
-
 meshname="${mesh##*/}"
 meshname="${meshname: 0: -4}"
 
@@ -81,6 +79,18 @@ else
     cp $stofs_rwps $rwps_current 
 fi
 
-rwps_current_nolim="${rwps_current: 0: -3}.unlimited.nc"
-mv $rwps_current $rwps_current_nolim
-python limit_max_current_speed.py $rwps_current_nolim  $rwps_current $max_current_spd
+
+#limit max current speed to supress very shallow water (wetting/drying) artifacts
+if [[ -v max_current_spd ]]; then
+    echo "limiting maximum current speed to $max_current_spd (m/s)"
+    rwps_current_nonan="${rwps_current: 0: -3}.nonan.nc"
+    python replace_nans_with_zeros.py $rwps_current $rwps_current_nonan $varnames
+    rwps_current_nolim="${rwps_current: 0: -3}.nolimit.nc"
+    mv $rwps_current $rwps_current_nolim
+    python limit_max_current_speed.py $rwps_current_nonan $rwps_current $max_current_spd
+    mv $rwps_current_nonan $tmp/
+    mv $rwps_current_nolim $tmp/
+else
+    echo "no limit plaxed on maximum current speed"
+fi
+

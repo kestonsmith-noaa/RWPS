@@ -27,6 +27,10 @@ export mixed_current_forcing=1
 # ice forecast.
 export mixed_ice_forcing=1
 
+# define variable max_current_spd if maximum ocean current is to be limited.
+# unrealisitic current speeds can occur in extreemly shallow regions in stofs forecasts
+export max_current_spd=2.0
+
 readonly HOMErwps=$(cd "$(dirname "$(readlink -f -n "${BASH_SOURCE[0]}")")" && git rev-parse --show-toplevel)
 cd "${HOMErwps}/sorc" || exit 1
 
