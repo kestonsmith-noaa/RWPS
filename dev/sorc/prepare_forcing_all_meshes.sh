@@ -1,0 +1,78 @@
+#!/bin/bash
+# --------------------------------------------------------------------------- #
+#                                                                             #
+# Copy external fix files that are too large to store in repository           #
+#                                                                             #
+# Last Changed : 08-15-2025                                        Aug 2025   #
+# --------------------------------------------------------------------------- #
+
+echo 'setting paths...'
+
+export PDY=$1
+export cyc=$2
+
+# if mixed_wind_forcing=0, wind will be based on nbm oc forecast.
+# if mixed_wind_forcing=1, nbm oc wind will be updated based on 
+# rrfs hi, pr, ak, na and conus forecasts.
+export mixed_wind_forcing=1
+
+# if mixed_current_forcing=0, current will be based on stofs glo forecast.
+# if mixed_current_forcing=1, stofs glo forecast will be updated in deep water 
+# with rtofs glo surface currents.
+export mixed_current_forcing=1
+
+# if mixed_ice_forcing=0, ice will be based on rtofs glo ice forecast.
+# if mixed_ice_forcing=1, rtofs glo ice forecast will be updated with the nbm ak
+# ice forecast.
+export mixed_ice_forcing=1
+
+# define variable max_current_spd if maximum ocean current is to be limited.
+# unrealisitic current speeds can occur in extreemly shallow regions in stofs forecasts
+export max_current_spd=2.0
+
+readonly HOMErwps=$(cd "$(dirname "$(readlink -f -n "${BASH_SOURCE[0]}")")" && git rev-parse --show-toplevel)
+cd "${HOMErwps}/sorc" || exit 1
+
+source "${HOMErwps}/ush/detect_machine.sh"
+source "${HOMErwps}/ush/module-setup.sh"
+
+export MACHINE_ID
+export HOMErwps
+
+if [[ -z "${MACHINE_ID}" ]]; then
+    echo "FATAL: Unable to determine target machine"
+    exit 1
+fi
+
+export mesh="$HOMErwps/fix/rwps.$meshID.msh"
+export fix="$HOMErwps/fix"
+export prep="$HOMErwps/PrepInputs"
+export tmp="$prep/tmpfiles"
+export frc="$prep/forcing"
+export outdir=$prep
+
+echo $HOMErwps
+echo $fix $prep $tmp $outdir
+mkdir -p $prep
+mkdir -p $tmp
+mkdir -p $frc
+
+#machine dependend path to rtofs, nbm, rrfs, and stofs forecast files
+export COMINrtofs="/lfs/h1/ops/prod/com/rtofs/v2.5/rtofs.$PDY/"
+export COMINnbm="/lfs/h3/mdl/ptmp/mdl.nbm/blend/v5.2/blend.$PDY/$cyc/grib2"
+export COMINrrfs="/lfs/h1/ops/prod/com/rrfs/v1.0/rrfs.$PDY/$cyc"
+export COMINstofs="/lfs/h1/ops/prod/com/stofs/v3.1/stofs_2d_glo.$PDY"
+
+export COMINlocal=$tmp
+
+#machine dependend path to RWPS fix files
+export RWPSfix=/lfs/h2/emc/couple/noscrub/keston.smith/RWPS
+
+meshname="${mesh##*/}"
+export meshname="${meshname: 0: -4}"
+
+#Retrieve current and process for forecast cycle
+qsub -V $HOMErwps/dev/ecf/jrwps_prep_current_all_meshes.ecf
+qsub -V $HOMErwps/dev/ecf/jrwps_prep_ice_all_meshes.ecf
+qsub -V $HOMErwps/dev/ecf/jrwps_prep_waterlevel_all_meshes.ecf
+qsub -V $HOMErwps/dev/ecf/jrwps_prep_wind_all_meshes.ecf

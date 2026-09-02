@@ -3,10 +3,11 @@ import netCDF4 as nc
 import sys
 from scipy.interpolate import RegularGridInterpolator
 import interp_utilities as  iutil
-
 import os
-nargin = len(sys.argv) - 1
 
+PBS=True
+
+nargin = len(sys.argv) - 1
 flin=sys.argv[1]
 mshfl=sys.argv[2]
 
@@ -52,8 +53,6 @@ xi, yi, ei, zi = iutil.loadWW3Mesh(mshfl)
 nni=len(xi)
 j=np.where(xi>90.) # should be empty
 xi[j]=xi[j]-360.
-#if np.mean(xi)<0.:
-#	xi=xi+360.
 
 # divide domain from east west based on job id=0 ... Njobs
 # and make North-South window contain the full target domain
@@ -61,17 +60,29 @@ xi[j]=xi[j]-360.
 # the same number of destination nodes and/or the same number of source elements
 
 if nargin <  5:
-# balance node load for     
+# balance node load 
+# on PBS system jobID runs from 1 to Njobs
+# on SLURM system jobID runs from 0 to Njobs-1 so this partition scheam needs to be modified
     xis=np.sort(xi)
     mm=round(nni/Njobs)
-    xil=xis[range(0,nni,mm)]
-    lonW=xil[jobID]
-    if jobID==Njobs-1:
-        lonE=xis[-1]+1.
+    xil=xis[range(0,nni,mm)] # geographic partitions for parallelization
+
+    if PBS:
+        lonW=xil[jobID-1]
+        if jobID==Njobs:
+            lonE=xis[-1]+1.
+        else:
+            lonE=xil[jobID]
+        if jobID==1:
+            lonW=xis[0]-1.
     else:
-        lonE=xil[jobID+1]
-    if jobID==0:
-        lonW=xis[0]-1.
+        lonW=xil[jobID]
+        if jobID==Njobs-1:
+            lonE=xis[-1]+1.
+        else:
+            lonE=xil[jobID+1]
+        if jobID==0:
+            lonW=xis[0]-1.
 
     latS=np.min(yi)-1.
     latN=np.max(yi)+1.

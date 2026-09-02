@@ -8,13 +8,8 @@
 
 echo 'setting paths...'
 
-export meshID=$1
-
-
 ##export RWPSroot="$(pwd)/../../../"
-
 export RWPSroot=$(cd "$(dirname "$(readlink -f -n "${BASH_SOURCE[0]}")")" && git rev-parse --show-toplevel)
-export mesh="$RWPSroot/fix/rwps.$meshID.msh"
 
 
 export fix="$RWPSroot/fix"
@@ -45,12 +40,21 @@ export COMINlocal=$tmp
 #machine dependend path to RWPS fix files
 export RWPSfix=/lfs/h2/emc/couple/noscrub/keston.smith/RWPS
 
-# copy mesh to local fix directory
-cp -p $RWPSfix/fix/$meshID/20260722/rwps.$meshID.msh $RWPSroot/fix/
+meshID_list=(
+    "oc_20km_300km"
+    "oc_10km_200km"
+    "oc_5km_100km"
+    "oc_1500m_30km"
+    "oc_500m_10km"
+)
 
-meshname="${mesh##*/}"
-export meshname="${meshname: 0: -4}"
-
-#Retrieve current and process for forecast cycle
-qsub -V $RWPSroot/dev/compute_interpolation_weights/ecf/compute_interpolation_weights.ecf
-
+# Loop through the array (quotes around "${strings_list[@]}" are mandatory)
+for meshIDloop in "${meshID_list[@]}"; do
+    export meshID=$meshIDloop
+    echo "Computing interpoation weights for: $meshID"
+    cp -p $RWPSfix/fix/$meshID/20260722/rwps.$meshID.msh $RWPSroot/fix/
+    export mesh="$RWPSroot/fix/rwps.$meshID.msh"
+    meshname="${mesh##*/}"
+    export meshname="${meshname: 0: -4}"
+    qsub -V -W block=true $RWPSroot/dev/compute_interpolation_weights/ecf/compute_interpolation_weights.ecf
+done

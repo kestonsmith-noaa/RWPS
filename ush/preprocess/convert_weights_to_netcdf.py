@@ -21,11 +21,10 @@ nn_dst=len(xi)
 data = nc.Dataset(flin,"r")
 #read spaital dimensions and determine if input mesh is curvilinear or regular
 x=np.asarray(data["x"][:])
+y=np.asarray(data["y"][:])
 #convert to RWPS coordinates
-
 jEast=np.where(x>90)
 x[jEast]=x[jEast]-360.
-
 nn_src=len(x)
 
 #Read in weights from cat of text output(rows are not in order)
@@ -58,6 +57,15 @@ print("n="+str(n))
 print("n_s="+str(n_s))
 n_s=n
 
+# remove duplicate row, column  pairs arising from target mesh
+# nodes on partition boundaries
+ij = np.column_stack((row.ravel(), col.ravel()))
+iju, k = np.unique(ij, axis=0, return_index=True)
+val=val[k]
+row=iju[:,0]
+col=iju[:,1]
+n_s=len(val)
+
 with nc.Dataset(flout, 'w', format='NETCDF4') as ncout:
     ncout.createDimension('n_s' , n_s)
     ncout.setncattr("Nrows", nn_dst)
@@ -78,8 +86,6 @@ with nc.Dataset(flout, 'w', format='NETCDF4') as ncout:
 
 #Consider adding (x,y) destination and (x,y) for source. This is usefull for extrapolation
     if AddExtrapolationSupport:
-        x=np.asarray(data["x"][:])
-        y=np.asarray(data["y"][:])
         ncout.createDimension('nn_src' , nn_src)
         ncout.createDimension('nn_dst' , nn_dst)
         
