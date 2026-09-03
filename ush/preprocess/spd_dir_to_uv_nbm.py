@@ -6,7 +6,11 @@ import sys
 import math
 
 # Converts NBM direction and magnitude wind variables to U,V 
-
+# Command line inputs:
+#     argumnent 1 is the netcdf input file name with variables: WIND_10maboveground and WDIR_10maboveground
+#     argumnent 2 is the netcdf output file name which will have vector wind variables:  UGRD_10maboveground and VGRD_10maboveground
+# call as:
+# python spd_dir_to_uv_nbm.py nbm.20260502.00.wind10m.oc.nc  nbm.20260502.00.wind10m.oc.uv.nc
 
 flin=sys.argv[1] 
 flout=sys.argv[2] 
