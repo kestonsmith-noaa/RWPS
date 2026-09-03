@@ -35,6 +35,6 @@ module list
 
 
 sh get_current.sh > $tmp/FetchCurrent.out
-sh process_current.sh  > $tmp/ProcCurrent.out
+sh process_current.sh
 
 
