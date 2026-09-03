@@ -33,7 +33,6 @@ module load wgrib2/${wgrib2_ver}
 
 module list 
 
-rm $tmp/FetchCurrent.out $tmp/ProcCurrent.out
 
 sh get_current.sh > $tmp/FetchCurrent.out
 sh process_current.sh  > $tmp/ProcCurrent.out
