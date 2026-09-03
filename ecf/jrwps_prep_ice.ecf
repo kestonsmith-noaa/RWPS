@@ -33,9 +33,4 @@ module load wgrib2/${wgrib2_ver}
 
 module list 
 
-rm $tmp/FetchIce.out $tmp/ProcIce.out
-
-sh get_ice.sh > $tmp/FetchIce.out
-sh process_ice.sh  > $tmp/ProcIce.out
-
-
+${HOMErwps}/jobs/JRWPS_PREP_ICE

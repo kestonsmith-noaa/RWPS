@@ -33,9 +33,4 @@ module load wgrib2/${wgrib2_ver}
 
 module list 
 
-rm $tmp/FetchWind.out $tmp/ProcWind.out
-
-sh get_wind.sh > $tmp/FetchWind.out
-sh process_wind.sh  > $tmp/ProcWind.out
-
-
+${HOMErwps}/jobs/JRWPS_PREP_WIND

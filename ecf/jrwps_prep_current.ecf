@@ -31,10 +31,6 @@ module load ve/hafs/${ve_hafs_ver}
 module load intel-oneapi/${intel_oneapi_ver}
 module load wgrib2/${wgrib2_ver}
 
-module list 
+module list
 
-
-sh get_current.sh > $tmp/FetchCurrent.out
-sh process_current.sh
-
-
+${HOMErwps}/jobs/JRWPS_PREP_CURRENT
