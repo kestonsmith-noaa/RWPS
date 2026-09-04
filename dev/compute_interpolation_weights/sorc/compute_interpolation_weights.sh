@@ -1,9 +1,14 @@
 !/bin/bash
+
 # --------------------------------------------------------------------------- #
+# Launch scripts to compute interpolation weights for an RWPS mesh. To run:   #
 #                                                                             #
-# Copy external fix files that are too large to store in repository           #
+# $sh ./compute_interpolation_weights.sh oc_500m_10km                         #
 #                                                                             #
-# Last Changed : 08-15-2025                                        Aug 2025   #
+# to generate interpolation weights for unstructured mesh                     #
+# rwps.oc_500m_10km.msh.                                                      #
+#                                                                             #
+# Last Changed : 09-04-2026                                                   #
 # --------------------------------------------------------------------------- #
 
 echo 'setting paths...'
