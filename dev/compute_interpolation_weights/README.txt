@@ -12,14 +12,14 @@ RWPS/fix/
 Interpolation weights are created for:
 
 nbm oc domain
-rrfs hi domain (used for wins)
-rrfs pr domain (used for wins)
-rrfs ak domain (used for wins)
-rrfs na domain (used for wins)
+rrfs hi domain (used for wind)
+rrfs pr domain (used for wind)
+rrfs ak domain (used for wind)
+rrfs na domain (used for wind)
 rrfs conus domain (used for wind)
 nbm ak domain (used for ice concentration)
-rtofs glo domain (used for currents without extrapolation)
+rtofs glo domain (used for current without extrapolation)
 rtofs glo domain (used for ice with extrapolation)
-stofs domain (used for waterlevel and currents)
+stofs domain (used for waterlevel and current)
 
 Currently only setup to work on wcoss2.
