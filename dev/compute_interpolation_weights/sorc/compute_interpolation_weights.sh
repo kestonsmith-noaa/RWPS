@@ -9,7 +9,9 @@
 echo 'setting paths...'
 
 export meshID=$1
-export RWPSroot="$(pwd)/../../../"
+
+export RWPSroot=$(cd "$(dirname "$(readlink -f -n "${BASH_SOURCE[0]}")")" && git rev-parse --show-toplevel)
+
 export mesh="$RWPSroot/fix/rwps.$meshID.msh"
 
 
@@ -19,15 +21,9 @@ export tmp="$prep/tmpfiles"
 export frc="$prep/forcing"
 export outdir=$prep
 
-echo $RWPSroot
-echo $fix $prep $tmp $outdir
 mkdir -p $prep
 mkdir -p $tmp
 mkdir -p $frc
-
-
-echo $RWPSroot
-echo $fix $prep $tmp $outdir
 
 
 #machine dependend path to rtofs, nbm, rrfs, and stofs forecast files
