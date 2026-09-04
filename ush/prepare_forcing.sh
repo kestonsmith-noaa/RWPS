@@ -1,9 +1,16 @@
 #!/bin/bash
+
 # --------------------------------------------------------------------------- #
 #                                                                             #
-# Copy external fix files that are too large to store in repository           #
+# Launches scripts to retrieve and process wind, currents, ice, and           #
+# waterlevel for an rwps forecast. Command line inputs are date cyc and       # 
+# meshID. For example, run:                                                   #
 #                                                                             #
-# Last Changed : 08-15-2025                                        Aug 2025   #
+# $sh prepare_forcing 20260904 00 oc_500m_10km                                #
+#                                                                             #  
+# to generate forcing for mesh rwps.oc_500m_10km.msh                          #
+#                                                                             #
+# Last Changed : 09-04-2026                                        Sep 2026   #
 # --------------------------------------------------------------------------- #
 
 echo 'setting paths...'
