@@ -1,0 +1,92 @@
+#!/bin/sh
+#PBS -q dev
+#PBS -l walltime=00:59:00
+#PBS -A GLWU-DEV
+#PBS -N RWPS.PreProc.waterlevel
+#PBS -j oe
+#PBS -l select=1:ncpus=16:mem=64GB
+#PBS -o RWPS.PreProc.out
+
+cd $HOMErwps/ush/preprocess
+
+module use ${HOMErwps}/modulefiles
+
+############################################################
+# Load modules
+############################################################
+source $HOMErwps/versions/preproc.${MACHINE_ID}.ver
+
+#modules for esmf
+module reset
+module load PrgEnv-intel/${PrgEnv_intel_ver}
+module load craype/${craype_ver}
+module load intel/${intel_ver}
+module load cray-mpich/${cray_mpich_ver}
+module load hdf5-C/${hdf5_C_ver}
+module load netcdf-C/${netcdf_C_ver}
+module load esmf-C/${esmf_C_ver}
+module load ve/hafs/${ve_hafs_ver}
+
+#modules for wgrib2
+module load intel-oneapi/${intel_oneapi_ver}
+module load wgrib2/${wgrib2_ver}
+
+module list 
+
+rm $tmp/FetchWaterLevel.out $tmp/ProcWaterLevel.out
+
+sh get_waterlevel.sh > $tmp/FetchWaterLevel.out
+
+############################################################
+export meshID=oc_20km_300km
+export mesh="$HOMErwps/fix/rwps.$meshID.msh"
+meshname="${mesh##*/}"
+export meshname="${meshname: 0: -4}"
+cp -p $RWPSfix/fix/$meshID/20260722/rwps.$meshID.msh $HOMErwps/fix/
+cp -p $RWPSfix/fix/$meshID/20260722/InterpolationWeights*$meshID*.nc $HOMErwps/fix/
+cp -p $RWPSfix/fix/$meshID/20260722/DistToBndy*$meshID*.nc $HOMErwps/fix/
+sh process_waterlevel.sh  > $tmp/ProcWaterLevel.out
+
+############################################################
+export meshID=oc_10km_200km
+export mesh="$HOMErwps/fix/rwps.$meshID.msh"
+meshname="${mesh##*/}"
+export meshname="${meshname: 0: -4}"
+cp -p $RWPSfix/fix/$meshID/20260722/rwps.$meshID.msh $HOMErwps/fix/
+cp -p $RWPSfix/fix/$meshID/20260722/InterpolationWeights*$meshID*.nc $HOMErwps/fix/
+cp -p $RWPSfix/fix/$meshID/20260722/DistToBndy*$meshID*.nc $HOMErwps/fix/
+sh process_waterlevel.sh  > $tmp/ProcWaterLevel.out
+
+############################################################
+export meshID=oc_5km_100km
+export mesh="$HOMErwps/fix/rwps.$meshID.msh"
+meshname="${mesh##*/}"
+export meshname="${meshname: 0: -4}"
+cp -p $RWPSfix/fix/$meshID/20260722/rwps.$meshID.msh $HOMErwps/fix/
+cp -p $RWPSfix/fix/$meshID/20260722/InterpolationWeights*$meshID*.nc $HOMErwps/fix/
+cp -p $RWPSfix/fix/$meshID/20260722/DistToBndy*$meshID*.nc $HOMErwps/fix/
+sh process_waterlevel.sh  > $tmp/ProcWaterLevel.out
+
+############################################################
+export meshID=oc_1500m_30km
+export mesh="$HOMErwps/fix/rwps.$meshID.msh"
+meshname="${mesh##*/}"
+export meshname="${meshname: 0: -4}"
+cp -p $RWPSfix/fix/$meshID/20260722/rwps.$meshID.msh $HOMErwps/fix/
+cp -p $RWPSfix/fix/$meshID/20260722/InterpolationWeights*$meshID*.nc $HOMErwps/fix/
+cp -p $RWPSfix/fix/$meshID/20260722/DistToBndy*$meshID*.nc $HOMErwps/fix/
+sh process_waterlevel.sh  > $tmp/ProcWaterLevel.out
+
+############################################################
+export meshID=oc_500m_10km
+export mesh="$HOMErwps/fix/rwps.$meshID.msh"
+meshname="${mesh##*/}"
+export meshname="${meshname: 0: -4}"
+cp -p $RWPSfix/fix/$meshID/20260722/rwps.$meshID.msh $HOMErwps/fix/
+cp -p $RWPSfix/fix/$meshID/20260722/InterpolationWeights*$meshID*.nc $HOMErwps/fix/
+cp -p $RWPSfix/fix/$meshID/20260722/DistToBndy*$meshID*.nc $HOMErwps/fix/
+sh process_waterlevel.sh  > $tmp/ProcWaterLevel.out
+
+
+
+

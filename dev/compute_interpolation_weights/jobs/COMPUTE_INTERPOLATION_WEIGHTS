@@ -104,6 +104,16 @@ rtofs_cur=$SID/rtofs.$date/currents.$date.rtofs.nc
 rm $rtofsIntrp.current.nc $rtofsDst.current.nc
 python ./compute_gridded_to_rwps_interp_weights.py $rtofs_cur $mesh $rtofsIntrp.current.nc $rtofsDst.current.nc -1 > GenWhts.rtofs.current.out
 
+######################################################################
+# Compute psurge interpolation weights for interpolating waterlevel 
+# from grib2 output files. extrapolation in shallow regions posthoc
+######################################################################
+psurge=$SID/psurge.v3.2/psurge.20260901.12.e10.nc
+psurgeIntrp="$out/InterpolationWeights.$meshname.psurge"
+psurgeDst="$out/DistToBndy.$meshname.psurge"
+rm -rf $psurgeIntrp.nc $psurgeDst.nc __pycache__
+#No extrapolation weights. Extrapolation will be handled durring interpolation
+python ./compute_gridded_to_rwps_interp_weights.py $psurge $mesh $psurgeIntrp.nc $psurgeDst.nc -1 > GenWhts.psurge.out
 
 ######################################################################
 # Compute stofs interpolation weights for stofs v3 output

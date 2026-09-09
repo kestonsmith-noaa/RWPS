@@ -13,12 +13,11 @@ import datetime
 import netCDF4 as nc
 import sys
 import re
+import interp_utilities as iutil
 
 import xarray as xr
 import esmpy
 import scipy.sparse as sp
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../ush/preprocess')))
 
 import interp_utilities as iutil
 
@@ -140,6 +139,10 @@ if Extrapolate:
     dstp = np.array((xi[j0],yi[j0])).T
     interpolator = NearestNDInterpolator(srcp, srcv)
     distances, j0src = interpolator.tree.query(dstp)
+    
+    np.savetxt('distances.txt',distances)
+    np.savetxt('distancesj0.txt',j0)
+    
     weightsExtrp=weights.tolist().append([1.0] * len(j0) )
     rowExtrp=np.concatenate( (row, np.array(j0)) )
     colExtrp=np.concatenate( (col, np.array(j0src+1)) )
@@ -173,6 +176,10 @@ if AddExtrapolationSupport:
         ydst_var=ncadd.createVariable('y_dst', 'f8', ('nn_dst',))
         ydst_var.long_name     = 'interpolation destination node latitude'
         ydst_var[:]=yi[:]
+        
+        zdst_var=ncadd.createVariable('z_dst', 'f8', ('nn_dst',))
+        zdst_var.long_name     = 'interpolation destination node bathymetc depth'
+        zdst_var[:]=yi[:]
         
 ##################################################################################
 # FINISHED: Extrapolation support for NaN occurances in source field

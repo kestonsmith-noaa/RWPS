@@ -47,6 +47,12 @@ if ExtrapMethod==1:
 if ExtrapMethod==2:
     print("extrapolation from nearest valid point in destination (interpolated field)")
 
+ChangeVarnames=False
+if nargin>5:
+    ChangeVarnames=True
+    varname0_new=sys.argv[6]
+    varname_new=varname0_new.split(":")
+
 with xr.open_dataset(weights_file) as ds_s:
    # Standard sparse storage uses 'row', 'col', and 'data' variables
    row = ds_s['row'].values
@@ -60,6 +66,8 @@ with xr.open_dataset(weights_file) as ds_s:
        y=ds_s['y_src'].values
        xi=ds_s['x_dst'].values
        yi=ds_s['y_dst'].values
+       if ExtrapMethod==4:
+           zi=ds_s['z_dst'].values
 
 nni=Nrows
 n1=Ncols
@@ -85,8 +93,6 @@ else:
 
 nt=len(time)
 
-print(time)
-
 nvar=len(varname)
 vari=np.zeros((nvar,nt,nni))
 
@@ -95,6 +101,9 @@ if ExtrapMethod>=0:
     
 if ExtrapMethod==3:
     AnyExtrap=np.zeros((nvar,nni),dtype=int)
+
+if ExtrapMethod==4:
+    ExtrapDist=np.zeros((nvar,nt,nni))
 
 nan=float("nan")
 for jv in range(nvar):
@@ -115,6 +124,12 @@ for jv in range(nvar):
             var=np.asarray(data[varname[jv]][k,:])
         elif len(vshp)==3: # Wind field with dimensions time, x, y
             if "wind" in flin:
+                var0=np.asarray(data[varname[jv]][k,:,:])
+                print("var0.shape")
+                print(var0.shape)
+                print(n1)
+                var=np.transpose(var0).reshape(n1)
+            if "psurge" in flin:
                 var0=np.asarray(data[varname[jv]][k,:,:])
                 print("var0.shape")
                 print(var0.shape)
@@ -150,7 +165,7 @@ for jv in range(nvar):
         if ExtrapMethod==3: # Fast posthoc nearest neighbor extrapolator
             jd=np.where(np.isnan(vari[jv,k,:]))
             AnyExtrap[jv,jd]=1.
-        elif ExtrapMethod>0:# and ExtrapMethod<3:
+        elif ExtrapMethod>0 and ExtrapMethod<0:# and ExtrapMethod<3:
             jd=np.where(np.isnan(vari[jv,k,:]))
             dstp=np.array((xi[jd],yi[jd]))
             if ExtrapMethod==1:
@@ -168,6 +183,26 @@ for jv in range(nvar):
             ExtrapVals = interp( dstp.T )
             vari[jv,k,jd]=ExtrapVals
             IsExtrap[jv,k,jd]=1
+        elif ExtrapMethod==4: #psurge extrapolation
+            zxtrp=20. # only extrapolate to nodes whose bathymetric depth is < zxtrp (m)
+            dxtrp=10./111. # only extrapolate to points within dxtrp of data (degrees lat,lon)
+            jd=np.where( ( np.isnan(vari[jv,k,:]) ) & ( zi < zxtrp ) )
+            dstp=np.array((xi[jd],yi[jd]))
+            js=np.where(~np.isnan(var))
+            srcp=np.array((x[js],y[js]))
+            srcv=var[js]
+            interp = NearestNDInterpolator(srcp.T,srcv)
+            distances, j0src = interp.tree.query(dstp.T)
+            jc=np.where( distances < dxtrp )
+            jc=jc[0]
+            jd=jd[0]
+            vari[jv,k,jd[jc]]=srcv[j0src[jc]]
+            IsExtrap[jv,k,jd[jc]]=1
+            ExtrapDist[jv,k,jd]=distances
+            
+           
+            
+
 
 if ExtrapMethod==0:
     jd=np.where(np.isnan(vari))
@@ -200,6 +235,10 @@ if not ((nni==Nrows) and (n1==Ncols)):
     " but number of columns in "+ weights_file +" = "+str(Ncols)  )
     print("  You may need to regnerate file "+ weights_file +" with appropriate weights")
 
+varname_old=varname
+if ChangeVarnames:
+    varname=varname_new
+
 with nc.Dataset(flout, 'w', format='NETCDF4') as ncout:
 
     ncout.createDimension('level' , 1)  
@@ -216,7 +255,7 @@ with nc.Dataset(flout, 'w', format='NETCDF4') as ncout:
 
     for jv in range(nvar):
         print("writing output for :"+varname[jv])
-        varin = data[varname[jv]]
+        varin = data[varname_old[jv]]
         F_var=ncout.createVariable(varname[jv], 'f4', ('time','node'),fill_value = fill_value0)
         iutil.CopyAttributes(varin, F_var)
         F_var.location      = 'node'
@@ -234,5 +273,12 @@ with nc.Dataset(flout, 'w', format='NETCDF4') as ncout:
             if ExtrapMethod == 2:
                 xtrp_var.method        = 'nearest valid neighbor in interpolated field'
             xtrp_var[:,:]          = IsExtrap[jv,:,:]
+            if ExtrapMethod==4:
+                xtrpdist_var=ncout.createVariable(varname[jv]+'ExtrapDistance', 'f4', ('time','node'))
+                xtrpdist_var.standard='extrapolation distance'
+                xtrpdist_var.location='node'
+                xtrpdist_var[:,:]=ExtrapDist[jv,:,:]
+        
+                
 
     ncout.close

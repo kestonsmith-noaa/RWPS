@@ -1,0 +1,66 @@
+#!/bin/sh
+#PBS -q dev
+#PBS -l walltime=03:59:00
+#PBS -A GLWU-DEV
+#PBS -N RWPS.PreProc.ice
+#PBS -j oe
+#PBS -l select=1:ncpus=16:mem=64GB
+#PBS -o RWPS.PreProc.out
+
+cd $HOMErwps/ush/preprocess
+
+module use ${HOMErwps}/modulefiles
+
+############################################################
+# Load modules
+############################################################
+source $HOMErwps/versions/preproc.${MACHINE_ID}.ver
+
+#modules for esmf
+module reset
+module load PrgEnv-intel/${PrgEnv_intel_ver}
+module load craype/${craype_ver}
+module load intel/${intel_ver}
+module load cray-mpich/${cray_mpich_ver}
+module load hdf5-C/${hdf5_C_ver}
+module load netcdf-C/${netcdf_C_ver}
+module load esmf-C/${esmf_C_ver}
+module load ve/hafs/${ve_hafs_ver}
+
+#modules for wgrib2
+module load intel-oneapi/${intel_oneapi_ver}
+module load wgrib2/${wgrib2_ver}
+
+module list
+
+rm $tmp/FetchIce.out $tmp/ProcIce.out
+
+sh get_ice.sh > $tmp/FetchIce.out
+
+############################################################
+
+meshID_list=(
+    "oc_20km_300km"
+    "oc_10km_200km"
+    "oc_5km_100km"
+    "oc_1500m_30km"
+    "oc_500m_10km"
+)
+
+# Loop through the array (quotes around "${strings_list[@]}" are mandatory)
+for meshIDloop in "${meshID_list[@]}"; do
+    export meshID=$meshIDloop
+    echo "Computing interpoation weights for: $meshID"
+
+    export mesh="$HOMErwps/fix/rwps.$meshID.msh"
+    meshname="${mesh##*/}"
+    export meshname="${meshname: 0: -4}"
+    cp -p $RWPSfix/fix/$meshID/20260722/rwps.$meshID.msh $HOMErwps/fix/
+    cp -p $RWPSfix/fix/$meshID/20260722/InterpolationWeights*$meshID*.nc $HOMErwps/fix/
+    cp -p $RWPSfix/fix/$meshID/20260722/DistToBndy*$meshID*.nc $HOMErwps/fix/
+    sh process_ice.sh  > $tmp/ProcIce.out
+done
+
+
+
+

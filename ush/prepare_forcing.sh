@@ -56,6 +56,22 @@ export COMINstofs="/lfs/h1/ops/prod/com/stofs/v3.1/stofs_2d_glo.$PDY"
 
 export COMINlocal=$tmp
 
+# if mixed_wind_forcing=0, wind will be based on nbm oc forecast.
+# if mixed_wind_forcing=1, nbm oc wind will be updated based on 
+# rrfs hi, pr, ak, na and conus forecasts.
+export mixed_wind_forcing=1
+# if mixed_current_forcing=0, current will be based on stofs glo forecast.
+# if mixed_current_forcing=1, stofs glo forecast will be updated in deep water 
+# with rtofs glo surface currents.
+export mixed_current_forcing=1
+# if mixed_ice_forcing=0, ice will be based on rtofs glo ice forecast.
+# if mixed_ice_forcing=1, rtofs glo ice forecast will be updated with the nbm ak
+# ice forecast.
+export mixed_ice_forcing=1
+# define variable max_current_spd if maximum ocean current is to be limited.
+# unrealisitic current speeds can occur in extreemly shallow regions in stofs forecasts
+export max_current_spd=2.0
+
 #machine dependend path to RWPS fix files
 export RWPSfix=/lfs/h2/emc/couple/noscrub/keston.smith/RWPS
 

@@ -61,6 +61,9 @@ if VariableType=="WaterLevel":
 #            Variance = 1.+0*zi
         VarInterior=float(VarParam[0]) # variance (m)**2 for stofs water level
         Variance = VarInterior+0.*zi
+    if "psurge" in flin:
+        VarInterior=float(VarParam[0]) # variance (m)**2 for stofs water level
+        Variance = VarInterior+0.*zi
 
 if VariableType=="Wind":
     ##LocalFS  = [ rwps_pr, rwps_hi, rwps_ak, rwps_conus, rwps_na] # file names
