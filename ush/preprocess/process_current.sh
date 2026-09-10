@@ -16,16 +16,16 @@ rwps_current=$frc/$meshname.$PDY.$cyc.current.nc
 echo "outputting combined stofs and rtofs currents to $rwps_current"
 
 ## STOFS interpolation
-stofs_wghts="$fix/InterpolationWeights.$meshname.stofs.nc"
-stofs_dists="$fix/DistToBndy.$meshname.stofs.nc"
+stofs_wghts="$interpwghtsdir/InterpolationWeights.$meshname.stofs.nc"
+stofs_dists="$interpwghtsdir/DistToBndy.$meshname.stofs.nc"
 stofs_rwps="$tmp/$meshname.$PDY.$cyc.vel.cwl.stofs.nc"
 stofs_rwps_ti="$tmp/$meshname.$PDY.$cyc.vel.cwl.stofs.ti.nc"
 
 
 
 ## RTOFS interpolation
-rtofs_wghts="$fix/InterpolationWeights.$meshname.rtofs.current.nc"
-rtofs_dists="$fix/DistToBndy.$meshname.rtofs.current.nc"
+rtofs_wghts="$interpwghtsdir/InterpolationWeights.$meshname.rtofs.current.nc"
+rtofs_dists="$interpwghtsdir/DistToBndy.$meshname.rtofs.current.nc"
 rtofs_rwps="$tmp/$meshname.$PDY.vel.rtofs.nc"
 rtofs_rwps_ti="$tmp/$meshname.$PDY.$cyc.vel.cwl.rtofs.ti.nc"
 

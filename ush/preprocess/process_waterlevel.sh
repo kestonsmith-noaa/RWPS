@@ -6,8 +6,8 @@ meshname="${mesh##*/}"
 meshname="${meshname: 0: -4}"
 
 stofslev="$tmp/stofs.$PDY.$cyc/stofs_2d_glo.t${cyc}z.fields.cwl.nc"
-stofs_wghts="$fix/InterpolationWeights.$meshname.stofs.nc"
-stofs_dists="$fix/DistToBndy.$meshname.stofs.nc"
+stofs_wghts="$interpwghtsdir/InterpolationWeights.$meshname.stofs.nc"
+stofs_dists="$interpwghtsdir/DistToBndy.$meshname.stofs.nc"
 stofs_rwps="$frc/$meshname.$PDY.$cyc.cwl.waterlevel.nc"
 
 rwps_waterlevel="$frc/$meshname.$PDY.$cyc.waterlevel.nc"

@@ -12,10 +12,10 @@ nbmice=$inpdir/nbm.$PDY.$cyc.ice.ak.nc
 rtofsice=$inpdir/rtofs.ice.$PDY.nc
 
 
-rtofs_wghts="$fix/InterpolationWeights.$meshname.rtofs.ice.nc"
-rtofs_dists="$fix/DistToBndy.$meshname.rtofs.ice.nc"
-nbm_ak_wghts="$fix/InterpolationWeights.$meshname.nbm.ak.nc"
-nbm_ak_dists="$fix/DistToBndy.$meshname.nbm.ak.nc"
+rtofs_wghts="$interpwghtsdir/InterpolationWeights.$meshname.rtofs.ice.nc"
+rtofs_dists="$interpwghtsdir/DistToBndy.$meshname.rtofs.ice.nc"
+nbm_ak_wghts="$interpwghtsdir/InterpolationWeights.$meshname.nbm.ak.nc"
+nbm_ak_dists="$interpwghtsdir/DistToBndy.$meshname.nbm.ak.nc"
 
 rtofs_rwps="$tmp/$meshname.$PDY.ice.rtofs.nc"
 rtofs_rwps_ti="$tmp/$meshname.$PDY.$cyc.ice.rtofs.ti.nc"
