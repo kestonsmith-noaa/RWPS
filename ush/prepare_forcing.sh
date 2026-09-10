@@ -13,14 +13,13 @@
 # Last Changed : 09-04-2026                                        Sep 2026   #
 # --------------------------------------------------------------------------- #
 
-echo 'setting paths...'
 
 export PDY=$1
 export cyc=$2
 export meshID=$3
 
 readonly HOMErwps=$(cd "$(dirname "$(readlink -f -n "${BASH_SOURCE[0]}")")" && git rev-parse --show-toplevel)
-cd "${HOMErwps}/sorc" || exit 1
+cd "${HOMErwps}/ush" || exit 1
 
 source "${HOMErwps}/ush/detect_machine.sh"
 source "${HOMErwps}/ush/module-setup.sh"
@@ -34,8 +33,10 @@ if [[ -z "${MACHINE_ID}" ]]; then
     exit 1
 fi
 
+# link mesh corresponding to meshID to local fix directory
+$HOMErwps/sorc/link_workflow.sh
+export mesh="$HOMErwps/fix/$meshID/rwps.$meshID.msh"
 
-export mesh="$HOMErwps/fix/rwps.$meshID.msh"
 export fix="$HOMErwps/fix"
 export prep="$HOMErwps/PrepInputs"
 export tmp="$prep/tmpfiles"
@@ -60,6 +61,7 @@ export COMINlocal=$tmp
 
 #machine dependend path to RWPS fix files
 export RWPSfix=/lfs/h2/emc/couple/noscrub/keston.smith/RWPS
+
 
 mkdir -p $interpwghtsdir
 # copy mesh to local fix directory
