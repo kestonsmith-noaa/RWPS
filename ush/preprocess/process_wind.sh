@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# This script processes wind forecasts and prepare them for use with WW3 as pre-interpolated
+# forcing (AI- already interpolated).Currently configured to combine a backgrounbd forecast 
+# from the nbm oc domain with higher resolution wind forecasts from the rrfs hi, pr, ak, na
+# and conus domains in the forecast period when these are available.
+
 cd $HOMErwps/ush/preprocess
 
 winddir="$tmp/wind.$PDY.$cyc"

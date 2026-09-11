@@ -4,6 +4,24 @@ import netCDF4 as nc
 import sys
 import re
 import interp_utilities as iutil
+
+
+######################################################################
+# Combine two interpolated forecasts on the same mesh (both of which
+# have error variances associated with their respective forecasts) in
+# a bayesian update.
+#
+# Command line arguments:
+# (1) Background forecast filename
+# (2) Filename of forecast to update the background forecast with
+# (3) Output filename for updated forecast (posterior)
+# (4) name of variable forecast file
+# 
+# All files are NetCDF format.
+######################################################################
+
+
+
 flin0=sys.argv[1]
 flin1=sys.argv[2]
 flout=sys.argv[3]

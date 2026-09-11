@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# This script processes water level forecast from stofs prepares it for use with WW3 as 
+# pre-interpolated forcing (AI- already interpolated).  
+
 cd $HOMErwps/ush/preprocess
 
 meshname="${mesh##*/}"
@@ -13,8 +16,6 @@ stofs_rwps="$frc/$meshname.$PDY.$cyc.cwl.waterlevel.nc"
 rwps_waterlevel="$frc/$meshname.$PDY.$cyc.waterlevel.nc"
 
 varnames="zeta"
-
-## STOFS interpolation
 
 if [ ! -f "$stofs_wghts" ]; then
     echo "missing stofs interpolation weights file: $stofs_wghts"

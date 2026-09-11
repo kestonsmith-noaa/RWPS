@@ -2,46 +2,17 @@ import numpy as np
 import os
 import netCDF4 as nc
 import sys
-
-import datetime
-import re
-
-def get_rtofs_unix_time(file_path: str) -> int:
-    """
-    Extracts the valid UTC Unix timestamp from a NOAA RTOFS file path.
-    Example path: '/pub/data/nccf/com/rtofs/prod/rtofs.20260813/rtofs_glo.t12z.f024.archv.nc'
-    """
-    # Regex to find 8-digit date, cycle hour (tXXz), and forecast hour (fXXX)
-    match = re.search(r'rtofs\.(\d{8}).*?\.t(\d{2})z\.f(\d{3})', file_path)
-    
-    if not match:
-        raise ValueError("Could not parse RTOFS naming convention from path.")
-        
-    date_str, cycle_str, forecast_str = match.groups()
-    
-    # 1. Parse base model initialization time to a UTC datetime object
-    base_time_str = f"{date_str} {cycle_str}"
-    base_dt = datetime.datetime.strptime(base_time_str, "%Y%m%d %H").replace(tzinfo=datetime.timezone.utc)
-    
-    # 2. Add the forecast hour offset
-    forecast_hours = int(forecast_str)
-    valid_dt = base_dt + datetime.timedelta(hours=forecast_hours)
-    
-    # 3. Convert valid UTC datetime to epoch integer
-    return int(valid_dt.timestamp())
-
-# --- Example Usage ---
-sample_path = "/pub/data/nccf/com/rtofs/prod/rtofs.20260813/rtofs_glo.t12z.f024.archv.nc"
-unix_time = get_rtofs_unix_time(sample_path)
-
-print(f"Unix Timestamp: {unix_time}")
-# Output: 1786708800 (Reflects: 2026-08-14 12:00:00 UTC)
-
-#Consolidate RTOFS ice forecast files to a single NetCDF file.
-
-# Get the path relative to this file and add to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import interp_utilities as  iutil
+
+######################################################################
+# Consolidate ice forecast from global RTOFS into a single NetCDF file.
+#
+# Command line arguments:
+# (1) input directory path. This directory contains files with single
+#     time point ice forecasts.
+# (2) Output filename which will contain all time points
+######################################################################
 
 dirin=sys.argv[1]
 PDYCC=sys.argv[2]
@@ -52,14 +23,11 @@ CYC=PDYCC[8:10]
 print(PDY)
 print(CYC)
 
-
 ncfiles = os.listdir(dirin)
+print("Combining ice forecast from files: ")
 print(ncfiles)
+print("into file "+flout)
 nt=len(ncfiles)
-
-nt=17
-
-
 k=0
 flin=dirin+"/"+ncfiles[k]
 data=nc.Dataset(flin,"r")

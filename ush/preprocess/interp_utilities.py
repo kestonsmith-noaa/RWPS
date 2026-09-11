@@ -1,9 +1,9 @@
 from datetime import datetime
 import numpy as np
 import netCDF4 as nc
+#Common utilities used for processing RWPS forcing
 
-#Convert Time to "seconds since 1970-01-01 00:00:00.0"
-#eg   'seconds since 2024-04-04 12:00:00        ! NCDASE - BASE_DAT'
+
 def ConvertTimeToUnixTime(flin,TimeVarName = None):
     if TimeVarName == None:
         TimeVarName="time"
@@ -149,31 +149,3 @@ def CopyAttributes(VarOld, VarNew):
             att_value = VarOld.getncattr(att_name)
             VarNew.setncattr(att_name, att_value)
     return
-
-# routines for prescribing error variance relative to distance to boundary and depth 
-def VarianceLinearDistanceToBndy(DistanceToBoundary, InteriorVariance, VarianceOnBoundary, LengthScale):
-    InteriorNodeList=np.where(DistanceToBoundary**2 >= 0 )
-    Variance=np.zeros(len(DistanceToBoundary))+np.inf
-    SpatialFunction=DistanceToBoundary/LengthScale
-    j=np.where(SpatialFunction>1.)
-    SpatialFunction[j]=1.
-    Variance[InteriorNodeList] = VarianceOnBoundary + ( InteriorVariance - VarianceOnBoundary ) * SpatialFunction[InteriorNodeList]
-    return Variance
-
-def VarianceInverseDistanceToBndy( DistanceToBoundary, InteriorVariance, LengthScale):
-    InteriorNodeList=np.where(DistanceToBoundary**2 >= 0 )
-    Variance=np.zeros(len(DistanceToBoundary))+np.inf
-    SpatialFunction=LengthScale / DistanceToBoundary
-    j=np.where(SpatialFunction>1.)
-    SpatialFunction[j]=1.
-    Variance[InteriorNodeList] = InteriorVariance  * SpatialFunction[InteriorNodeList]
-    return Variance
-
-def VarianceLinearDepth(zi,VarianceShallow,VarianceDeep,Zshallow,Zdeep):        
-    Variance = VarianceShallow + (VarianceDeep-VarianceShallow)*(zi-Zshallow)/(Zdeep-Zshallow)
-    js=np.where(zi<Zshallow)
-    jd=np.where(zi>Zdeep)
-    Variance[js]=VarianceShallow
-    Variance[jd]=VarianceDeep
-    return Variance
-

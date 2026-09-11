@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# This script processes marine current forecasts and prepare them for use with WW3 as 
+# pre-interpolated forcing (AI- already interpolated).  Currently configured to 
+# combine a background forecast from stofs with surface current forecasts from rtofs 
+# global domain in deep water.
+
 cd $HOMErwps/ush/preprocess
 
 meshname="${mesh##*/}"

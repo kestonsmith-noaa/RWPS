@@ -2,6 +2,8 @@
 
 # This script retrieves rrfs and nbm winbds and exports as 
 # netcdf files
+# PDY=YYYYMMDD, 
+# cyc=00,06... two digit cycle number
 
 cd $HOMErwps/ush/preprocess
 

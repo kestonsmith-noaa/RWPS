@@ -7,21 +7,26 @@ import scipy.sparse as sp
 from scipy.interpolate import NearestNDInterpolator
 import datetime
 
-# Engine for interpolating to WW3 unstructured mesh using precomputed interpolation weights from netcdf files with forecasts
+######################################################################
+# Engine for interpolating to forecasts to a WW3 unstructured mesh 
+# using precomputed interpolation weights
 #
 # to call:
-# python InterpolateSTOFS.py input_file meshpath outputfile variable1:variable2:variable3 ExtrapMethod
+# python InterpolateSTOFS.py input_file interpolation_weights_file output_file variable1:variable2:variable3 ExtrapMethod
 #
 # example:
-# python InterpolateSTOFS.py stofs.20260608.00/stofs.cwl.vel.nc meshes/RWPS.V0a.small.msh tesdtoZ.vel.nc u-vel:v-vel 2
-# or:
-# python InterpolateSTOFS.py stofs.20260608.00/stofs.cwl.nc meshes/RWPS.V0a.small.msh tesdtoZ.vel.nc zeta 1
+# python InterpolateSTOFS.py stofs.20260608.00/stofs.cwl.vel.nc rwps.oc_500m_10km.msh stofs.20260608.00.oc_500m_10km.vel.nc u-vel:v-vel 2
 #
-# ExtrapMethod =-1 no extrapolation, NaN's potentially in output where source field is dry
+# ExtrapMethod =-1 no extrapolation, NaN's potentially in output where 
+#                  source field is dry
 # ExtrapMethod = 0 NaN values in interpolated field replaced with 0.0
 # ExtrapMethod = 1 Nearest Neighbor extrapolation from valid source values
-# ExtrapMethod = 2 Nearest Neighbor extrapolation from valid interpolated values
-# ExtrapMethod = 3 Nearest Neighbor extrapolation from interpolated nodes which allways have valid values (faster than 2 for larger source mesh)
+# ExtrapMethod = 2 Nearest Neighbor extrapolation from valid interpolated
+#                  values
+# ExtrapMethod = 3 Nearest Neighbor extrapolation from interpolated nodes
+#                  which allways have valid values (faster than 
+#                  method 2 for larger source mesh)
+######################################################################
 
 UseUnixTime=True
 nargin = len(sys.argv) - 1
@@ -46,7 +51,9 @@ if ExtrapMethod==1:
     print("extrapolation from nearest valid point in source- can be slow if source mesh is much larger than destination mesh")
 if ExtrapMethod==2:
     print("extrapolation from nearest valid point in destination (interpolated field)")
-
+if ExtrapMethod==3:
+    print("extrapolation from nearest valid point in destination which always have valid values")
+    
 with xr.open_dataset(weights_file) as ds_s:
    # Standard sparse storage uses 'row', 'col', and 'data' variables
    row = ds_s['row'].values
@@ -84,10 +91,9 @@ else:
     sys.exit(1)
 
 nt=len(time)
-
-print(time)
-
 nvar=len(varname)
+
+#set array to store interpolated forecast
 vari=np.zeros((nvar,nt,nni))
 
 if ExtrapMethod>=0:
@@ -98,8 +104,6 @@ if ExtrapMethod==3:
 
 nan=float("nan")
 for jv in range(nvar):
-
-#    fill_value0=data[varname[jv]]._FillValue
     try:
         fill_value0=data[varname[jv]]._FillValue
     except:
@@ -108,7 +112,7 @@ for jv in range(nvar):
     for k in range(nt):
         print("interpolating for time step = "+str(k)+" of "+str(nt))
         vshp = data.variables[varname[jv]].shape
-#        if SrcFieldType=="unstructured":
+        # Determine forecast type based on variable shape and filename
         if len(vshp)==1: 
             var=np.asarray(data[varname[jv]][:]) # No time dimension?, just spatial data to interpolate
         elif len(vshp)==2: 
@@ -125,13 +129,11 @@ for jv in range(nvar):
                 if "rtofs" in flin: #remove bad geometry edges
                     var0=var0[1:-1,1:-1]
                 var=np.transpose(var0).reshape(n1)
-
         elif len(vshp)==4: # RTOFS field with 2nd dimensional "Level" and garbage boundries
             var0=np.asarray(data[varname[jv]][k,0,:,:])
             if "rtofs" in flin: #remove bad geometry edges
                 var0=var0[1:-1,1:-1]
             var=np.transpose(var0).reshape(n1)
-            
         else:
             print(vshp)
             print(len(vshp))
@@ -149,7 +151,7 @@ for jv in range(nvar):
         vari[jv,k,j0]=nan # empty rows
         if ExtrapMethod==3: # Fast posthoc nearest neighbor extrapolator
             jd=np.where(np.isnan(vari[jv,k,:]))
-            AnyExtrap[jv,jd]=1.
+            AnyExtrap[jv,jd]=1
         elif ExtrapMethod>0:# and ExtrapMethod<3:
             jd=np.where(np.isnan(vari[jv,k,:]))
             dstp=np.array((xi[jd],yi[jd]))
@@ -233,6 +235,8 @@ with nc.Dataset(flout, 'w', format='NETCDF4') as ncout:
                 xtrp_var.method        = 'nearest valid neighbor in source field'
             if ExtrapMethod == 2:
                 xtrp_var.method        = 'nearest valid neighbor in interpolated field'
+            if ExtrapMethod == 3:
+                xtrp_var.method        = 'nearest always valid neighbor in interpolated field'
             xtrp_var[:,:]          = IsExtrap[jv,:,:]
 
     ncout.close

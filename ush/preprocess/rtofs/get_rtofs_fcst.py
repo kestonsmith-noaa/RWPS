@@ -2,13 +2,19 @@ import numpy as np
 import os
 import netCDF4 as nc
 import sys
-
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import interp_utilities as  iutil
 
+######################################################################
+# Consolidate u,v surface currents from global RTOFS into a single 
+# NetCDF file.
+#
+# Command line arguments:
+# (1) input directory path. This directory contains files with single
+#     time point current forecasts.
+# (2) Output filename which will contain all time points
+######################################################################
 
-
-# Consolidate u,v surface currents from global RTOFS into a single NetCDF file.
 
 dirin=sys.argv[1]
 flout=sys.argv[2]

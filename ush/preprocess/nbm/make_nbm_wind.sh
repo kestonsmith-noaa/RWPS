@@ -1,7 +1,15 @@
 #!/bin/bash
 
 # This script takes rrfs grib2 forecast files, extracts 10m u and v wind
-# components and outputs to netcdf. Comand line arguments are
+# components and outputs to netcdf. Comand line arguments are :
+# arg 1 = YYYYMMDD
+# arg 2 = cc, 2 digit cyle
+# arg 3 = nbm domain, oc, ak, hi ...
+#
+# Requires environmental variables:
+# COMINlocal = work directory to write output files to
+# call as:
+# $ sh make_nbm_wind.sh 20260829 00 oc
 
 WSPD_FILE="$COMINnbm/blend.t$2z.wspd.$3.grib2" 
 WDIR_FILE="$COMINnbm/blend.t$2z.wdir.$3.grib2"

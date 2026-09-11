@@ -1,8 +1,15 @@
 #!/bin/bash
 
-# This is just a place holder with notes for the time being. Notes on aws retrieval and processing are below
-# This script takes rrfs grib2 forecast files, extracts 10m u and v wind
-# components and outputs to netcdf. Comand line arguments are
+# Script to retrieve nbm ice forecast and convert to netcdf using wgrib2. 
+# Script takes two command line arguments :
+# arg 1 = YYYYMMDD
+# arg 2 = 2 digit cyle
+#
+# Requires environmental variables:
+# COMINlocal = work directory to write output files to
+#
+# call as:
+# $ sh get_nbm_ice.sh 20260829 00
 
 ICE_FILE="$COMINnbm/blend.t$2z.icec.ak.grib2"
 

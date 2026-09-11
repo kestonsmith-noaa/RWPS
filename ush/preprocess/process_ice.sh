@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# This script processes ice forecasts and prepares them for use with WW3 as pre-interpolated
+# forcing (AI- already interpolated). Currently this script is configured to combine a 
+# background forecast from rtofs global domain with the higher resolution nbm ak domain ice 
+# forecast.
+
 cd $HOMErwps/ush/preprocess
 
 meshname="${mesh##*/}"
@@ -10,7 +15,6 @@ inpdir=$tmp/ice.$PDY.$cyc
 
 nbmice=$inpdir/nbm.$PDY.$cyc.ice.ak.nc
 rtofsice=$inpdir/rtofs.ice.$PDY.nc
-
 
 rtofs_wghts="$interpwghtsdir/InterpolationWeights.$meshname.rtofs.ice.nc"
 rtofs_dists="$interpwghtsdir/DistToBndy.$meshname.rtofs.ice.nc"
@@ -25,15 +29,7 @@ nbm_rwps_ti="$tmp/$meshname.$PDY.$cyc.ice.nbm.ak.ti.nc"
 
 varnames="ICEC_surface"
 
-#rwps_ice="$frc/$meshname.$PDY.$cyc.ice.rtofsxnbm.nc"
 rwps_ice="$frc/$meshname.$PDY.$cyc.ice.nc"
-
-## NBM AK domain interpolation
-## NOTE WE ARE USING THE RRFS ak WEIGHTS HERE NEED TO RELABEL AND RECOMPUTE FOR NBM AK DOMAIN
-## DIFFERENCES ARE SMALL. posional distance ~200m on 3km grid roughly
-
-#../../fix/DistToBndy.rwps.oc_1500m_30km.nbm.ak.nc
-
 
 if [ ! -f "$nbm_ak_wghts" ]; then
     echo "missing nbm ak interpolation weights file: $nbm_ak_wghts"
@@ -47,10 +43,8 @@ if [ ! -f "$nbm_ak_dists" ]; then
     exit 1
 fi
 
-# no extrapolation
+# no extrapolation of ice beyond ak grid coverage
 python interpolate_with_weights.py $nbmice $nbm_ak_wghts $nbm_rwps $varnames -1 &
-
-## RTOFS interpolation
 
 if [ ! -f "$rtofs_wghts" ]; then
     echo "missing rtofs interpolation weights file: $rtofs_wghts"
@@ -72,14 +66,11 @@ wait;
 python add_mesh_geom_to_file.py $rtofs_rwps $mesh
 python add_mesh_geom_to_file.py $nbm_rwps $mesh
 
-#python add_err_var_to_file.py $rtofs_rwps $rtofs_dists 100.:1.:50.:250.:50.
-#python add_err_var_to_file.py $stofs_rwps $stofs_dists 1.:100.:50.:250.
-
-#interpolate from stofs to common stofs and rtofs times within range of stofs time
+# interpolate from stofs to common stofs and rtofs times within range of stofs time
 python interp_time.py $rtofs_rwps $nbm_rwps $rtofs_rwps_ti $varnames False &
 
-#interpolate from rtofs to common stofs and rtofs times within range of stofs time
-#values out of range are extrapolated to assuming persistance
+# interpolate from rtofs to common stofs and rtofs times within range of stofs time
+# values out of range are extrapolated to assuming persistance
 python interp_time.py $rtofs_rwps $nbm_rwps $nbm_rwps_ti $varnames True &
 
 wait

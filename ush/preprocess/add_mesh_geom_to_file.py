@@ -4,6 +4,17 @@ import sys
 import interp_utilities as  iutil
 import os
 
+
+######################################################################
+# Add unstructured mesh geometry variables (node latitude and 
+# longitude and element list) to a forecast file already interpolated 
+# to the nodes of the mesh. 
+#
+# Command line arguments:
+# (1) forecast file name mesh geometry is to be added to
+# (2) WW3 .msh unstructured mesh filename
+######################################################################
+
 UseUnixTime=True
 nargin = len(sys.argv) - 1
 

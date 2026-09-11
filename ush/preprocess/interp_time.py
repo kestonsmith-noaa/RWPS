@@ -4,8 +4,22 @@ import numpy as np
 import netCDF4 as nc
 import sys
 import math
-
 from scipy.interpolate import interp1d
+
+######################################################################
+# Interpolate forecast linearly in time to a set of time points that 
+# are the union of it's time points and a second forecasts time points.
+#
+# Command line arguments:
+# (1) First forecast(A) filename 
+# (2) Second forecast(B) filename of forecast to update the background forecast with
+# (3) Output filename for forecast (A) including time points for 
+#     forecast(B)
+# (4) name of variable forecast file
+
+s to comm
+
+
 
 nargin = len(sys.argv) - 1
 
@@ -25,11 +39,11 @@ if nargin>4:
     InterpSecondFile=eval(sys.argv[5])
     print("Interpolating fields from second file: "+str(InterpSecondFile)+" and extrapolating via persistance in time")
 
-#might want to rewrite with an input file to derive full set of times
 print("running interp_time.py: takes a forecast (arg1="+flin+") and interpolates to times ")
 print("in another file (arg2="+flinNewTimes+"). The origonal and interpoated values are output to ")
 print("a new file(arg3="+flout+") .")
 print("interpolating for variables:")
+
 for jv in range(nvar):
     print(varname[jv])
 

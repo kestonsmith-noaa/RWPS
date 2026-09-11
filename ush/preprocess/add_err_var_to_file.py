@@ -3,7 +3,58 @@ import netCDF4 as nc
 import sys
 import interp_utilities as  iutil
 import os
-#Add compute and add error variance field to existing file 
+
+######################################################################
+# Compute and add error variance field to existing forecast. The error
+# variance is based on proximity to the forecast domains boundary and 
+# bathymetric depth. 
+#
+# Command line arguments:
+# (1) Forecast filename to add error variance to
+# (2) Filename with precomputed distance to forecast boundary and 
+#     bathymetric depth
+# (3) Parameters for specifying error variance from distance and depth.
+#     Parameter values are seperated by ":" character
+#
+# For example:
+# $ python add_err_var_to_file.py rwps.oc_1500m_30km.20260824.00.wind10m.nbm.oc.nc DistToBndy.rwps.oc_1500m_30km.nbm.oc.nc 100.
+# to specify spatially constant 100 m**2 / s**2 error variance
+# or:
+# $ python add_err_var_to_file.py rwps.oc_1500m_30km.20260824.00.wind10m.rrfs.ak.nc DistToBndy.rwps.oc_1500m_30km.rrfs.ak.nc 9.:90.:500.
+# to specify an interior error variance of 9 m**2 / s**2, boundary variance of 90 m**2 / s**2 and 500 km linear transition.
+######################################################################
+
+######################################################################
+# BEGIN: routines for prescribing error variance relative to distance 
+# to boundary and depth 
+######################################################################
+def VarianceLinearDistanceToBndy(DistanceToBoundary, InteriorVariance, VarianceOnBoundary, LengthScale):
+    InteriorNodeList=np.where(DistanceToBoundary**2 >= 0 )
+    Variance=np.zeros(len(DistanceToBoundary))+np.inf
+    SpatialFunction=DistanceToBoundary/LengthScale
+    j=np.where(SpatialFunction>1.)
+    SpatialFunction[j]=1.
+    Variance[InteriorNodeList] = VarianceOnBoundary + ( InteriorVariance - VarianceOnBoundary ) * SpatialFunction[InteriorNodeList]
+    return Variance
+def VarianceInverseDistanceToBndy( DistanceToBoundary, InteriorVariance, LengthScale):
+    InteriorNodeList=np.where(DistanceToBoundary**2 >= 0 )
+    Variance=np.zeros(len(DistanceToBoundary))+np.inf
+    SpatialFunction=LengthScale / DistanceToBoundary
+    j=np.where(SpatialFunction>1.)
+    SpatialFunction[j]=1.
+    Variance[InteriorNodeList] = InteriorVariance  * SpatialFunction[InteriorNodeList]
+    return Variance
+def VarianceLinearDepth(zi,VarianceShallow,VarianceDeep,Zshallow,Zdeep):        
+    Variance = VarianceShallow + (VarianceDeep-VarianceShallow)*(zi-Zshallow)/(Zdeep-Zshallow)
+    js=np.where(zi<Zshallow)
+    jd=np.where(zi>Zdeep)
+    Variance[js]=VarianceShallow
+    Variance[jd]=VarianceDeep
+    return Variance
+######################################################################
+# END: routines for prescribing error variance relative to distance 
+# to boundary and depth 
+######################################################################
 
 UseUnixTime=True
 nargin = len(sys.argv) - 1
@@ -47,10 +98,8 @@ if VariableType=="Current":
     BatShallow=float(VarParam[2]) # isobath (m) for shallow regions
     BatDeep=float(VarParam[3]) # isobath (m) for deep regions
     if "stofs" in flin:
-#            Variance = iutil.VarianceLinearDepth(zi,1.,100.,50.,250.)
         Variance = iutil.VarianceLinearDepth (zi, VarShallow, VarDeep, BatShallow, BatDeep)
     if "rtofs" in flin: #variance high in shallows and near boundary of coverage
-#            VarianceDepth = iutil.VarianceLinearDepth(zi,100.,1.,50.,250.)
         VarianceDepth = iutil.VarianceLinearDepth(zi,VarShallow,VarDeep,BatShallow,BatDeep)
         VarLambda= float(VarParam[4])  # lengthscale (km) for linear transition from bounadry variance(==VarShallow) to interior variance(==VarDeep)
         VarianceBnd = iutil.VarianceLinearDistanceToBndy( dist2bnd, VarDeep,VarShallow, VarLambda)
@@ -58,7 +107,6 @@ if VariableType=="Current":
 
 if VariableType=="WaterLevel":
     if (("stofs" in flin) or (True)):
-#            Variance = 1.+0*zi
         VarInterior=float(VarParam[0]) # variance (m)**2 for stofs water level
         Variance = VarInterior+0.*zi
 
@@ -76,9 +124,6 @@ if VariableType=="Wind":
 
 
 if VariableType=="Ice":
-    ##LocalFS  = [ rwps_pr, rwps_hi, rwps_ak, rwps_conus, rwps_na] # file names
-    ##VarFS    = [ 4.     , 4.    , 9.      , 16.       , 25.    ] # (m m /s /s)
-    ##LambdaFS = [ 150.   , 200.  , 500.    , 1000.     , 1500.  ] # (km)
     VarInterior=float(VarParam[0]) # variance (m/s)**2 for interior of forecast
     if "rtofs" in flin:
         Variance = VarInterior + np.zeros(nn)
@@ -86,11 +131,6 @@ if VariableType=="Ice":
         VarBoundary = float(VarParam[1]) # variance (m/s)**2 for boundary of forecast
         VarLambda   = float(VarParam[2]) # lengthscale (km) for linear transition from bounadry variance to interior variance
         Variance = iutil.VarianceLinearDistanceToBndy( dist2bnd, VarInterior, VarBoundary,VarLambda )
-
-
-
-
-
 
 fltmp=flin+".tmp.nc"
 try:

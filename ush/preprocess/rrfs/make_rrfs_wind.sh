@@ -6,6 +6,9 @@
 # forecast cycle: CC
 # frecast region: hi,pr,na,ak or conus
 #
+# Requires environmental variables:
+# COMINlocal = work directory to write output files to
+#
 # For example call as:
 # sh make_rrfs_wind.sh 20260428 00 pr
 # to produce output file:
