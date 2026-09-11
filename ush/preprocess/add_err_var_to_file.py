@@ -1,7 +1,6 @@
 import numpy as np
 import netCDF4 as nc
 import sys
-import interp_utilities as  iutil
 import os
 
 ######################################################################
@@ -98,11 +97,11 @@ if VariableType=="Current":
     BatShallow=float(VarParam[2]) # isobath (m) for shallow regions
     BatDeep=float(VarParam[3]) # isobath (m) for deep regions
     if "stofs" in flin:
-        Variance = iutil.VarianceLinearDepth (zi, VarShallow, VarDeep, BatShallow, BatDeep)
+        Variance = VarianceLinearDepth (zi, VarShallow, VarDeep, BatShallow, BatDeep)
     if "rtofs" in flin: #variance high in shallows and near boundary of coverage
-        VarianceDepth = iutil.VarianceLinearDepth(zi,VarShallow,VarDeep,BatShallow,BatDeep)
+        VarianceDepth = VarianceLinearDepth(zi,VarShallow,VarDeep,BatShallow,BatDeep)
         VarLambda= float(VarParam[4])  # lengthscale (km) for linear transition from bounadry variance(==VarShallow) to interior variance(==VarDeep)
-        VarianceBnd = iutil.VarianceLinearDistanceToBndy( dist2bnd, VarDeep,VarShallow, VarLambda)
+        VarianceBnd = VarianceLinearDistanceToBndy( dist2bnd, VarDeep,VarShallow, VarLambda)
         Variance = np.maximum(VarianceDepth, VarianceBnd)
 
 if VariableType=="WaterLevel":
@@ -120,7 +119,7 @@ if VariableType=="Wind":
     if "rrfs" in flin:
         VarBoundary = float(VarParam[1]) # variance (m/s)**2 for boundary of forecast
         VarLambda   = float(VarParam[2]) # lengthscale (km) for linear transition from bounadry variance to interior variance
-        Variance = iutil.VarianceLinearDistanceToBndy( dist2bnd, VarInterior, VarBoundary,VarLambda )
+        Variance = VarianceLinearDistanceToBndy( dist2bnd, VarInterior, VarBoundary,VarLambda )
 
 
 if VariableType=="Ice":
@@ -130,7 +129,7 @@ if VariableType=="Ice":
     if "nbm" in flin:
         VarBoundary = float(VarParam[1]) # variance (m/s)**2 for boundary of forecast
         VarLambda   = float(VarParam[2]) # lengthscale (km) for linear transition from bounadry variance to interior variance
-        Variance = iutil.VarianceLinearDistanceToBndy( dist2bnd, VarInterior, VarBoundary,VarLambda )
+        Variance = VarianceLinearDistanceToBndy( dist2bnd, VarInterior, VarBoundary,VarLambda )
 
 fltmp=flin+".tmp.nc"
 try:
