@@ -12,13 +12,12 @@ from scipy.interpolate import interp1d
 #
 # Command line arguments:
 # (1) First forecast(A) filename 
-# (2) Second forecast(B) filename of forecast to update the background forecast with
+# (2) Second forecast(B) filename of forecast to update the background 
+#     forecast with
 # (3) Output filename for forecast (A) including time points for 
 #     forecast(B)
 # (4) name of variable forecast file
-
-s to comm
-
+######################################################################
 
 
 nargin = len(sys.argv) - 1
@@ -90,8 +89,8 @@ else:
     data=data0
 
 ntt=len(t)
-#unique_vals, indices = np.unique(arr, return_index=True)
 tu,indx=np.unique(t,return_index=True)
+
 for jv in range(nvar):
     u=np.asarray(data[varname[jv]][:,:])
     fill_value0 = data[varname[jv]]._FillValue

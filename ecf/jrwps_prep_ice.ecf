@@ -5,7 +5,6 @@
 #PBS -N RWPS.PreProc.ice
 #PBS -j oe
 #PBS -l select=1:ncpus=16:mem=64GB
-#PBS -o RWPS.PreProc.out
 
 cd $HOMErwps/ush/preprocess
 

@@ -31,6 +31,6 @@ Interpolation weights for these domains should be present in directory RWPS/inte
 To run:
 
 $ cd RWPS/ush
-$ ../prepare_forcing.sh 20260825 00 oc_1500m_30km
+$ ./prepare_forcing.sh 20260825 00 oc_1500m_30km
 
 to prepare forcing for the RWPS forecast utilizing mesh rwps.oc_1500m_30km.msh for forecast starting 20260825 cycle 00. Currently setup to work on wcoss2. 

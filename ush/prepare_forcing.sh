@@ -75,7 +75,7 @@ meshname="${mesh##*/}"
 export meshname="${meshname: 0: -4}"
 
 #Retrieve current and process for forecast cycle
-qsub -V $HOMErwps/ecf/jrwps_prep_current.ecf 
-qsub -V $HOMErwps/ecf/jrwps_prep_ice.ecf
-qsub -V $HOMErwps/ecf/jrwps_prep_waterlevel.ecf
-qsub -V $HOMErwps/ecf/jrwps_prep_wind.ecf
+qsub -V -o $tmp/prep_current.out $HOMErwps/ecf/jrwps_prep_current.ecf 
+qsub -V -o $tmp/prep_ice.out $HOMErwps/ecf/jrwps_prep_ice.ecf
+qsub -V -o $tmp/prep_waterlevel.out $HOMErwps/ecf/jrwps_prep_waterlevel.ecf
+qsub -V -o $tmp/prep_wind.out $HOMErwps/ecf/jrwps_prep_wind.ecf
