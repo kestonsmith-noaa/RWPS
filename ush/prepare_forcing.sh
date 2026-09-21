@@ -34,30 +34,28 @@ if [[ -z "${MACHINE_ID}" ]]; then
 fi
 
 # link mesh corresponding to meshID to local fix directory
-$HOMErwps/sorc/link_workflow.sh
-export mesh="$HOMErwps/fix/$meshID/rwps.$meshID.msh"
+${HOMErwps}/sorc/link_workflow.sh
+export mesh="${HOMErwps}/fix/${meshID}/rwps.${meshID}.msh"
 
-export fix="$HOMErwps/fix"
-export prep="$HOMErwps/PrepInputs"
-export tmp="$prep/tmpfiles"
-export frc="$prep/forcing"
-export interpwghtsdir="$HOMErwps/interpolation_weights"
+export fix="${HOMErwps}/fix"
+export prep="${HOMErwps}/PrepInputs"
+export tmp="${prep}/tmpfiles"
+export frc="${prep}/forcing"
+export interpwghtsdir="${HOMErwps}/interpolation_weights"
 
-export outdir=$prep
+export outdir=${prep}
 
-echo $HOMErwps
-echo $fix $prep $tmp $outdir
-mkdir -p $prep
-mkdir -p $tmp
-mkdir -p $frc
+mkdir -p ${prep}
+mkdir -p ${tmp}
+mkdir -p ${frc}
 
 #machine dependend path to rtofs, nbm, rrfs, and stofs forecast files
-export COMINrtofs="/lfs/h1/ops/prod/com/rtofs/v2.5/rtofs.$PDY/"
-export COMINnbm="/lfs/h3/mdl/ptmp/mdl.nbm/blend/v5.2/blend.$PDY/$cyc/grib2"
-export COMINrrfs="/lfs/h1/ops/prod/com/rrfs/v1.0/rrfs.$PDY/$cyc"
-export COMINstofs="/lfs/h1/ops/prod/com/stofs/v3.1/stofs_2d_glo.$PDY"
+export COMINrtofs="/lfs/h1/ops/prod/com/rtofs/v2.5/rtofs.${PDY}/"
+export COMINnbm="/lfs/h3/mdl/ptmp/mdl.nbm/blend/v5.2/blend.${PDY}/${cyc}/grib2"
+export COMINrrfs="/lfs/h1/ops/prod/com/rrfs/v1.0/rrfs.${PDY}/${cyc}"
+export COMINstofs="/lfs/h1/ops/prod/com/stofs/v3.1/stofs_2d_glo.${PDY}"
 
-export COMINlocal=$tmp
+export COMINlocal=${tmp}
 
 #machine dependend path to RWPS fix files
 export RWPSfix=/lfs/h2/emc/couple/noscrub/keston.smith/RWPS
@@ -65,17 +63,17 @@ export RWPSfix=/lfs/h2/emc/couple/noscrub/keston.smith/RWPS
 
 mkdir -p $interpwghtsdir
 # copy mesh to local fix directory
-cp -p $RWPSfix/fix/$meshID/20260722/rwps.$meshID.msh $interpwghtsdir
+cp -p ${RWPSfix}/fix/${meshID}/20260722/rwps.${meshID}.msh ${interpwghtsdir}
 # copy Interpoplation weights for nbm, rrfs, rtofs and stofs to local directory
-cp -p $RWPSfix/fix/$meshID/20260722/InterpolationWeights*$meshID*.nc $interpwghtsdir
+cp -p ${RWPSfix}/fix/${meshID}/20260722/InterpolationWeights*${meshID}*.nc ${interpwghtsdir}
 # copy distance to boundary for nbm, rrfs, rtofs and stofs to local  directory
-cp -p $RWPSfix/fix/$meshID/20260722/DistToBndy*$meshID*.nc $interpwghtsdir
+cp -p ${RWPSfix}/fix/${meshID}/20260722/DistToBndy*${meshID}*.nc ${interpwghtsdir}
 
 meshname="${mesh##*/}"
 export meshname="${meshname: 0: -4}"
 
 #Retrieve current and process for forecast cycle
-qsub -V -o $tmp/prep_current.out $HOMErwps/ecf/jrwps_prep_current.ecf 
-qsub -V -o $tmp/prep_ice.out $HOMErwps/ecf/jrwps_prep_ice.ecf
-qsub -V -o $tmp/prep_waterlevel.out $HOMErwps/ecf/jrwps_prep_waterlevel.ecf
-qsub -V -o $tmp/prep_wind.out $HOMErwps/ecf/jrwps_prep_wind.ecf
+qsub -V -o ${tmp}/prep_current.out ${HOMErwps}/ecf/jrwps_prep_current.ecf 
+qsub -V -o ${tmp}/prep_ice.out ${HOMErwps}/ecf/jrwps_prep_ice.ecf
+qsub -V -o ${tmp}/prep_waterlevel.out ${HOMErwps}/ecf/jrwps_prep_waterlevel.ecf
+qsub -V -o ${tmp}/prep_wind.out ${HOMErwps}/ecf/jrwps_prep_wind.ecf

@@ -2,11 +2,11 @@
 
 # This script retrieves global RTOFS and STOFS as netcdf files
 # Requires environmental variables:
-# PDY=YYYYMMDD, 
-# cyc=00,06... two digit cycle number
+# {PDY}=YYYYMMDD, 
+# {cyc}=00,06... two digit {cyc}le number
 
-cd $HOMErwps/ush/preprocess
+cd ${HOMErwps}/ush/preprocess
 
-rtofs/get_rtofs.sh $PDY &
-stofs/get_stofs.sh $PDY $cyc current&
+rtofs/get_rtofs.sh ${PDY} &
+stofs/get_stofs.sh ${PDY} ${cyc} current &
 wait;

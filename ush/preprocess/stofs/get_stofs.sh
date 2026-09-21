@@ -20,20 +20,20 @@ if [ "$#" -lt 3 ]; then
     echo "Retrieving both stofs currents and stofs water level."
     fields="current, waterlevel"
 else
-    fields=$3
+    fields=${3}
 fi
 
-outdir=$COMINlocal/stofs.$1.$2
+outdir=${COMINlocal}/stofs.${1}.${2}
 
-mkdir -p $outdir
+mkdir -p ${outdir}
 
-if [[ "$fields" == *"current"* ]]; then
-    echo retrieving stofs current for $1 cycle $2
-    cp $COMINstofs/stofs_2d_glo.t"$2"z.fields.cwl.vel.nc  $outdir/
+if [[ "${fields}" == *"current"* ]]; then
+    echo retrieving stofs current for ${1} {cyc}le ${2}
+    cp ${COMINstofs}/stofs_2d_glo.t"${2}"z.fields.cwl.vel.nc  ${outdir}/
 fi
 
-if [[ "$fields" == *"level"* ]]; then
-    echo retrieving stofs water level for $1 cycle $2
-    cp $COMINstofs/stofs_2d_glo.t"$2"z.fields.cwl.nc  $outdir/
+if [[ "${fields}" == *"level"* ]]; then
+    echo retrieving stofs water level for ${1} {cyc}le ${2}
+    cp ${COMINstofs}/stofs_2d_glo.t"${2}"z.fields.cwl.nc  ${outdir}/
 fi
 

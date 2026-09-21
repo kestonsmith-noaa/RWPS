@@ -11,23 +11,23 @@
 # call as:
 # $ sh make_nbm_wind.sh 20260829 00 oc
 
-WSPD_FILE="$COMINnbm/blend.t$2z.wspd.$3.grib2" 
-WDIR_FILE="$COMINnbm/blend.t$2z.wdir.$3.grib2"
+WSPD_FILE="${COMINnbm}/blend.t${2}z.wspd.${3}.grib2" 
+WDIR_FILE="${COMINnbm}/blend.t${2}z.wdir.${3}.grib2"
 
-OUTPUT_DIR="wind.$1.$2"
-OUTPUT_DIR="$COMINlocal/wind.$1.$2"
-OUTPUT_FILE="$OUTPUT_DIR/nbm.$1.$2.wind10m.$3.nc"
+OUTPUT_DIR="wind.${1}.${2}"
+OUTPUT_DIR="${COMINlocal}/wind.${1}.${2}"
+OUTPUT_FILE="${OUTPUT_DIR}/nbm.${1}.${2}.wind10m.${3}.nc"
 
-mkdir -p "$OUTPUT_DIR"
+mkdir -p ${OUTPUT_DIR}
 
 # Remove existing output file to avoid mixing old data
-rm -f "$OUTPUT_FILE"
+rm -f ${OUTPUT_FILE}
 
-echo "writing 10m wind from $INPUT_DIR to $OUTPUT_FILE"
+echo "writing 10m wind from ${INPUT_DIR} to ${OUTPUT_FILE}"
 
-wgrib2 "$WSPD_FILE"  -match ":WIND:10 m" -netcdf "$OUTPUT_FILE"
-wgrib2 "$WDIR_FILE"  -match ":WDIR:10 m" -append -netcdf "$OUTPUT_FILE"
+wgrib2 "${WSPD_FILE}"  -match ":WIND:10 m" -netcdf "${OUTPUT_FILE}"
+wgrib2 "${WDIR_FILE}"  -match ":WDIR:10 m" -append -netcdf "${OUTPUT_FILE}"
 
-echo "nbm processing complete for forecast date $1, cycle $2, domain $3"
-echo "output written to: $OUTPUT_FILE"
+echo "nbm processing complete for forecast date ${1}, {cyc}le ${2}, domain ${3}"
+echo "output written to: ${OUTPUT_FILE}"
 
