@@ -7,6 +7,18 @@
 
 cd ${HOMErwps}/ush/preprocess
 
-rtofs/get_rtofs.sh ${PDY} &
-stofs/get_stofs.sh ${PDY} ${cyc} current &
+if [ -v InputSource ]; then
+    echo "InputSource = ${InputSource}"
+else
+    InputSource = "lfs"
+fi
+
+if [[ "${InputSource}" == *"AWS"* ]]; then
+    rtofs/get_rtofs_aws.sh ${PDY} &
+    stofs/get_stofs_aws.sh ${PDY} ${cyc} current &
+else
+    rtofs/get_rtofs.sh ${PDY} &
+    stofs/get_stofs.sh ${PDY} ${cyc} current &
+fi
+
 wait;

@@ -6,6 +6,16 @@
 
 cd ${HOMErwps}/ush/preprocess
 
-sh rtofs/get_rtofs_ice.sh ${PDY} ${cyc} &
-sh nbm/get_nbm_ice.sh ${PDY} ${cyc} &
+if [ -v InputSource ]; then
+    echo "InputSource = ${InputSource}"
+else
+    InputSource = "lfs"
+fi
+
+if [[ "${InputSource}" == *"AWS"* ]]; then
+    sh rtofs/get_rtofs_ice_aws.sh ${PDY} ${cyc} &
+    sh nbm/get_nbm_ice_aws.sh ${PDY} ${cyc} &
+else
+    sh rtofs/get_rtofs_ice.sh ${PDY} ${cyc} &
+    sh nbm/get_nbm_ice.sh ${PDY} ${cyc} &
 wait;

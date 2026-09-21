@@ -13,6 +13,7 @@
 # Last Changed : 09-04-2026                                        Sep 2026   #
 # --------------------------------------------------------------------------- #
 
+export InputSource="AWS"
 
 export PDY=$1
 export cyc=$2

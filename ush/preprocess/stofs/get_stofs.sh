@@ -13,7 +13,8 @@
 # call as:
 # $ sh get_rtofs_ice.sh
 
-
+PDY=${1}
+cyc=${2}
 
 if [ "$#" -lt 3 ]; then
     echo "No arguments field argument."
@@ -23,17 +24,17 @@ else
     fields=${3}
 fi
 
-outdir=${COMINlocal}/stofs.${1}.${2}
+outdir=${COMINlocal}/stofs.${PDY}.${cyc}
 
 mkdir -p ${outdir}
 
 if [[ "${fields}" == *"current"* ]]; then
-    echo retrieving stofs current for ${1} {cyc}le ${2}
-    cp ${COMINstofs}/stofs_2d_glo.t"${2}"z.fields.cwl.vel.nc  ${outdir}/
+    echo retrieving stofs current for ${PDY} cycle ${cyc}
+    cp ${COMINstofs}/stofs_2d_glo.t"${cyc}"z.fields.cwl.vel.nc  ${outdir}/
 fi
 
 if [[ "${fields}" == *"level"* ]]; then
-    echo retrieving stofs water level for ${1} {cyc}le ${2}
-    cp ${COMINstofs}/stofs_2d_glo.t"${2}"z.fields.cwl.nc  ${outdir}/
+    echo retrieving stofs water level for ${PDY} cycle ${cyc}
+    cp ${COMINstofs}/stofs_2d_glo.t"${cyc}"z.fields.cwl.nc  ${outdir}/
 fi
 

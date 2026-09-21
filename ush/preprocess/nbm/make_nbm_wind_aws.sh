@@ -3,28 +3,29 @@
 # This script takes rrfs grib2 forecast files, extracts 10m u and v wind
 # components and outputs to netcdf. Comand line arguments are
 
-#module load intel-oneapi/2022.2.0.262
-#module load wgrib2/2.0.8
+PDY=$1
+cyc=$2
+domain=$3
 
-domain="oc"
+#domain="oc"
 
-OUTPUT_DIR="$COMINlocal/wind.$PDY.$cyc"
-OUTPUT_FILE="$OUTPUT_DIR/nbm.$PDY.$cyc.wind10m.$domain.nc"
+OUTPUT_DIR="${COMINlocal}/wind.${PDY}.${cyc}"
+OUTPUT_FILE="${OUTPUT_DIR}/nbm.${PDY}.${cyc}.wind10m.${domain}.nc"
 
-mkdir -p "$OUTPUT_DIR"
+mkdir -p "${OUTPUT_DIR}"
 # Remove existing output file to avoid mixing old data
-rm -f "$OUTPUT_FILE"
+rm -f "${OUTPUT_FILE}"
 
 echo "writing 10m wind from $INPUT_DIR to $OUTPUT_FILE"
 
-echo "nbm processing complete for forecast date $PDY, cycle $cyc, domain $domain"
+echo "nbm processing complete for forecast date ${PDY}, cycle ${cyc}, domain ${domain}"
 echo "output written to: $OUTPUT_FILE"
 
 #blendv5.0_oceanic_windspd_2026-05-27T00:00_2026-06-03T03:00.tif
 
-nbmtmp=$tmp/nbm.$PDY.$cyc.$domain
-mkdir -p $nbmtmp
-aws s3 cp --no-sign-request s3://noaa-nbm-grib2-pds/blend.$PDY/$cyc/core/ $nbmtmp/ --recursive --exclude "*" --include "*.$domain.grib2"
+nbmtmp=${tmp}/nbm.${PDY}.${cyc}.${domain}
+mkdir -p ${nbmtmp}
+aws s3 cp --no-sign-request s3://noaa-nbm-grib2-pds/blend.${PDY}/${cyc}/core/ ${nbmtmp}/ --recursive --exclude "*" --include "*.${domain}.grib2"
 
 # Loop through all items inside the target directory
 for file_path in "$nbmtmp"/*; do
@@ -32,11 +33,11 @@ for file_path in "$nbmtmp"/*; do
     filename=$(basename "$file_path")
     echo $file_path
     echo $filename
-    filein=$nbmtmp/$filename
-    wgrib2 $filein -match "(UGRD:10 m|VGRD:10 m)" -append -netcdf $OUTPUT_FILE
+    filein=$nbmtmp/${filename}
+    wgrib2 ${filein} -match "(UGRD:10 m|VGRD:10 m)" -append -netcdf ${OUTPUT_FILE}
     
     # Print the filename
-    echo "$filename"
+    echo "${filename}"
 done
 
 
