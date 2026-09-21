@@ -5,7 +5,7 @@
 # background forecast from rtofs global domain with the higher resolution nbm ak domain ice 
 # forecast.
 
-cd ${HOMErwps}/ush/preprocess
+cd ${DATA}
 
 meshname="${mesh##*/}"
 meshname="${meshname: 0: -4}"
@@ -44,7 +44,7 @@ if [ ! -f "${nbm_ak_dists}" ]; then
 fi
 
 # no extrapolation of ice beyond ak grid coverage
-python interpolate_with_weights.py ${nbmice} ${nbm_ak_wghts} ${nbm_rwps} ${varnames} -1 &
+python ${HOMErwps}/ush/preprocess/interpolate_with_weights.py ${nbmice} ${nbm_ak_wghts} ${nbm_rwps} ${varnames} -1 &
 
 if [ ! -f "${rtofs_wghts}" ]; then
     echo "missing rtofs interpolation weights file: ${rtofs_wghts}"
@@ -58,26 +58,26 @@ if [ ! -f "${rtofs_dists}" ]; then
 fi
 
 # extrapolate with 0 as fill
-python interpolate_with_weights.py ${rtofsice} ${rtofs_wghts} ${rtofs_rwps} ${varnames} 0 &
+python ${HOMErwps}/ush/preprocess/interpolate_with_weights.py ${rtofsice} ${rtofs_wghts} ${rtofs_rwps} ${varnames} 0 &
 
 wait;
 
-python add_mesh_geom_to_file.py ${rtofs_rwps} ${mesh}
-python add_mesh_geom_to_file.py ${nbm_rwps} ${mesh}
+python ${HOMErwps}/ush/preprocess/add_mesh_geom_to_file.py ${rtofs_rwps} ${mesh}
+python ${HOMErwps}/ush/preprocess/add_mesh_geom_to_file.py ${nbm_rwps} ${mesh}
 
 # interpolate from stofs to common stofs and rtofs times within range of stofs time
-python interp_time.py ${rtofs_rwps} ${nbm_rwps} ${rtofs_rwps_ti} ${varnames} False &
+python ${HOMErwps}/ush/preprocess/interp_time.py ${rtofs_rwps} ${nbm_rwps} ${rtofs_rwps_ti} ${varnames} False &
 
 # interpolate from rtofs to common stofs and rtofs times within range of stofs time
 # values out of range are extrapolated to assuming persistance
-python interp_time.py ${rtofs_rwps} ${nbm_rwps} ${nbm_rwps_ti} ${varnames} True &
+python ${HOMErwps}/ush/preprocess/interp_time.py ${rtofs_rwps} ${nbm_rwps} ${nbm_rwps_ti} ${varnames} True &
 
 wait
 
 #uniform variance of 100.
-python add_err_var_to_file.py ${rtofs_rwps_ti} ${rtofs_dists} 100.
+python ${HOMErwps}/ush/preprocess/add_err_var_to_file.py ${rtofs_rwps_ti} ${rtofs_dists} 100.
 
 #interior variance of 4., boundary variance fof 400., transition lengthscale 9. km
-python add_err_var_to_file.py ${nbm_rwps_ti} ${nbm_ak_dists} 4.:400.:9.
+python ${HOMErwps}/ush/preprocess/add_err_var_to_file.py ${nbm_rwps_ti} ${nbm_ak_dists} 4.:400.:9.
 
-python bayes_forecast_update.py ${rtofs_rwps_ti} ${nbm_rwps_ti} ${rwps_ice} ${varnames}
+python ${HOMErwps}/ush/preprocess/bayes_forecast_update.py ${rtofs_rwps_ti} ${nbm_rwps_ti} ${rwps_ice} ${varnames}

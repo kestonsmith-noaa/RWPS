@@ -1,9 +1,11 @@
 import numpy as np
 import netCDF4 as nc
-import sys
-import interp_utilities as  iutil
 import os
-
+import sys
+rwps_path = os.environ['HOMErwps']
+preprocess_path=rwps_path+'/ush/preprocess'
+sys.path.append(preprocess_path)
+import interp_utilities as iutil
 
 ######################################################################
 # Add unstructured mesh geometry variables (node latitude and 

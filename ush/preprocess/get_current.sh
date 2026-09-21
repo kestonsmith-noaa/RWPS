@@ -5,8 +5,8 @@
 # PDY=YYYYMMDD, 
 # cyc=00,06... two digit cycle number
 
-cd ${HOMErwps}/ush/preprocess
+cd ${DATA}
 
-rtofs/get_rtofs.sh ${PDY} &
-stofs/get_stofs.sh ${PDY} ${cyc} current &
+${HOMErwps}/ush/prepocess/rtofs/get_rtofs.sh ${PDY} &
+${HOMErwps}/ush/prepocess/stofs/get_stofs.sh ${PDY} ${cyc} current &
 wait;

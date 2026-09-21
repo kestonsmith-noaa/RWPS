@@ -3,7 +3,7 @@
 # This script processes water level forecast from stofs prepares it for use with WW3 as 
 # pre-interpolated forcing (AI- already interpolated).  
 
-cd ${HOMErwps}/ush/preprocess
+cd ${DATA}
 
 meshname="${mesh##*/}"
 meshname="${meshname: 0: -4}"
@@ -28,6 +28,6 @@ if [ ! -f "${stofs_dists}" ]; then
     exit 1
 fi
 
-python interpolate_with_weights.py ${stofslev} ${stofs_wghts} ${rwps_waterlevel} ${varnames} 0
-python add_mesh_geom_to_file.py ${rwps_waterlevel} ${mesh}
-python add_err_var_to_file.py ${rwps_waterlevel} ${stofs_dists} 1.
+python ${HOMErwps}/ush/preprocess/interpolate_with_weights.py ${stofslev} ${stofs_wghts} ${rwps_waterlevel} ${varnames} 0
+python ${HOMErwps}/ush/preprocess/add_mesh_geom_to_file.py ${rwps_waterlevel} ${mesh}
+python ${HOMErwps}/ush/preprocess/add_err_var_to_file.py ${rwps_waterlevel} ${stofs_dists} 1.

@@ -1,9 +1,12 @@
 import numpy as np
-import os
 import netCDF4 as nc
+#sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+import os
 import sys
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-import interp_utilities as  iutil
+rwps_path = os.environ['HOMErwps']
+preprocess_path=rwps_path+'/ush/preprocess'
+sys.path.append(preprocess_path)
+import interp_utilities as iutil
 
 ######################################################################
 # Consolidate u,v surface currents from global RTOFS into a single 

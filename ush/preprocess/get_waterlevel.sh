@@ -4,5 +4,5 @@
 # PDY=YYYYMMDD, 
 # cyc=00,06... two digit cycle number
 
-cd ${HOMErwps}/ush/preprocess
-stofs/get_stofs.sh ${PDY} ${cyc} waterlevel 
+cd ${DATA}
+${HOMErwps}/ush/preprocess/stofs/get_stofs.sh ${PDY} ${cyc} waterlevel 

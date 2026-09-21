@@ -1,10 +1,14 @@
-import os
 import argparse
 import numpy as np
 import netCDF4 as nc
-import sys
 import math
 from scipy.interpolate import interp1d
+import os
+import sys
+rwps_path = os.environ['HOMErwps']
+preprocess_path=rwps_path+'/ush/preprocess'
+sys.path.append(preprocess_path)
+import interp_utilities as iutil
 
 ######################################################################
 # Interpolate forecast linearly in time to a set of time points that 
@@ -127,7 +131,6 @@ for jv in range(nvar):
 
     InterpolatedVariables[jv,:,:]=uf[:,:]
 
-import interp_utilities as iutil
 with nc.Dataset(flout, 'w', format='NETCDF4') as ncout:
 
     ncout.createDimension('level' , 1)  

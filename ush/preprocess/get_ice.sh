@@ -4,8 +4,8 @@
 # PDY=YYYYMMDD, 
 # cyc=00,06... two digit cycle number
 
-cd ${HOMErwps}/ush/preprocess
+cd ${DATA}
 
-sh rtofs/get_rtofs_ice.sh ${PDY} ${cyc} &
-sh nbm/get_nbm_ice.sh ${PDY} ${cyc} &
+${HOMErwps}/ush/prepocessrtofs/get_rtofs_ice.sh ${PDY} ${cyc} &
+${HOMErwps}/ush/prepocess/nbm/get_nbm_ice.sh ${PDY} ${cyc} &
 wait;

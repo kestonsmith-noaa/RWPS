@@ -1,9 +1,12 @@
-import os
 import argparse
 import numpy as np
 import netCDF4 as nc
-import sys
 import math
+import os
+import sys
+rwps_path = os.environ['HOMErwps']
+preprocess_path=rwps_path+'/ush/preprocess'
+sys.path.append(preprocess_path)
 import interp_utilities as iutil
 
 # Converts NBM direction and magnitude wind variables to U,V 

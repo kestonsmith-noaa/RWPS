@@ -9,13 +9,11 @@
 # COMINrtofs = directory path to rtofs forecast
 
 
-cd ${HOMErwps}/ush/preprocess
-
 tmpdir="${COMINlocal}/tmp.rtofs.${PDY}"
 filesin="${COMINrtofs}/*prog.nc"
 flout="${COMINlocal}/rtofs.${PDY}.nc"
 
 mkdir -p ${tmpdir}
 cp ${filesin} ${tmpdir}/
-python rtofs/get_rtofs_fcst.py ${tmpdir} ${flout}
+python ${HOMErwps}/ush/prepocess/rtofs/get_rtofs_fcst.py ${tmpdir} ${flout}
 

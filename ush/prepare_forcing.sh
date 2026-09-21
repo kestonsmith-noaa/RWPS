@@ -25,6 +25,7 @@ source "${HOMErwps}/ush/detect_machine.sh"
 source "${HOMErwps}/ush/module-setup.sh"
 #source "${HOMErwps}/versions/build.ver"
 
+
 export MACHINE_ID
 export HOMErwps
 
@@ -38,14 +39,15 @@ ${HOMErwps}/sorc/link_workflow.sh
 export mesh="${HOMErwps}/fix/${meshID}/rwps.${meshID}.msh"
 
 export fix="${HOMErwps}/fix"
-export prep="${HOMErwps}/PrepInputs"
-export tmp="${prep}/tmpfiles"
-export frc="${prep}/forcing"
+export DATA="${HOMErwps}/data"
+export tmp="${DATA}/tmpfiles"
+export frc="${DATA}/forcing"
 export interpwghtsdir="${HOMErwps}/interpolation_weights"
 
-export outdir=${prep}
 
-mkdir -p ${prep}
+export outdir=${DATA}
+
+mkdir -p ${DATA}
 mkdir -p ${tmp}
 mkdir -p ${frc}
 
