@@ -4,7 +4,7 @@
 # Script to retrieve nbm ice forecast and convert to netcdf using wgrib2. 
 # Requires environmental variables:
 # {PDY}=YYYYMMDD, 
-# {cyc}=00,06... two digit {cyc}le number
+# {cyc}=00,06... two digit cycle number
 # COMINlocal = work directory to write output files to
 #
 # call as:
@@ -19,5 +19,5 @@ mkdir -p ${tmpdir}
 cp ${filesin} ${tmpdir}/
 
 PDYCC="${PDY}${cyc}"
-python ${HOMErwps}/ush/preprocess/rtofs/rtofs/get_rtofs_ice_fcst.py ${tmpdir} ${PDYCC} ${flout}
+python ${HOMErwps}/ush/preprocess/rtofs/get_rtofs_ice_fcst.py ${tmpdir} ${PDYCC} ${flout}
 

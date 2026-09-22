@@ -2,9 +2,10 @@ import numpy as np
 import netCDF4 as nc
 import os
 import sys
-rwps_path = os.environ['HOMErwps']
-preprocess_path=rwps_path+'/ush/preprocess'
-sys.path.append(preprocess_path)
+HOMErwps = os.environ['HOMErwps']
+USHrwps=HOMErwps+'/ush'
+PREPROCESSrwps=USHrwps+'/preprocess'
+sys.path.append(PREPROCESSrwps)
 import interp_utilities as iutil
 
 ######################################################################

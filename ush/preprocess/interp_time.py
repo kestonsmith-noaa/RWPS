@@ -5,9 +5,10 @@ import math
 from scipy.interpolate import interp1d
 import os
 import sys
-rwps_path = os.environ['HOMErwps']
-preprocess_path=rwps_path+'/ush/preprocess'
-sys.path.append(preprocess_path)
+HOMErwps = os.environ['HOMErwps']
+USHrwps=HOMErwps+'/ush'
+PREPROCESSrwps=USHrwps+'/preprocess'
+sys.path.append(PREPROCESSrwps)
 import interp_utilities as iutil
 
 ######################################################################

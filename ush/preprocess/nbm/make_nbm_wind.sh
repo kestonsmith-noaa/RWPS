@@ -28,6 +28,6 @@ echo "writing 10m wind from ${INPUT_DIR} to ${OUTPUT_FILE}"
 wgrib2 "${WSPD_FILE}"  -match ":WIND:10 m" -netcdf "${OUTPUT_FILE}"
 wgrib2 "${WDIR_FILE}"  -match ":WDIR:10 m" -append -netcdf "${OUTPUT_FILE}"
 
-echo "nbm processing complete for forecast date ${1}, {cyc}le ${2}, domain ${3}"
+echo "nbm processing complete for forecast date ${1}, cycle ${2}, domain ${3}"
 echo "output written to: ${OUTPUT_FILE}"
 

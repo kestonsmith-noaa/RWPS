@@ -38,8 +38,12 @@ fi
 ${HOMErwps}/sorc/link_workflow.sh
 export mesh="${HOMErwps}/fix/${meshID}/rwps.${meshID}.msh"
 
+#This should be defined somewhere else
+usrtmp="/lfs/h2/emc/ptmp/$USER/"
+mkdir -p ${usrtmp}
+
 export fix="${HOMErwps}/fix"
-export DATA="${HOMErwps}/data"
+export DATA="${usrtmp}/RWPSdata.${PDY}.${cyc}.${meshID}"
 export tmp="${DATA}/tmpfiles"
 export frc="${DATA}/forcing"
 export interpwghtsdir="${HOMErwps}/interpolation_weights"

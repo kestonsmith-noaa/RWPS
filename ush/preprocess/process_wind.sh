@@ -10,7 +10,7 @@ cd ${DATA}
 winddir="${tmp}/wind.${PDY}.${cyc}"
 windvars="UGRD_10maboveground:VGRD_10maboveground"
 
-# incorporate {meshname} date and {cyc}le into output directory name to avoid
+# incorporate {meshname} date and cycle into output directory name to avoid
 # applying winds to wrong mesh
 
 outdir="${tmp}/rwps_wind.${meshname}.${PDY}.${cyc}"
