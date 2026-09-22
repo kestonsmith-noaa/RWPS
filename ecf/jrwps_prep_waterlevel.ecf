@@ -1,4 +1,4 @@
-#!/bin/sh
+#PBS -S /bin/bash
 #PBS -q dev
 #PBS -l walltime=00:59:00
 #PBS -A GLWU-DEV
