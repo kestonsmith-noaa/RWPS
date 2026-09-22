@@ -7,9 +7,6 @@
 
 cd ${DATA}
 
-meshname="${mesh##*/}"
-meshname="${meshname: 0: -4}"
-
 
 inpdir=${tmp}/ice.${PDY}.${cyc}
 

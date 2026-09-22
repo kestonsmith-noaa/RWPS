@@ -7,6 +7,6 @@
 
 cd ${DATA}
 
-${HOMErwps}/ush/prepocess/rtofs/get_rtofs.sh ${PDY} &
-${HOMErwps}/ush/prepocess/stofs/get_stofs.sh ${PDY} ${cyc} current &
+${HOMErwps}/ush/preprocess/rtofs/get_rtofs.sh ${PDY} &
+${HOMErwps}/ush/preprocess/stofs/get_stofs.sh ${PDY} ${cyc} current &
 wait;

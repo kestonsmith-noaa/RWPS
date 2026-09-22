@@ -15,5 +15,5 @@ flout="${COMINlocal}/rtofs.${PDY}.nc"
 
 mkdir -p ${tmpdir}
 cp ${filesin} ${tmpdir}/
-python ${HOMErwps}/ush/prepocess/rtofs/get_rtofs_fcst.py ${tmpdir} ${flout}
+python ${HOMErwps}/ush/preprocess/rtofs/get_rtofs_fcst.py ${tmpdir} ${flout}
 

@@ -6,6 +6,6 @@
 
 cd ${DATA}
 
-${HOMErwps}/ush/prepocessrtofs/get_rtofs_ice.sh ${PDY} ${cyc} &
-${HOMErwps}/ush/prepocess/nbm/get_nbm_ice.sh ${PDY} ${cyc} &
+${HOMErwps}/ush/preprocessrtofs/get_rtofs_ice.sh ${PDY} ${cyc} &
+${HOMErwps}/ush/preprocess/nbm/get_nbm_ice.sh ${PDY} ${cyc} &
 wait;

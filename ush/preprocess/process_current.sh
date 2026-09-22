@@ -7,10 +7,7 @@
 
 cd ${DATA}
 
-{meshname}="${mesh##*/}"
-{meshname}="${{meshname}: 0: -4}"
-
-stofscur="${tmp}/stofs.${PDY}.${cyc}/stofs_2d_glo.t${{cyc}}z.fields.cwl.vel.nc"
+stofscur="${tmp}/stofs.${PDY}.${cyc}/stofs_2d_glo.t${cyc}z.fields.cwl.vel.nc"
 rtofscur="${tmp}/rtofs.${PDY}.nc"
 
 varnames="u-vel:v-vel"

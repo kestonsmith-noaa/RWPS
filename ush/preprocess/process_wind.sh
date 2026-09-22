@@ -10,11 +10,6 @@ cd ${DATA}
 winddir="${tmp}/wind.${PDY}.${cyc}"
 windvars="UGRD_10maboveground:VGRD_10maboveground"
 
-# extract mesh name from file path
-meshname="${mesh##*/}"
-# remove .msh suffix from mesh name
-meshname="${meshname: 0: -4}"
-
 # incorporate {meshname} date and {cyc}le into output directory name to avoid
 # applying winds to wrong mesh
 
