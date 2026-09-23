@@ -7,7 +7,7 @@
 # arg 3 = variable to retrieve, (current or waterlevel)
 #
 # Requires environmental variables:
-# COMINlocal = work directory to write output files to
+# tmp = work directory to write output files to
 # COMINstofs = directory path to stofs forecasts
 #
 # call as:
@@ -24,7 +24,7 @@ else
     fields=${3}
 fi
 
-outdir=${COMINlocal}/stofs.${PDY}.${cyc}
+outdir=${tmp}/stofs.${PDY}.${cyc}
 
 mkdir -p ${outdir}
 

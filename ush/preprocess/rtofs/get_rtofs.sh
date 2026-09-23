@@ -5,13 +5,13 @@
 # {PDY}=YYYYMMDD, 
 # call as:
 # $ sh get_rtofs.sh 20260829
-# COMINlocal = work directory to write output files to
+# tmp = work directory to write output files to
 # COMINrtofs = directory path to rtofs forecast
 
 
-tmpdir="${COMINlocal}/tmp.rtofs.${PDY}"
+tmpdir="${tmp}/tmp.rtofs.${PDY}"
 filesin="${COMINrtofs}/*prog.nc"
-flout="${COMINlocal}/rtofs.${PDY}.nc"
+flout="${tmp}/rtofs.${PDY}.nc"
 
 mkdir -p ${tmpdir}
 cp ${filesin} ${tmpdir}/

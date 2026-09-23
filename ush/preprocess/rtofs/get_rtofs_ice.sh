@@ -5,14 +5,14 @@
 # Requires environmental variables:
 # {PDY}=YYYYMMDD, 
 # {cyc}=00,06... two digit cycle number
-# COMINlocal = work directory to write output files to
+# tmp = work directory to write output files to
 #
 # call as:
 # $ sh get_rtofs_ice.sh
 
-tmpdir="${COMINlocal}/tmp.rtofsIce.${PDY}"
+tmpdir="${tmp}/tmp.rtofsIce.${PDY}"
 filesin="${COMINrtofs}/*ice.nc"
-dirout="${COMINlocal}/ice.${PDY}.${cyc}"
+dirout="${tmp}/ice.${PDY}.${cyc}"
 flout="${dirout}/rtofs.ice.${PDY}.nc"
 
 mkdir -p ${tmpdir}

@@ -6,14 +6,14 @@
 # arg 2 = 2 digit cyle
 #
 # Requires environmental variables:
-# COMINlocal = work directory to write output files to
+# tmp = work directory to write output files to
 #
 # call as:
 # $ sh get_nbm_ice.sh 20260829 00
 
 ICE_FILE=${COMINnbm}/blend.t${2}z.icec.ak.grib2
 
-OUTPUT_DIR=${COMINlocal}/ice.${1}.${2}
+OUTPUT_DIR=${tmp}/ice.${1}.${2}
 OUTPUT_FILE=${OUTPUT_DIR}/nbm.${1}.${2}.ice.ak.nc
 
 mkdir -p ${OUTPUT_DIR}

@@ -61,8 +61,6 @@ export COMINnbm="/lfs/h3/mdl/ptmp/mdl.nbm/blend/v5.2/blend.${PDY}/${cyc}/grib2"
 export COMINrrfs="/lfs/h1/ops/prod/com/rrfs/v1.0/rrfs.${PDY}/${cyc}"
 export COMINstofs="/lfs/h1/ops/prod/com/stofs/v3.1/stofs_2d_glo.${PDY}"
 
-export COMINlocal=${tmp}
-
 #machine dependend path to RWPS fix files
 export RWPSfix=/lfs/h2/emc/couple/noscrub/keston.smith/RWPS
 
