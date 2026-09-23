@@ -1,8 +1,11 @@
 import numpy as np
 import netCDF4 as nc
-import sys
-import compute_interpolation_weights_utilities as  iutil
 import os
+import sys
+HOMErwps = os.environ['HOMErwps']
+CIWrwps=HOMErwps+'/dev/compute_interpolation_weights/ush'
+sys.path.append(CIWrwps)
+import compute_interpolation_weights_utilities as  iutil
 
 PBS=True
 

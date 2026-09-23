@@ -19,7 +19,6 @@ def loadWW3Mesh(fl):
         A = f.readline()
         B=A.lstrip()
         values = B.split(" ")
-#        print(values)
         if len(values)>5:
             xi[k]=values[2]
             yi[k]=values[4]
@@ -185,11 +184,6 @@ def QuickDistance(lat1, lon1, lats2, lons2):
 
 def WriteInterpolationWeightsToNetCDF(weights_file,row,col,weights,Nrows,Ncols):
     #create a esmpy style sparse matrix netcdf file
-    print(Nrows)
-    print(Ncols)
-    print(row)
-    print(col)
-    print(weights)
     n_s=len(weights)
 
     if isinstance(row , list):

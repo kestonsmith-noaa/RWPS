@@ -1,8 +1,31 @@
 import numpy as np
 import netCDF4 as nc
-import sys
-import compute_interpolation_weights_utilities as  iutil
 import scipy.sparse as sp
+import os
+import sys
+HOMErwps = os.environ['HOMErwps']
+CIWrwps=HOMErwps+'/dev/compute_interpolation_weights/ush'
+sys.path.append(CIWrwps)
+import compute_interpolation_weights_utilities as  iutil
+
+####################################################################################################
+# Converts an ascii file containing interpolation weight information for linearly interpolating from
+# the nodes of an unstructured mesh to the nodes of a second different unstructed mesh into netcdf
+# format. 
+# Call as:
+# $python convert_weights_to_netcdf.py data_file_to_be_interpolated.nc unstructured_mesh_geometry_file.msh interpolation_weights.txt extrapolation_flag
+# where extrapolation_flag=True to use nearest node extrapolation, for target nodes outside the 
+# coverage of the source mesh. Will create output file interpolation_weights.nc including weights 
+# as well as source and destination mesh node geometry information.
+#
+# Input file (interpolation_weights.txt) has line format:
+# column 1      : node number of target mesh
+# column 2      : Source mesh element number (not used)
+# columns 3,4,5 : node numbers of source mesh
+# column 6      : Distance of target node to source element center (not used)
+# columns 7,8,9 : Interpolation weights for interpolating from source mesh to destination 
+#               : corresponding to the nodes in columns 3,4,5
+####################################################################################################
 
 nargin = len(sys.argv) - 1
 

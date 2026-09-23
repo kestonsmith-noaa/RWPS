@@ -7,11 +7,14 @@
 # products are of higher accuracy than the coarser broader scale forecasts
 
 import numpy as np
-import os
 import netCDF4 as nc
-import sys
 import xarray as xr
 import scipy.sparse as sp
+import os
+import sys
+HOMErwps = os.environ['HOMErwps']
+CIWrwps=HOMErwps+'/dev/compute_interpolation_weights/ush'
+sys.path.append(CIWrwps)
 import compute_interpolation_weights_utilities as iutil
 
 # Main program
