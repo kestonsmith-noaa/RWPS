@@ -40,11 +40,14 @@ mkdir -p ${outdir}
 
 aws s3 cp --no-sign-request s3://noaa-nws-rtofs-pds/rtofs.${PDY}/ ${tmpdir}/  --recursive --exclude "*" --include "*.archs.a.tgz"
 aws s3 cp --no-sign-request s3://noaa-nws-rtofs-pds/rtofs.${PDY}/ ${tmpdir}/  --recursive --exclude "*" --include "*.archs.b"
+if [[ ${MACHINE_ID} = hera* ]]; then
+    module load rdhpcs-python
+fi
 
 echo ${tmpdir}
 echo ${flout}
 PDYCC="${PDY}${cyc}"
 echo ${PDYCC}
-python rtofs/get_rtofs_fcst_aws.py ${tmpdir} ${PDYCC} $flout
+python rtofs/get_rtofs_fcst.py ${tmpdir} ${PDYCC} $flout
 
 #rm -rf ${tmpdir}

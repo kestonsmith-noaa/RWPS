@@ -16,6 +16,7 @@ else
     echo "tmp set to $tmp"
 fi
 
+
 OUTPUT_DIR="${tmp}/wind.${PDY}.${cyc}"
 OUTPUT_FILE="${OUTPUT_DIR}/nbm.${PDY}.${cyc}.wind10m.${domain}.nc"
 
@@ -35,6 +36,10 @@ mkdir -p ${nbmtmp}
 aws s3 cp --no-sign-request s3://noaa-nbm-grib2-pds/blend.${PDY}/${cyc}/core/ ${nbmtmp}/ --recursive --exclude "*" --include "*.${domain}.grib2"
 
 # Loop through all items inside the target directory
+if [[ ${MACHINE_ID} = hera* ]]; then
+    module load wgrib2/3.1.3_wmo
+fi
+
 for file_path in "$nbmtmp"/*; do
     # Extract only the filename from the full path
     filename=$(basename "$file_path")

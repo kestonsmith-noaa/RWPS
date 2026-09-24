@@ -38,6 +38,9 @@ aws s3 cp --no-sign-request s3://noaa-nws-rtofs-pds/rtofs.${PDY}/ ${tmpdir}/  --
 
 PDYCC="${PDY}${cyc}"
 echo ${PDYCC}
+if [[ ${MACHINE_ID} = hera* ]]; then
+    module load rdhpcs-python
+fi
 
 python rtofs/get_rtofs_ice_fcst.py ${tmpdir} ${PDYCC} ${flout}
 

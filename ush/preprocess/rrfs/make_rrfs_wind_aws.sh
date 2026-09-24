@@ -53,6 +53,9 @@ aws s3 cp --no-sign-request s3://noaa-rrfs-pds/retro_output_final/${season}/rrfs
 #aws s3 cp --no-sign-request s3://noaa-rrfs-pds/retro_output_final/winter/rrfs.20240109/00/rrfs.t00z.prslev.f001.ak.grib2 ./
 #aws s3 cp --no-sign-request s3://noaa-rrfs-pds/retro_output_final/winter/rrfs.20240109/00/rrfs.t00z.prslev.f001.${domain}.grib2 ./
 # Loop through all items inside the target directory
+if [[ ${MACHINE_ID} = hera* ]]; then
+    module load wgrib2/3.1.3_wmo
+fi
 for file_path in "${rrfstmp}"/*; do
     # Extract only the filename from the full path
     
