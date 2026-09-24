@@ -13,14 +13,14 @@ else
     fields=${3}
 fi
 
-if [[ ! -v COMINlocal ]]; then
-    COMINlocal="./"
-    echo "COMINlocal set to current directory. Should have been set elsewhere"
+if [[ ! -v tmp ]]; then
+    tmp="./"
+    echo "tmp set to current directory. Should have been set elsewhere"
 else
-    echo "COMINlocal set to $COMINlocal"
+    echo "tmp set to $tmp"
 fi
 
-outdir=${COMINlocal}/stofs.${PDY}.${cyc}
+outdir=${tmp}/stofs.${PDY}.${cyc}
 
 mkdir -p ${outdir}
 

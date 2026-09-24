@@ -9,7 +9,14 @@ domain=$3
 
 #domain="oc"
 
-OUTPUT_DIR="${COMINlocal}/wind.${PDY}.${cyc}"
+if [[ ! -v tmp ]]; then
+    tmp="./"
+    echo "tmp set to current directory. Should have been set elsewhere"
+else
+    echo "tmp set to $tmp"
+fi
+
+OUTPUT_DIR="${tmp}/wind.${PDY}.${cyc}"
 OUTPUT_FILE="${OUTPUT_DIR}/nbm.${PDY}.${cyc}.wind10m.${domain}.nc"
 
 mkdir -p "${OUTPUT_DIR}"

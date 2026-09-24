@@ -20,15 +20,15 @@ pip list -v
 
 #source rwpsenv
 
-if [[ ! -v COMINlocal ]]; then
-    COMINlocal="./"
-    echo "COMINlocal set to current directory. Should have been set elsewhere"
+if [[ ! -v tmp ]]; then
+    tmp="./"
+    echo "tmp set to current directory. Should have been set elsewhere"
 else
-    echo "COMINlocal set to ${COMINlocal}"
+    echo "tmp set to ${tmp}"
 fi
 
-tmpdir="${COMINlocal}/tmp.rtofsIce.${PDY}"
-outdir="${COMINlocal}/ice.${PDY}.${cyc}"
+tmpdir="${tmp}/tmp.rtofsIce.${PDY}"
+outdir="${tmp}/ice.${PDY}.${cyc}"
 flout="${outdir}/rtofs.ice.${PDY}.nc"
 
 mkdir -p ${tmpdir}

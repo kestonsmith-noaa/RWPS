@@ -30,14 +30,14 @@ if [[ ${PDY} -ge 20240701 && ${PDY} -le 20240731 ]]; then season="summer"; fi
 #season="spring" # 20240502 -20240531  
 #season="summer" # 20240701 -20240731
 
-if [[ ! -v COMINlocal ]]; then
-    COMINlocal="./"
-    echo "COMINlocal set to current directory. Should have been set elsewhere"
+if [[ ! -v tmp ]]; then
+    tmp="./"
+    echo "tmp set to current directory. Should have been set elsewhere"
 else
-    echo "COMINlocal set to $COMINlocal"
+    echo "tmp set to $tmp"
 fi
 
-OUTPUT_DIR="${COMINlocal}/wind.${PDY}.${cyc}"
+OUTPUT_DIR="${tmp}/wind.${PDY}.${cyc}"
 OUTPUT_FILE="${OUTPUT_DIR}/rrfs.${PDY}.${cyc}.wind10m.${domain}.nc"
 
 mkdir -p "${OUTPUT_DIR}"

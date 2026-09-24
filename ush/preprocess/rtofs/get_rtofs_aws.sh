@@ -19,20 +19,20 @@ pip list -v
 
 cd ${HOMErwps} 
 
-if [[ ! -v COMINlocal ]]; then
-    COMINlocal="./"
-    echo "COMINlocal set to current directory. Should have been set elsewhere"
+if [[ ! -v tmp ]]; then
+    tmp="./"
+    echo "tmp set to current directory. Should have been set elsewhere"
 else
-    echo "COMINlocal set to $COMINlocal"
+    echo "tmp set to $tmp"
 fi
 
-tmpdir="${COMINlocal}/tmp.rtofs.${PDY}"
-flout="${COMINlocal}/rtofs.${PDY}.nc"
+tmpdir="${tmp}/tmp.rtofs.${PDY}"
+flout="${tmp}/rtofs.${PDY}.nc"
 
 mkdir -p ${tmpdir}
 
-tmpdir="${COMINlocal}/tmp.rtofs.${PDY}"
-outdir="${COMINlocal}/rtofs.${PDY}.${cyc}"
+tmpdir="${tmp}/tmp.rtofs.${PDY}"
+outdir="${tmp}/rtofs.${PDY}.${cyc}"
 flout="${outdir}/rtofs.${PDY}.nc"
 
 mkdir -p ${tmpdir}
