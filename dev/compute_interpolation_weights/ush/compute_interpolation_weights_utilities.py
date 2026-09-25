@@ -1,5 +1,8 @@
 import numpy as np
 import netCDF4 as nc
+import os
+HOMErwps = os.environ['HOMErwps']
+CIWrwps=HOMErwps+'/dev/compute_interpolation_weights/ush'
 
 def loadWW3Mesh(fl):
     print("mesh file="+fl)
@@ -416,7 +419,8 @@ def WriteInterpJobscriptPBS(fl,flin,mshfl,Njobs, ComputeNodes):
         f.write("cd "+current_dir+"\n")
 
         f.write("# calculate interpolation weights in parallel geographically \n")
-        f.write("python compute_unstr_to_rwps_interp_weights.py "+flin+" "+mshfl+" $PBS_ARRAY_INDEX " + str(Njobs)+" > InterpJob.$PBS_ARRAY_INDEX.out \n")
+        f.write("python "+CIWrwps+"/compute_unstr_to_rwps_interp_weights.py "+flin+" "+mshfl+" $PBS_ARRAY_INDEX " + str(Njobs)+" > InterpJob.$PBS_ARRAY_INDEX.out \n")
+#        f.write("python compute_unstr_to_rwps_interp_weights.py "+flin+" "+mshfl+" $PBS_ARRAY_INDEX " + str(Njobs)+" > InterpJob.$PBS_ARRAY_INDEX.out \n")
 
 
 def WriteInterpJobscriptSLURM(fl,flin,mshfl,Njobs, ComputeNodes):

@@ -17,7 +17,7 @@ export meshID=$1
 
 export HOMErwps=$(cd "$(dirname "$(readlink -f -n "${BASH_SOURCE[0]}")")" && git rev-parse --show-toplevel)
 
-usrtmp="/lfs/h2/emc/ptmp/$USER/"
+usrtmp="/lfs/h2/emc/ptmp/${USER}"
 mkdir -p ${usrtmp}
 export DATA="${usrtmp}/RWPS.interpolation_weights.${meshID}.tmpdir"
 mkdir -p ${DATA}
