@@ -25,6 +25,8 @@ module load wgrib2/2.0.8
 if [[ ${PDY} -ge 20240108 && ${PDY} -le 20240208 ]]; then season="winter"; fi
 if [[ ${PDY} -ge 20240502 && ${PDY} -le 20240531 ]]; then season="spring"; fi
 if [[ ${PDY} -ge 20240701 && ${PDY} -le 20240731 ]]; then season="summer"; fi
+if [[ ${PDY} -ge 20260813 ]]; then season="opsperiod"; fi
+
 
 #season="winter" # 20240103 -20240208
 #season="spring" # 20240502 -20240531  
@@ -47,11 +49,14 @@ rm -f "${OUTPUT_FILE}"
 rrfstmp=${tmp}/rrfs.${PDY}.${cyc}.${domain}
 mkdir -p ${rrfstmp}
 
-echo "aws s3 cp --no-sign-request s3://noaa-rrfs-pds/retro_output_final/${season}/rrfs.${PDY}/${cyc}/ ${rrfstmp} --recursive --exclude * --include *.${domain}.grib2 "
-aws s3 cp --no-sign-request s3://noaa-rrfs-pds/retro_output_final/${season}/rrfs.${PDY}/${cyc}/ ${rrfstmp} --recursive --exclude "*" --include "*.${domain}.grib2"
+#rrfs.t${2}z.2dfld.*km.f*.${3}.grib2
 
-#aws s3 cp --no-sign-request s3://noaa-rrfs-pds/retro_output_final/winter/rrfs.20240109/00/rrfs.t00z.prslev.f001.ak.grib2 ./
-#aws s3 cp --no-sign-request s3://noaa-rrfs-pds/retro_output_final/winter/rrfs.20240109/00/rrfs.t00z.prslev.f001.${domain}.grib2 ./
+if [[ $season = "opsperiod" ]]; then
+    aws s3 cp --no-sign-request s3://noaa-rrfs-ops-pds/rrfs.${PDY}/${cyc}/  ${rrfstmp} --recursive --exclude "*" --include "rrfs.t${cyc}z.2dfld.*.${domain}.grib2"
+else
+    aws s3 cp --no-sign-request s3://noaa-rrfs-pds/retro_output_final/${season}/rrfs.${PDY}/${cyc}/ ${rrfstmp} --recursive --exclude "*" --include "*.${domain}.grib2"
+fi
+
 # Loop through all items inside the target directory
 if [[ ${MACHINE_ID} = hera* ]]; then
     module load wgrib2/3.1.3_wmo
