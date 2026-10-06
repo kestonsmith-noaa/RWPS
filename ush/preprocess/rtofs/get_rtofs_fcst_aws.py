@@ -25,25 +25,22 @@ print(CYC)
 #tgzfiles = os.listdir(dirin)
 tgzfiles = [f for f in os.listdir(dirin) if f.endswith('.a.tgz')]
 
-tgzfiles[3]='rtofs_glo.t00z.n-24.archs.a.tgz'
-tgzfiles[4]='rtofs_glo.t00z.n-07.archs.a.tgz'
-tgzfiles[5]='rtofs_glo.t00z.n00.archs.a.tgz'
+#tgzfiles[3]='rtofs_glo.t00z.n-24.archs.a.tgz'
+#tgzfiles[4]='rtofs_glo.t00z.n-07.archs.a.tgz'
+#tgzfiles[5]='rtofs_glo.t00z.n00.archs.a.tgz'
 print(tgzfiles)
 nt=len(tgzfiles)
-
-
-
-nt=7
 
 
 k=0    
 flin=dirin+"/"+tgzfiles[k]
 
-#data=nc.Dataset(flin,"r")
-#X=data["Longitude"][:,:]
-#Y=data["Latitude"][:,:]
-#fill_value0=data["u_velocity"]._FillValue
-fltemplate="/mnt/sda/keston/rtofs_cice/rtofs.20260622/rtofs_glo_2ds_f009_prog.nc"
+#fltemplate="/mnt/sda/keston/rtofs_cice/rtofs.20260622/rtofs_glo_2ds_f009_prog.nc"
+fltemplate="/work2/noaa/marine/keston/rtofs.20260622/rtofs_glo_2ds_f071_prog.nc"
+
+#fltemplate="/scratch3/NCEPDEV/climate/Keston.Smith/SampleInput/rtofs_glo_2ds_f032_prog.nc"
+
+
 data = nc.Dataset(fltemplate,"r")
 X=data["Longitude"]
 Y=data["Latitude"]

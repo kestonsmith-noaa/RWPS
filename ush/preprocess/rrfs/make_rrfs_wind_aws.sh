@@ -18,8 +18,13 @@ domain=$3
 
 echo "MakeRRFSWind.sh fetching rrfs : time = ${PDY}, cycle = ${cyc}, domain = ${domain}"
 
-module load intel-oneapi/2022.2.0.262
-module load wgrib2/2.0.8
+#module load intel-oneapi/2022.2.0.262
+#module load wgrib2/2.0.8
+
+HOMErwps=$(cd "$(dirname "$(readlink -f -n "${BASH_SOURCE[0]}")")" && git rev-parse --show-toplevel)
+
+source $HOMErwps/ush/preprocess/load_modules_preprocess.sh
+
 
 #specific dates of retrospectives
 if [[ ${PDY} -ge 20240108 && ${PDY} -le 20240208 ]]; then season="winter"; fi
@@ -52,15 +57,13 @@ mkdir -p ${rrfstmp}
 #rrfs.t${2}z.2dfld.*km.f*.${3}.grib2
 
 if [[ $season = "opsperiod" ]]; then
-    aws s3 cp --no-sign-request s3://noaa-rrfs-ops-pds/rrfs.${PDY}/${cyc}/  ${rrfstmp} --recursive --exclude "*" --include "rrfs.t${cyc}z.2dfld.*.${domain}.grib2"
+#    aws s3 cp --no-sign-request s3://noaa-rrfs-ops-pds/rrfs.${PDY}/${cyc}/  ${rrfstmp} --recursive --exclude "*" --include "rrfs.t${cyc}z.2dfld.*.${domain}.grib2"
+    $AWS s3 cp --no-sign-request s3://noaa-rrfs-ops-pds/rrfs.${PDY}/${cyc}/  ${rrfstmp} --recursive --exclude "*" --include "rrfs.t${cyc}z.2dfld.*.${domain}.grib2"
 else
-    aws s3 cp --no-sign-request s3://noaa-rrfs-pds/retro_output_final/${season}/rrfs.${PDY}/${cyc}/ ${rrfstmp} --recursive --exclude "*" --include "*.${domain}.grib2"
+#    aws s3 cp --no-sign-request s3://noaa-rrfs-pds/retro_output_final/${season}/rrfs.${PDY}/${cyc}/ ${rrfstmp} --recursive --exclude "*" --include "*.${domain}.grib2"
+    $AWS s3 cp --no-sign-request s3://noaa-rrfs-pds/retro_output_final/${season}/rrfs.${PDY}/${cyc}/ ${rrfstmp} --recursive --exclude "*" --include "*.${domain}.grib2"
 fi
 
-# Loop through all items inside the target directory
-if [[ ${MACHINE_ID} = hera* ]]; then
-    module load wgrib2/3.1.3_wmo
-fi
 for file_path in "${rrfstmp}"/*; do
     # Extract only the filename from the full path
     

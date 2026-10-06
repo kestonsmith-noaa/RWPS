@@ -25,6 +25,9 @@ if [[ ! -v tmp ]]; then
 else
     echo "tmp set to $tmp"
 fi
+HOMErwps=$(cd "$(dirname "$(readlink -f -n "${BASH_SOURCE[0]}")")" && git rev-parse --show-toplevel)
+
+source $HOMErwps/ush/preprocess/load_modules_preprocess.sh
 
 tmpdir="${tmp}/tmp.rtofs.${PDY}"
 flout="${tmp}/rtofs.${PDY}.nc"
@@ -38,16 +41,16 @@ flout="${outdir}/rtofs.${PDY}.nc"
 mkdir -p ${tmpdir}
 mkdir -p ${outdir}
 
-aws s3 cp --no-sign-request s3://noaa-nws-rtofs-pds/rtofs.${PDY}/ ${tmpdir}/  --recursive --exclude "*" --include "*.archs.a.tgz"
-aws s3 cp --no-sign-request s3://noaa-nws-rtofs-pds/rtofs.${PDY}/ ${tmpdir}/  --recursive --exclude "*" --include "*.archs.b"
-if [[ ${MACHINE_ID} = hera* ]]; then
-    module load rdhpcs-python
-fi
+#aws s3 cp --no-sign-request s3://noaa-nws-rtofs-pds/rtofs.${PDY}/ ${tmpdir}/  --recursive --exclude "*" --include "*.archs.a.tgz"
+#aws s3 cp --no-sign-request s3://noaa-nws-rtofs-pds/rtofs.${PDY}/ ${tmpdir}/  --recursive --exclude "*" --include "*.archs.b"
+
+$AWS s3 cp --no-sign-request s3://noaa-nws-rtofs-pds/rtofs.${PDY}/ ${tmpdir}/  --recursive --exclude "*" --include "*.archs.a.tgz"
+$AWS s3 cp --no-sign-request s3://noaa-nws-rtofs-pds/rtofs.${PDY}/ ${tmpdir}/  --recursive --exclude "*" --include "*.archs.b"
 
 echo ${tmpdir}
 echo ${flout}
 PDYCC="${PDY}${cyc}"
 echo ${PDYCC}
-python rtofs/get_rtofs_fcst.py ${tmpdir} ${PDYCC} $flout
+python  $HOMErwps/ush/preprocess/rtofs/get_rtofs_fcst_aws.py ${tmpdir} ${PDYCC} $flout
 
 #rm -rf ${tmpdir}
