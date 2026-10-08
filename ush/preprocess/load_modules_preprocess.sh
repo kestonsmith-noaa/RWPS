@@ -26,7 +26,13 @@ if [[ "${MACHINE_ID}" == "wcoss2" ]]; then
     module load intel-oneapi/${intel_oneapi_ver}
     module load wgrib2/${wgrib2_ver}
 
+    module load awscli/2.7.35
+
+    export AWS=aws
+
     module list
+
+
 fi
 
 if [[ "${MACHINE_ID}" == "orion" ]]; then
@@ -71,6 +77,7 @@ if [[ "${MACHINE_ID}" == "ursa" ]]; then
     module load intel-oneapi/2022.2.0.262
     module load wgrib2/2.0.8
 #    module load wgrib2/3.1.3_wmo
+    export AWS=aws
 
     module list
 fi
