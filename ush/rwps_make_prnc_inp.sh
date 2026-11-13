@@ -8,7 +8,9 @@ echo ' Start of rwps_make_prnc_inp.sh at: '
 date
 
 set -x
-
+readonly HOMErwps=$(cd "$(dirname "$(readlink -f -n "${BASH_SOURCE[0]}")")" && git rev-parse --show-toplevel)
+export HOMErwps
+RWPSparm=${HOMErwps}/parm
 fields=("current" "ice" "level" "wind")
 
 for field in "${fields[@]}"; do
@@ -16,7 +18,7 @@ for field in "${fields[@]}"; do
         -e "s/NET/${NET}/g" \
         -e "s/CYC/${cyc}/g" \
         -e "s/MESHID/${meshID}/g" \
-        "${RWPSfix}/ww3_prnc_ice.inp.tmpl" > ww3_prnc_$field.inp
+        "${RWPSparm}/ww3_prnc_ice.inp.tmpl" > ${RWPSparm}/ww3_prnc_$field.inp
     cat  ww3_prnc_$field.inp
 #    export err=$?; err_chk
 done
