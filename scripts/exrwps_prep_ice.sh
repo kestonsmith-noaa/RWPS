@@ -31,7 +31,8 @@ export err=$?; err_chk
 
 #move forcing files from $DATA to $COMOUT and rename 
 mkdir -p ${COMOUT}
-cp ${DATA}/${NET}.${meshID}.${PDY}.${cyc}.ice.nc ${COMOUT}/${NET}.t${cyc}z.${meshID}.ice.nc
+cp ${DATA}/${NET}.${meshID}.${PDY}.${cyc}.ice.nc ${DATA}/${NET}.t${cyc}z.${meshID}.ice.nc
+cp ${DATA}/${NET}.t${cyc}z.${meshID}.ice.nc ${COMOUT}/
 
 msg="JOB $job HAS COMPLETED NORMALLY."
 postmsg "$msg"

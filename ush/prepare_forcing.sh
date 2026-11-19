@@ -26,11 +26,14 @@ export PDY=${1}
 export cyc=${2}
 export meshID=${3}
 
+export NET="rwps"
 export KEEPDATA="YES"
 
 # presently defined here for ecf job submit
 readonly HOMErwps=$(cd "$(dirname "$(readlink -f -n "${BASH_SOURCE[0]}")")" && git rev-parse --show-toplevel)
 export HOMErwps
+
+export RWPSush=${HOMErwps}/ush
 
 source ${HOMErwps}/ush/detect_machine.sh
 source ${HOMErwps}/versions/run.${MACHINE_ID}.ver
@@ -67,6 +70,8 @@ qsub -V -o ${OUTPUT}/prep_current.${PDY}.${cyc}.${meshID}.out ${HOMErwps}/ecf/jr
 qsub -V -o ${OUTPUT}/prep_ice.${PDY}.${cyc}.${meshID}.out ${HOMErwps}/ecf/jrwps_prep_ice.ecf
 qsub -V -o ${OUTPUT}/prep_waterlevel.${PDY}.${cyc}.${meshID}.out ${HOMErwps}/ecf/jrwps_prep_waterlevel.ecf
 qsub -V -o ${OUTPUT}/prep_wind.${PDY}.${cyc}.${meshID}.out ${HOMErwps}/ecf/jrwps_prep_wind.ecf
+
+#${RWPSush}/rwps_make_prnc_inp.sh
 
 set +x
 echo ' '

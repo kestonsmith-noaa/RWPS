@@ -1,0 +1,55 @@
+#PBS -S /bin/bash
+#PBS -q dev
+#PBS -l walltime=00:59:00
+#PBS -A GLWU-DEV
+#PBS -N RWPS.PreProc.ice
+#PBS -j oe
+#PBS -l select=1:ncpus=16:mem=64GB
+
+############################################################
+# Load modules
+############################################################
+#cd /lfs/h2/emc/couple/noscrub/keston.smith/RWPSprnc/RWPS/sorc
+
+#HOMErwps=$(cd "$(dirname "$(readlink -f -n "${BASH_SOURCE[0]}")")" && git rev-parse --show-toplevel)
+
+export HOMErwps=/lfs/h2/emc/couple/noscrub/keston.smith/RWPSprnc/RWPS
+
+source ${HOMErwps}/ush/detect_machine.sh
+source ${HOMErwps}/versions/run.${MACHINE_ID}.ver
+
+#modules for preprocessing routines
+module load PrgEnv-intel/${PrgEnv_intel_ver}
+module load craype/${craype_ver}
+module load intel/${intel_ver}
+module load cray-mpich/${cray_mpich_ver}
+module load hdf5/${hdf5_ver}
+module load hdf5-C/${hdf5_C_ver}
+module load netcdf-C/${netcdf_C_ver}
+module load esmf-C/${esmf_C_ver}
+module load ve/hafs/${ve_hafs_ver}
+
+#modules for wgrib2
+module load intel-oneapi/${intel_oneapi_ver}
+module load wgrib2/${wgrib2_ver}
+
+module load prod_util/${prod_util_ver}
+
+#source "${HOMErwps}/ush/detect_machine.sh"
+source "${HOMErwps}/ush/module-setup.sh"
+source "${HOMErwps}/versions/build.ver"
+
+module use ${HOMErwps}/modulefiles
+module load build_ww3.${MACHINE_ID}
+
+module load libjpeg/${libjpeg_ver}
+
+module list 
+
+#${HOMErwps}/exec/waveprnc
+
+
+############################################################
+# run j-job
+############################################################
+${HOMErwps}/jobs/JRWPS_PRNC

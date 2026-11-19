@@ -16,6 +16,7 @@ module load PrgEnv-intel/${PrgEnv_intel_ver}
 module load craype/${craype_ver}
 module load intel/${intel_ver}
 module load cray-mpich/${cray_mpich_ver}
+module load hdf5/${hdf5_ver}
 module load hdf5-C/${hdf5_C_ver}
 module load netcdf-C/${netcdf_C_ver}
 module load esmf-C/${esmf_C_ver}
