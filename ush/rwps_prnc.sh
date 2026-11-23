@@ -2,15 +2,16 @@
 
 # --------------------------------------------------------------------------- #
 #                                                                             #
-# Launches scripts to retrieve and process wind, currents, ice, and           #
-# waterlevel for an rwps forecast. Command line inputs are date cyc and       # 
-# meshID. For example, run:                                                   #
+# Launches scripts to set up and waveprnc, creating binary foricing files for #
+# WW3.  As setup now this should be run after completion of processes launched#
+# by prepare_forcing.sh.                                                      #
+# For example, run:                                                           #
 #                                                                             #
-# $sh prepare_forcing 20260904 00 oc_500m_10km                                #
+# $./rwps_prnc.sh 20260904 00 oc_500m_10km                                    #
 #                                                                             #  
 # to generate forcing for mesh rwps.oc_500m_10km.msh                          #
 #                                                                             #
-# Last Changed : 09-04-2026                                        Sep 2026   #
+# Last Changed : 11-23-2026                                        Nov 2026   #
 # --------------------------------------------------------------------------- #
 
 

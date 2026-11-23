@@ -1,7 +1,7 @@
 #!/bin/sh
 ###############################################################################
-# This script retrieves forecasts for ice for a particular forecast date and 
-# cycle and processes the ice forecasts for a particular RWPS mesh.
+# This script is run to set ww3_prnc_(field).inp files and runs waveprnc to 
+# create binary input files for the ww3 forecast.
 ###############################################################################
 set -x
 
@@ -17,8 +17,8 @@ mod_def_dir=/lfs/h2/emc/couple/noscrub/keston.smith/rwps_mod_def/
 
 readonly HOMErwps=$(cd "$(dirname "$(readlink -f -n "${BASH_SOURCE[0]}")")" && git rev-parse --show-toplevel)
 export HOMErwps
-RWPSparm=${HOMErwps}/parm
-RWPSexec=${HOMErwps}/exec
+export RWPSparm=${HOMErwps}/parm
+export RWPSexec=${HOMErwps}/exec
 
 fields=("current" "ice" "level" "wind")
 
