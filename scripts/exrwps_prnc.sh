@@ -12,8 +12,8 @@ date
 
 set -x
 
+#temporary directory before these are added to the fix archive
 mod_def_dir=/lfs/h2/emc/couple/noscrub/keston.smith/rwps_mod_def/
-#rwps.oc_500m_10km.mod_def.ww3
 
 readonly HOMErwps=$(cd "$(dirname "$(readlink -f -n "${BASH_SOURCE[0]}")")" && git rev-parse --show-toplevel)
 export HOMErwps
@@ -44,7 +44,6 @@ done
 # run www3prnc for each field
 cp ${mod_def_dir}/rwps.${meshID}.mod_def.ww3 ${DATA}/mod_def.ww3
 
-cd ${DATA}
 for field in "${fields[@]}"; do
     inpfile=${DATA}/ww3_prnc_$field.inp
     cp $inpfile ww3_prnc.inp

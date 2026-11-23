@@ -2,7 +2,7 @@
 #PBS -q dev
 #PBS -l walltime=00:59:00
 #PBS -A GLWU-DEV
-#PBS -N RWPS.PreProc.ice
+#PBS -N RWPS.prnc
 #PBS -j oe
 #PBS -l select=1:ncpus=16:mem=64GB
 
@@ -13,7 +13,7 @@
 
 #HOMErwps=$(cd "$(dirname "$(readlink -f -n "${BASH_SOURCE[0]}")")" && git rev-parse --show-toplevel)
 
-export HOMErwps=/lfs/h2/emc/couple/noscrub/keston.smith/RWPSprnc/RWPS
+#export HOMErwps=/lfs/h2/emc/couple/noscrub/keston.smith/RWPSprnc/RWPS
 
 source ${HOMErwps}/ush/detect_machine.sh
 source ${HOMErwps}/versions/run.${MACHINE_ID}.ver

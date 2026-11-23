@@ -65,11 +65,8 @@ mkdir -p ${DATA}
 mkdir -p ${COMOUT}
 mkdir -p ${OUTPUT}
 
-#set up ww3_prnc_(field).inp files 
-${RWPSush}/rwps_make_prnc_inp.sh
-
 #Retrieve current and process for forecast cycle
-qsub -V -o ${OUTPUT}/prep_prnc.${PDY}.${cyc}.${meshID}.out ${HOMErwps}/ecf/jrwps_prnc.ecf
+qsub -V -o ${OUTPUT}/prnc.${PDY}.${cyc}.${meshID}.out ${HOMErwps}/ecf/jrwps_prnc.ecf
 
 set +x
 echo ' '
