@@ -11,11 +11,25 @@ Go to your /lfs/h2/emc/couple/noscrub/$USER directory
  >> ./link_workflow.sh 
  An exec/ folder should be created in the main directory after this step
 
+UNTILL INTEGRATED INTO rwps.cron OR EQUIVALENT
+To retrieve forcing for a particular data and cycle and setup forcing for an rwps mesh:
+ >> cd ../ush
+ >>  ./prepare_forcing.sh $PDY $cyc $meshID
+e.g.
+ >>  ./prepare_forcing.sh 20261123 00 oc_1500m_30km
+when proceesses launched by  prepare_forcing.sh are finished, execute waveprnc for 
+current, ice, waterlevel and wind:
+ >> ./rwps_prnc  20261123 00 oc_1500m_30km
+This script will create ww3 format binary forcing files:
+current.ww3, ice.ww3, level.ww3 and wind.ww3 in directory
+
+DATA=/lfs/h2/emc/ptmp/${USER}/rwps/v1.0.0/JRWPS_PREP/tmp
+
+and also copy mesh specific mod_def.ww3 file to DATA.
 
 #TODO: We shouldn't be copying anything to fix folder, so need to figure out what this is about
   ***VERY IMPORTANT*** DELETE any wave_rwps*.moddef.* files in the fix directory,
     these should be generated when the system is run for the first time.
-
 
 #NOTE: The instructions below are not garunteed to work, we are in the process 
 #of updating instructions and workflow
