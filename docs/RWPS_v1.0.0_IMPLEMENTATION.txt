@@ -27,6 +27,13 @@ DATA=/lfs/h2/emc/ptmp/${USER}/rwps/v1.0.0/JRWPS_PREP/tmp
 
 and also copy mesh specific mod_def.ww3 file to DATA.
 
+cd $RWPShome
+mkdir sorc/ww3.fd/regtests/rwps
+cp -r rwps_input sorc/ww3.fd/regtests/rwps/input
+cp rwps/input/jobcard sorc/ww3.fd/regtests
+qsub sorc/ww3.fd/regtests/jobcard
+#TODO: sub in correct path for jobcard
+
 #TODO: We shouldn't be copying anything to fix folder, so need to figure out what this is about
   ***VERY IMPORTANT*** DELETE any wave_rwps*.moddef.* files in the fix directory,
     these should be generated when the system is run for the first time.
